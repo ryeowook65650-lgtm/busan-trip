@@ -249,16 +249,28 @@
         
         .btn-row { display: flex; gap: 10px; }
         
+        /* 通用按鈕樣式 */
         .export-btn, .backup-btn, .restore-btn {
-            flex: 1; padding: 12px; border-radius: 10px; 
+            padding: 12px; border-radius: 10px; 
             font-size: 14px; font-weight: 700; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 6px;
             transition: 0.2s;
         }
         
-        .export-btn { background: transparent; border: 2px dashed var(--color-orange); color: var(--color-orange); }
+        /* 備份與還原按鈕 (並排) */
+        .backup-btn, .restore-btn {
+            flex: 1; 
+        }
+
         .backup-btn { background: transparent; border: 2px solid var(--color-green); color: var(--color-green); }
         .restore-btn { background: transparent; border: 2px solid #AAA; color: #CCC; }
+        
+        /* 匯出 CSV 按鈕 (獨立一行，拉長) */
+        .export-btn { 
+            width: 100%; /* 拉長對齊 */
+            margin-top: 15px; /* 下移一點 */
+            background: transparent; border: 2px dashed var(--color-orange); color: var(--color-orange); 
+        }
         
         .export-btn:active, .backup-btn:active { opacity: 0.6; transform: scale(0.98); }
 
