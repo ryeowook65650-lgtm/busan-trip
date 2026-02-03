@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>BUSAN TRIP</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,19 +13,16 @@
 
     <style>
         :root {
-            /* --- 復古海報配色系統 (Vintage Poster Theme) --- */
-            --bg-main: #273E49;      /* 深岩藍 (背景) */
-            --bg-paper: #F4F1EA;     /* 米黃紙張 (卡片背景) */
-            
-            --color-pink: #EA998E;   /* 復古粉 (裝飾/次要按鈕) */
-            --color-orange: #D48572; /* 陶土橘 (強調色/Tab) */
-            --color-green: #AFD28D;  /* 抹茶綠 (金錢/確認按鈕) */
-            
-            --text-dark: #273E49;    /* 深藍字 (卡片內文字) */
-            --text-light: #F4F1EA;   /* 淺色字 (深色背景上) */
-            
+            /* --- 復古海報配色系統 --- */
+            --bg-main: #273E49;      /* 深岩藍 */
+            --bg-paper: #F4F1EA;     /* 米黃紙張 */
+            --color-pink: #EA998E;   /* 復古粉 */
+            --color-orange: #D48572; /* 陶土橘 */
+            --color-green: #AFD28D;  /* 抹茶綠 */
+            --text-dark: #273E49;    
+            --text-light: #F4F1EA;   
             --border-radius: 12px;
-            --font-serif: "Georgia", "Times New Roman", serif; /* 復古標題字體 */
+            --font-serif: "Georgia", "Times New Roman", serif;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -40,22 +37,26 @@
         /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
-            background: rgba(39, 62, 73, 0.95); /* 深藍色半透明 */
+            background: rgba(39, 62, 73, 0.98); 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--color-orange); /* 橘色邊框裝飾 */
+            border-bottom: 2px solid var(--color-orange);
             box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            
+            /* 修正：讓背景色延伸到手機頂部安全區域 */
+            padding-top: env(safe-area-inset-top);
         }
 
         .header-info {
-            padding: 15px 20px 10px;
+            /* 修正：增加上方間距，避免被時間/電量擋住 */
+            padding: 20px 20px 10px; 
             display: flex; justify-content: space-between; align-items: center;
         }
         .app-title { 
-            font-family: var(--font-serif); /* 襯線體標題 */
+            font-family: var(--font-serif);
             font-size: 24px; font-weight: 900; 
             letter-spacing: 2px; 
             color: var(--color-pink); 
-            text-shadow: 2px 2px 0px #000; /* 復古陰影 */
+            text-shadow: 2px 2px 0px #000;
         }
         .weather-badge {
             font-size: 13px; font-weight: 700; color: var(--bg-main);
@@ -97,7 +98,6 @@
             font-size: 15px; font-weight: 700; color: var(--color-orange);
             background: transparent; outline: none; transition: 0.3s;
         }
-        /* 選單選中狀態 */
         .nav-select.active {
             background: var(--color-orange); 
             color: var(--bg-main);
@@ -111,13 +111,12 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 資產卡片 (復古車票風格) --- */
+        /* --- 資產卡片 --- */
         .balance-card {
-            background: var(--color-orange);
             background: linear-gradient(135deg, var(--color-orange), #C06C5A);
             color: var(--bg-paper); 
             border-radius: 16px; padding: 25px;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.3); /* 硬陰影 */
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.3);
             margin-bottom: 25px; position: relative; overflow: hidden;
             border: 2px solid var(--bg-paper);
         }
@@ -142,7 +141,7 @@
             padding: 4px 8px; border-radius: 4px; font-weight: bold;
         }
 
-        /* --- 輸入區 (米色紙張) --- */
+        /* --- 輸入區 --- */
         .input-area {
             background: var(--bg-paper); padding: 20px; border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px;
@@ -160,12 +159,11 @@
         .modern-input::placeholder { color: #AAA; font-weight: 400; }
         .modern-input:focus { border-color: var(--color-orange); background: #FFF; }
         
-        /* 確認按鈕 (抹茶綠) */
         .add-btn {
             width: 100%; background: var(--color-green); color: var(--bg-main);
             padding: 14px; border-radius: 8px; border: 2px solid var(--bg-main);
             font-size: 16px; font-weight: 800; cursor: pointer;
-            box-shadow: 4px 4px 0px var(--bg-main); /* 復古硬陰影 */
+            box-shadow: 4px 4px 0px var(--bg-main);
             transition: 0.2s; margin-top: 5px;
         }
         .add-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--bg-main); }
@@ -191,7 +189,6 @@
         .h-twd { font-size: 12px; color: var(--color-orange); display: block; font-weight: 600; }
         .del-btn { color: #CCC; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* --- 日期與分類按鈕 (膠囊) --- */
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
             padding: 5px 0 15px; scrollbar-width: none;
@@ -242,7 +239,7 @@
         .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
-            width: 2px; background: var(--color-pink); /* 變成粉色時間軸 */
+            width: 2px; background: var(--color-pink); 
             opacity: 0.5;
         }
 
@@ -267,7 +264,7 @@
 
         .card-img-top { 
             width: 100%; height: 180px; object-fit: cover; display: block; 
-            border-bottom: 4px solid var(--color-pink); /* 圖片下緣裝飾 */
+            border-bottom: 4px solid var(--color-pink); 
         }
         .card-content { padding: 20px; color: var(--text-dark); }
 
@@ -468,7 +465,7 @@
                         <div class="t-title">晚餐：南浦排骨烤肉</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
                         <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 約 25 分鐘 (₩1,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
