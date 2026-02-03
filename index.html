@@ -82,8 +82,28 @@
             box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
         }
 
+        /* 分類按鈕區 (新樣式) */
+        .cat-row { 
+            display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; 
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        }
+        .cat-row::-webkit-scrollbar { display: none; }
+        
+        .cat-btn {
+            flex: 1; min-width: 70px; text-align: center;
+            padding: 10px 5px; border-radius: 12px;
+            border: 1px solid var(--border); background: #fff;
+            font-size: 13px; font-weight: 600; color: var(--text-gray);
+            cursor: pointer; transition: 0.2s;
+        }
+        .cat-btn.active {
+            background: rgba(0, 185, 231, 0.15); 
+            color: var(--navy); border-color: var(--cyan);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
+
         .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
-        /* 重要：JS 會加上 active 來顯示，這裡定義顯示時的動畫 */
         .view-container.active { display: block; animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -221,14 +241,23 @@
                 <div class="date-chip" onclick="selectDate('3/9')">3/9</div>
             </div>
 
+            <div class="cat-row">
+                <div class="cat-btn active" onclick="selectCategory('交通')">
+                    <span class="cat-emoji">🚕</span>交通
+                </div>
+                <div class="cat-btn" onclick="selectCategory('食物')">
+                    <span class="cat-emoji">🍔</span>食物
+                </div>
+                <div class="cat-btn" onclick="selectCategory('購物')">
+                    <span class="cat-emoji">🛍️</span>購物
+                </div>
+                <div class="cat-btn" onclick="selectCategory('其他')">
+                    <span class="cat-emoji">✨</span>其他
+                </div>
+            </div>
+
             <div class="input-row">
-                <input type="text" id="item-name" class="modern-input" placeholder="項目 (如: 計程車)">
-                <select id="item-cat" class="modern-input" style="flex:0.6;">
-                    <option value="交通">🚕</option>
-                    <option value="食物">🍔</option>
-                    <option value="購物">🛍️</option>
-                    <option value="其他">✨</option>
-                </select>
+                <input type="text" id="item-name" class="modern-input" placeholder="細項 (空白則自動填入分類)">
             </div>
             <div class="input-row">
                 <input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)">
@@ -276,7 +305,7 @@
                     </div>
                     <div class="multi-btn-row">
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">國際</a>
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a>
                     </div>
                 </div>
@@ -325,7 +354,6 @@
     </div>
 
     <script>
-        // PWA 註冊
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(req => { console.log('Service Worker Registered'); });
@@ -335,9 +363,10 @@
         let currentRate = 0.024; 
         let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
         let selectedInputDate = '3/5'; 
+        // 預設分類
+        let selectedCategory = '交通';
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
 
-        // 改用 DOMContentLoaded：HTML 載完就立刻執行，不用等圖片
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
             switchTab(savedTab);
@@ -371,6 +400,15 @@
             document.getElementById('btn-date-label').innerText = date;
         }
 
+        // 新增：選擇分類
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.includes(cat)) btn.classList.add('active');
+            });
+        }
+
         async function fetchExchangeRate() {
             const rateDisplay = document.getElementById('rate-display');
             try {
@@ -386,15 +424,23 @@
         }
 
         function addExpense() {
-            const name = document.getElementById('item-name').value.trim();
-            const price = parseInt(document.getElementById('item-price').value);
-            const cat = document.getElementById('item-cat').value;
-            if (!name || isNaN(price)) { alert('請輸入完整資訊'); return; }
-            expenses.push({ id: Date.now(), date: selectedInputDate, name, price, cat });
+            const nameInput = document.getElementById('item-name');
+            const priceInput = document.getElementById('item-price');
+            
+            // 懶人設定：如果沒打字，直接用分類名稱 (如：食物)
+            const finalName = nameInput.value.trim() || selectedCategory;
+            const price = parseInt(priceInput.value);
+
+            if (isNaN(price)) { alert('請輸入金額！'); return; }
+
+            expenses.push({ id: Date.now(), date: selectedInputDate, name: finalName, price, cat: selectedCategory });
             saveAndRender();
-            document.getElementById('item-name').value = '';
-            document.getElementById('item-price').value = '';
+            
+            // 清空
+            nameInput.value = '';
+            priceInput.value = '';
         }
+
         function deleteExpense(id) {
             if(confirm('刪除此筆紀錄？')) {
                 expenses = expenses.filter(item => item.id !== id);
