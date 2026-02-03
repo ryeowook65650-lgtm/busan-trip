@@ -8,7 +8,7 @@
     
     <style>
         :root {
-            /* 指定配色 */
+            /* 配色系統 */
             --cyan: #00B9E7;
             --navy: #002F7B;
             --gold: #F8B62D;
@@ -16,7 +16,7 @@
             
             --bg-body: #F4F7FB;
             --card-bg: #FFFFFF;
-            --text-main: #002F7B; /* 主字色改為深藍，更具整體感 */
+            --text-main: #002F7B;
             --text-gray: #64748B;
             --border: #E2E8F0;
         }
@@ -29,7 +29,7 @@
             padding-bottom: 40px;
         }
 
-        /* --- 頂部固定區 (Header + Nav) --- */
+        /* --- 頂部固定區 --- */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: rgba(255, 255, 255, 0.95);
@@ -48,7 +48,7 @@
             text-decoration: none;
         }
 
-        /* 選單切換器 */
+        /* 分頁切換器 */
         .nav-tabs {
             display: flex; padding: 0 20px;
             border-bottom: 1px solid var(--border);
@@ -64,18 +64,38 @@
             height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
 
+        /* --- 日期選擇器 (新增) --- */
+        .date-scroll-container {
+            overflow-x: auto; white-space: nowrap;
+            padding: 15px 20px 5px; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .date-scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .date-chip {
+            display: inline-block;
+            background: white; border: 1px solid var(--border);
+            padding: 8px 16px; border-radius: 20px;
+            margin-right: 10px; font-size: 14px; font-weight: 600;
+            color: var(--text-gray); cursor: pointer; transition: 0.2s;
+        }
+        .date-chip.active {
+            background: var(--navy); color: white; border-color: var(--navy);
+            box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
+        }
+
         /* --- 內容容器 --- */
         .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 記帳版面 (Dashboard Style) --- */
+        /* --- 記帳版面 --- */
         .balance-card {
             background: linear-gradient(135deg, var(--navy), #004494);
             color: white; border-radius: 20px; padding: 25px;
             box-shadow: 0 10px 30px rgba(0, 47, 123, 0.25);
             margin-bottom: 25px; position: relative; overflow: hidden;
+            transition: all 0.3s ease;
         }
         .balance-card::before {
             content: ''; position: absolute; right: -20px; top: -20px;
@@ -111,23 +131,24 @@
         }
         .add-btn:active { transform: scale(0.98); }
 
-        .history-list { margin-top: 10px; }
+        .history-list { margin-top: 10px; padding-bottom: 20px; }
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
             background: white; padding: 15px; border-radius: 12px;
             margin-bottom: 10px; border-left: 4px solid var(--cyan);
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            animation: slideIn 0.3s ease;
         }
+        @keyframes slideIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+
         .h-name { font-weight: 700; font-size: 15px; }
         .h-cat { font-size: 12px; color: var(--text-gray); }
         .h-price { font-weight: 700; color: var(--navy); text-align: right; }
         .h-twd { font-size: 11px; color: var(--pink); display: block; }
         .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* --- 行程版面 (Timeline Style) --- */
-        .timeline {
-            position: relative; padding-left: 20px;
-        }
+        /* --- 行程版面 --- */
+        .timeline { position: relative; padding-left: 20px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
             width: 2px; background: #E2E8F0;
@@ -139,43 +160,26 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             border: 1px solid white;
         }
-        
-        /* 時間軸圓點 */
         .trip-card::after {
             content: ''; position: absolute; left: -20px; top: 20px;
             width: 14px; height: 14px; border-radius: 50%;
-            background: var(--bg-body); border: 3px solid var(--cyan);
-            z-index: 1;
+            background: var(--bg-body); border: 3px solid var(--cyan); z-index: 1;
         }
 
-        .t-time {
-            font-size: 13px; font-weight: 800; color: var(--cyan);
-            margin-bottom: 8px; letter-spacing: 0.5px;
-        }
+        .t-time { font-size: 13px; font-weight: 800; color: var(--cyan); margin-bottom: 8px; letter-spacing: 0.5px; }
         .t-title { font-size: 19px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
-        
-        .info-block {
-            display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px;
-        }
+        .info-block { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; }
         .i-icon { color: var(--gold); width: 20px; text-align: center; }
         .i-text { color: var(--text-gray); flex: 1; }
+        .pill { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600; }
 
-        /* 標籤 Pill */
-        .pill { 
-            display: inline-block; padding: 3px 8px; border-radius: 6px; 
-            font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600;
-        }
-
-        /* Naver 按鈕 */
         .naver-link {
             display: flex; align-items: center; justify-content: center;
             background: var(--navy); color: white; text-decoration: none;
             padding: 12px; border-radius: 10px; margin-top: 15px;
-            font-size: 14px; font-weight: 600; gap: 8px;
-            transition: 0.2s;
+            font-size: 14px; font-weight: 600; gap: 8px; transition: 0.2s;
         }
         .naver-link:active { transform: scale(0.98); background: #001f52; }
-        
         .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; }
 
@@ -185,20 +189,28 @@
 
     <div class="top-bar">
         <div class="header-info">
-            <div class="app-title">BUSAN DAY 2</div>
+            <div class="app-title">BUSAN TRIP</div>
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         <div class="nav-tabs">
-            <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
             <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+            <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
         </div>
     </div>
 
     <div id="view-accounting" class="view-container active">
         
+        <div class="date-scroll-container">
+            <div class="date-chip active" onclick="switchDate('3/5')">3/5 (四)</div>
+            <div class="date-chip" onclick="switchDate('3/6')">3/6 (五)</div>
+            <div class="date-chip" onclick="switchDate('3/7')">3/7 (六)</div>
+            <div class="date-chip" onclick="switchDate('3/8')">3/8 (日)</div>
+            <div class="date-chip" onclick="switchDate('3/9')">3/9 (一)</div>
+        </div>
+
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
-            <div class="balance-label">TOTAL SPENT</div>
+            <div class="balance-label"><span id="display-date">3/5</span> 總支出</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
         </div>
@@ -216,7 +228,7 @@
             <div class="input-row">
                 <input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)">
             </div>
-            <button onclick="addExpense()" class="add-btn">新增紀錄</button>
+            <button onclick="addExpense()" class="add-btn">新增至 <span id="btn-date-label">3/5</span></button>
         </div>
 
         <div class="history-list" id="expense-list">
@@ -224,6 +236,8 @@
     </div>
 
     <div id="view-itinerary" class="view-container">
+        <div style="margin-bottom: 20px; font-weight: 700; color: var(--navy); font-size: 18px;">Day 2 • 3/6 (五)</div>
+
         <div class="timeline">
             
             <div class="trip-card">
@@ -344,26 +358,38 @@
 
     <script>
         let currentRate = 0.024; 
-        let expenses = JSON.parse(localStorage.getItem('busan_day2_app_expenses')) || [];
+        // 使用新的儲存 key，因為結構變了
+        let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
+        let currentDate = '3/5'; // 預設日期
 
         window.onload = function() {
-            // 預設開啟記帳頁面
-            switchTab('accounting');
             fetchExchangeRate();
-            renderExpenses();
+            switchDate('3/5'); // 初始化顯示 3/5
         };
 
         function switchTab(tabName) {
-            // 切換按鈕樣式
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
 
-            // 切換內容顯示
             document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + tabName).classList.add('active');
-            
-            // 捲動到頂部
             window.scrollTo(0,0);
+        }
+
+        function switchDate(date) {
+            currentDate = date;
+            
+            // 更新按鈕樣式
+            document.querySelectorAll('.date-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if(chip.innerText.includes(date)) chip.classList.add('active');
+            });
+
+            // 更新顯示標籤
+            document.getElementById('display-date').innerText = date;
+            document.getElementById('btn-date-label').innerText = date;
+
+            renderExpenses();
         }
 
         async function fetchExchangeRate() {
@@ -388,7 +414,13 @@
 
             if (!name || isNaN(price)) { alert('請輸入完整資訊'); return; }
 
-            expenses.unshift({ id: Date.now(), name, price, cat }); // 新的在上面
+            // 儲存時多存一個 date 欄位
+            expenses.unshift({ 
+                id: Date.now(), 
+                date: currentDate, 
+                name, price, cat 
+            });
+            
             saveAndRender();
             
             document.getElementById('item-name').value = '';
@@ -403,7 +435,7 @@
         }
 
         function saveAndRender() {
-            localStorage.setItem('busan_day2_app_expenses', JSON.stringify(expenses));
+            localStorage.setItem('busan_trip_all_expenses', JSON.stringify(expenses));
             renderExpenses();
         }
 
@@ -412,7 +444,10 @@
             listEl.innerHTML = '';
             let total = 0;
 
-            expenses.forEach(item => {
+            // 只篩選出目前選定日期的帳目
+            const dailyExpenses = expenses.filter(item => item.date === currentDate);
+
+            dailyExpenses.forEach(item => {
                 total += item.price;
                 const twd = Math.round(item.price * currentRate);
                 
@@ -433,6 +468,11 @@
                 `;
                 listEl.appendChild(div);
             });
+
+            // 如果沒資料顯示提示
+            if (dailyExpenses.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; color:#999; padding:20px;">今日尚未記帳</div>';
+            }
 
             document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(total * currentRate).toLocaleString()}`;
