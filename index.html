@@ -83,8 +83,9 @@
         }
 
         .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
-        .view-container.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* 重要：JS 會加上 active 來顯示，這裡定義顯示時的動畫 */
+        .view-container.active { display: block; animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .balance-card {
             background: linear-gradient(135deg, var(--navy), #004494);
@@ -197,12 +198,12 @@
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         <div class="nav-tabs">
-            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+            <div class="tab-btn" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
             <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
         </div>
     </div>
 
-    <div id="view-accounting" class="view-container active">
+    <div id="view-accounting" class="view-container">
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
             <div class="balance-label">TRIP TOTAL (全旅程總計)</div>
@@ -264,7 +265,7 @@
                 </div>
             </div>
             <div class="trip-card">
-                <img src="https://twobunny.tw/wp-content/uploads/2024/04/2024-0131-bupyeong-market.jpg" alt="市場">
+                <img src="https://twobunny.tw/wp-content/uploads/2024/04/2024-0131-bupyeong-market.jpg" class="card-img-top" alt="市場">
                 <div class="card-content">
                     <div class="t-time">12:00 - 15:00</div>
                     <div class="t-title">市場巡禮</div>
@@ -324,25 +325,23 @@
     </div>
 
     <script>
-        // 註冊 Service Worker (讓網頁變成離線 App)
+        // PWA 註冊
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(req => {
-                    console.log('Service Worker Registered');
-                });
+                navigator.serviceWorker.register('sw.js').then(req => { console.log('Service Worker Registered'); });
             });
         }
 
-        let currentRate = 0.024; // 預設匯率
+        let currentRate = 0.024; 
         let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
         let selectedInputDate = '3/5'; 
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
 
-        window.onload = function() {
+        // 改用 DOMContentLoaded：HTML 載完就立刻執行，不用等圖片
+        document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
             switchTab(savedTab);
             
-            // 嘗試讀取「上次存的匯率」
             const savedRate = localStorage.getItem('saved_exchange_rate');
             if (savedRate) {
                 currentRate = parseFloat(savedRate);
@@ -352,7 +351,7 @@
             fetchExchangeRate();
             selectDate('3/5'); 
             renderExpenses(); 
-        };
+        });
 
         function switchTab(tabName) {
             localStorage.setItem('active_tab', tabName);
@@ -379,16 +378,11 @@
                 const data = await response.json();
                 if (data.rates && data.rates.TWD) {
                     currentRate = data.rates.TWD;
-                    // **重點：把最新匯率存起來！**
                     localStorage.setItem('saved_exchange_rate', currentRate);
-                    
                     rateDisplay.textContent = `匯率: ${currentRate}`;
                     renderExpenses();
                 }
-            } catch (error) {
-                console.log("離線模式：使用上次的匯率");
-                // 這裡如果不幸完全沒存過，就會用 0.024
-            }
+            } catch (error) { console.log("離線模式"); }
         }
 
         function addExpense() {
