@@ -41,13 +41,10 @@
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-bottom: 2px solid var(--color-orange);
             box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            
-            /* 修正：讓背景色延伸到手機頂部安全區域 */
             padding-top: env(safe-area-inset-top);
         }
 
         .header-info {
-            /* 修正：增加上方間距，避免被時間/電量擋住 */
             padding: 20px 20px 10px; 
             display: flex; justify-content: space-between; align-items: center;
         }
@@ -58,11 +55,15 @@
             color: var(--color-pink); 
             text-shadow: 2px 2px 0px #000;
         }
+        
         .weather-badge {
             font-size: 13px; font-weight: 700; color: var(--bg-main);
-            background: var(--color-green); padding: 4px 12px; border-radius: 20px;
+            background: var(--color-green); padding: 6px 12px; border-radius: 20px;
             text-decoration: none; border: 1px solid var(--text-light);
+            cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 5px;
         }
+        .weather-badge:active { transform: scale(0.95); opacity: 0.8; }
 
         /* 導覽列 */
         .nav-bar-row { 
@@ -306,7 +307,9 @@
     <div class="top-bar">
         <div class="header-info">
             <div class="app-title">BUSAN TRIP</div>
-            <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
+            <div id="weather-badge" class="weather-badge" onclick="updateWeatherLocation()">
+                📍 定位天氣
+            </div>
         </div>
         
         <div class="nav-bar-row">
@@ -390,7 +393,7 @@
                     </div>
                 </div>
                 <div class="trip-card">
-                    <img src="https://images.unsplash.com/photo-1616053678082-62283e30eb43?q=80,w=800" class="card-img-top" alt="Dinner">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240624_9%2F1719216423913A9KDN_JPEG%2F04_%25C8%25AD%25BE%25E7%25B9%25DD.jpg" class="card-img-top" alt="Dinner">
                     <div class="card-content">
                         <div class="t-time">19:40 - 22:00</div>
                         <div class="t-title">飯店附近晚餐</div>
@@ -465,7 +468,7 @@
                         <div class="t-title">晚餐：南浦排骨烤肉</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
                         <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 約 25 分鐘 (₩1,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
@@ -531,6 +534,48 @@
             selectDate('3/5'); 
             renderExpenses(); 
         });
+
+        // 天氣定位功能
+        function updateWeatherLocation() {
+            const badge = document.getElementById('weather-badge');
+            badge.innerHTML = '定位中... 🛰️';
+
+            if (!navigator.geolocation) {
+                badge.innerHTML = '不支援定位 ❌';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    try {
+                        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+                        const data = await res.json();
+                        const temp = Math.round(data.current_weather.temperature);
+                        const code = data.current_weather.weathercode;
+                        const emoji = getWeatherEmoji(code);
+                        badge.innerHTML = `${temp}°C ${emoji}`;
+                    } catch (e) {
+                        badge.innerHTML = '取得失敗';
+                    }
+                },
+                (error) => {
+                    console.error(error);
+                    badge.innerHTML = '定位未授權 🔒';
+                }
+            );
+        }
+
+        function getWeatherEmoji(code) {
+            if (code === 0) return '☀️';
+            if (code >= 1 && code <= 3) return '☁️';
+            if (code >= 45 && code <= 48) return '🌫️';
+            if (code >= 51 && code <= 67) return '🌧️';
+            if (code >= 71 && code <= 77) return '❄️';
+            if (code >= 80 && code <= 82) return '🌦️';
+            if (code >= 95) return '⛈️';
+            return '🌥️';
+        }
 
         function switchView(target, dayId) {
             localStorage.setItem('active_tab', target);
