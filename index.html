@@ -13,23 +13,21 @@
 
     <style>
         :root {
-            /* --- 冬日海邊配色系統 (Winter Beach Theme) --- */
-            /* 保留的強調色 */
-            --cyan: #00B9E7;      /* 冰藍色 (海洋亮部/強調) */
-            --navy: #002F7B;      /* 深海藍 (海洋深部/主文字) */
-            --gold: #F8B62D;      /* 冬日暖陽 (點綴) */
-            --pink: #EE86A8;      /* 晚霞粉 (點綴) */
+            /* --- 冬日海邊配色系統 --- */
+            --cyan: #00B9E7;      /* 冰藍色 */
+            --navy: #002F7B;      /* 深海藍 */
+            --gold: #F8B62D;      /* 暖金色 */
+            --pink: #EE86A8;      /* 晚霞粉 */
             
-            /* 新的主視覺灰白色調 */
-            --bg-body: #F3F5F9;   /* 冷調灰白背景 (冬日沙灘/天空) */
-            --bg-header: rgba(255, 255, 255, 0.85); /* 半透明白霧玻璃 */
-            --card-bg: #FFFFFF;   /* 純淨白卡片 (雪/浪花) */
-            --input-bg: #F0F2F5;  /* 淺灰輸入框 */
+            --bg-body: #F3F5F9;   /* 冷調灰白背景 */
+            --bg-header: rgba(255, 255, 255, 0.85);
+            --card-bg: #FFFFFF;   /* 純白卡片 */
+            --input-bg: #F0F2F5;  
             
-            --text-main: #002F7B; /* 主文字改回深藍色，對比清晰 */
-            --text-gray: #64748B; /* 冷灰色次要文字 */
-            --border: #E2E8F0;    /* 淺淡的邊框 */
-            --shadow-color: rgba(0, 47, 123, 0.08); /* 帶藍色調的柔和陰影 */
+            --text-main: #002F7B; 
+            --text-gray: #64748B; 
+            --border: #E2E8F0;    
+            --shadow-color: rgba(0, 47, 123, 0.08); 
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -40,7 +38,7 @@
             padding-bottom: 40px;
         }
 
-        /* 頂部固定區 (明亮毛玻璃) */
+        /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-header);
@@ -118,9 +116,9 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 資產卡片 (冬日海洋漸層) */
+        /* 資產卡片 */
         .balance-card {
-            background: linear-gradient(135deg, var(--navy), #007EA7); /* 深藍到較亮的藍 */
+            background: linear-gradient(135deg, var(--navy), #007EA7);
             color: white; border-radius: 20px; padding: 25px;
             box-shadow: 0 15px 35px rgba(0, 47, 123, 0.25);
             margin-bottom: 25px; position: relative; overflow: hidden;
@@ -219,16 +217,16 @@
             font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600; 
         }
 
-        /* --- Naver Map 按鈕 (回歸實心深藍，但在淺色底上更顯眼) --- */
+        /* Naver Map 按鈕 (實心深藍) */
         .naver-link {
             display: flex; align-items: center; justify-content: center;
-            background: var(--navy); /* 實心深藍背景 */
-            color: white;            /* 白色文字 */
+            background: var(--navy); 
+            color: white;            
             text-decoration: none;
             padding: 14px; border-radius: 12px; margin-top: 18px;
             font-size: 14px; font-weight: 700; gap: 8px; 
             transition: 0.2s;
-            box-shadow: 0 8px 20px rgba(0, 47, 123, 0.2); /* 柔和的深藍陰影 */
+            box-shadow: 0 8px 20px rgba(0, 47, 123, 0.2); 
         }
         .naver-link:active { 
             transform: scale(0.98); 
@@ -309,7 +307,7 @@
                     <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
                     <div class="info-block"><div class="i-icon">📝</div><div class="i-text">附近也有咖啡廳可坐坐</div></div>
                     <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--cyan); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
             <div class="trip-card">
@@ -319,7 +317,7 @@
                     <div class="t-title">密陽家豬肉湯飯</div>
                     <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중구로47번길 35</div></div>
                     <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 8 分鐘 (₩5,200)</div></div>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
             <div class="trip-card">
@@ -328,9 +326,9 @@
                     <div class="t-time">12:00 - 15:00</div>
                     <div class="t-title">市場巡禮</div>
                     <div class="info-block" style="flex-direction:column; gap:15px;">
-                        <div><strong>1. 富平罐頭市場</strong><br><span style="font-size:13px; color:#999;">부산 중구 부평1길 48</span></div>
-                        <div><strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br><span style="font-size:13px; color:#999;">부산 중구 신창동4가</span></div>
-                        <div><strong>3. 阿里郎街</strong><br><span style="font-size:13px; color:#999;">부산 중구 광복로35번길 11</span></div>
+                        <div><strong>1. 富平罐頭市場</strong><br><span style="font-size:13px; color:#888;">부산 중구 부평1길 48</span></div>
+                        <div><strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br><span style="font-size:13px; color:#888;">부산 중구 신창동4가</span></div>
+                        <div><strong>3. 阿里郎街</strong><br><span style="font-size:13px; color:#888;">부산 중구 광복로35번길 11</span></div>
                     </div>
                     <div class="multi-btn-row">
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
@@ -340,33 +338,33 @@
                 </div>
             </div>
             <div class="trip-card">
-                <img src="https://images.unsplash.com/photo-1555526362-7d2d3128b706?q=80,w=800" class="card-img-top" alt="白淺灘">
+                <img src="https://tong.visitkorea.or.kr/cms/resource/93/3343193_image2_1.jpg" class="card-img-top" alt="白淺灘">
                 <div class="card-content">
                     <div class="t-time">15:00 - 16:00</div>
                     <div class="t-title">白淺灘文化村</div>
                     <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 영도구 영선동4가 605-3</div></div>
                     <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,500)</div></div>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
             <div class="trip-card">
-                <img src="https://images.unsplash.com/photo-1529693952771-0818312e737c?q=80,w=800" class="card-img-top" alt="烤肉">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK8Q5NDWocFJevYKts9v4wlq7OYSwn0VwnCA&s" class="card-img-top" alt="烤肉">
                 <div class="card-content">
                     <div class="t-time">16:00 - 18:00</div>
                     <div class="t-title">晚餐：南浦排骨烤肉</div>
                     <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
                     <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 (₩1,500)</div></div>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
             <div class="trip-card">
-                <img src="https://images.unsplash.com/photo-1596707297926-c290c0a9058b?q=80,w=800" class="card-img-top" alt="草莓">
+                <img src="lotte.jpg" class="card-img-top" alt="樂天百貨">
                 <div class="card-content">
                     <div class="t-time">18:00 - 20:00</div>
                     <div class="t-title">樂天百貨光復店</div>
                     <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층</div></div>
                     <div class="info-block"><div class="i-icon">🛍️</div><div class="i-text">逛街、買草莓</div></div>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
             <div class="trip-card">
@@ -374,9 +372,9 @@
                 <div class="card-content">
                     <div class="t-time">20:00 -</div>
                     <div class="t-title">回飯店</div>
-                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
-                    <div class="info-block"><div class="i-icon">🚶</div><div class="i-text">步行約 20 分鐘</div></div>
-                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">开启 NAVER MAP ↗</a>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; color:#999;">(토요코인 부산중앙역)</span></div></div>
+                    <div class="info-block"><div class="i-icon">🚶</div><div class="i-text">步行約 15 分鐘</div></div>
+                    <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                 </div>
             </div>
         </div>
