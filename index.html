@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BUSAN TRIP</title>
-    <link rel="icon" type="image/png" href="icon.png">
     
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FFFFFF">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+
     <style>
         :root {
-            /* 配色系統 */
             --cyan: #00B9E7;
             --navy: #002F7B;
             --gold: #F8B62D;
             --pink: #EE86A8;
-            
             --bg-body: #F4F7FB;
             --card-bg: #FFFFFF;
             --text-main: #002F7B;
@@ -29,7 +32,7 @@
             padding-bottom: 40px;
         }
 
-        /* --- 頂部固定區 --- */
+        /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: rgba(255, 255, 255, 0.95);
@@ -48,11 +51,7 @@
             text-decoration: none;
         }
 
-        /* 分頁切換器 */
-        .nav-tabs {
-            display: flex; padding: 0 20px;
-            border-bottom: 1px solid var(--border);
-        }
+        .nav-tabs { display: flex; padding: 0 20px; border-bottom: 1px solid var(--border); }
         .tab-btn {
             flex: 1; text-align: center; padding: 15px 0;
             font-size: 15px; font-weight: 600; color: var(--text-gray);
@@ -64,7 +63,6 @@
             height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
 
-        /* --- 日期選擇器 --- */
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
             padding: 15px 20px 5px; -webkit-overflow-scrolling: touch;
@@ -84,12 +82,10 @@
             box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
         }
 
-        /* --- 內容容器 --- */
         .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 記帳版面 --- */
         .balance-card {
             background: linear-gradient(135deg, var(--navy), #004494);
             color: white; border-radius: 20px; padding: 25px;
@@ -116,7 +112,6 @@
             border: 1px solid var(--border);
         }
         .input-title { font-size: 14px; font-weight: 700; color: var(--text-gray); margin-bottom: 10px; display:block;}
-        
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .modern-input {
             width: 100%; padding: 12px; border: 1px solid var(--border);
@@ -141,9 +136,7 @@
             margin: 25px 0 10px 5px; letter-spacing: 1px;
             display: flex; align-items: center; gap: 8px;
         }
-        .date-divider::before {
-            content: ''; width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
-        }
+        .date-divider::before { content: ''; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
 
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
@@ -157,7 +150,6 @@
         .h-twd { font-size: 11px; color: var(--pink); display: block; }
         .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* --- 行程版面 (圖片版) --- */
         .timeline { position: relative; padding-left: 20px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
@@ -170,18 +162,13 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
             border: none; overflow: hidden; 
         }
-        
         .trip-card::after {
             content: ''; position: absolute; left: -26px; top: 20px;
             width: 14px; height: 14px; border-radius: 50%;
             background: var(--bg-body); border: 3px solid var(--cyan); z-index: 1;
         }
 
-        /* 圖片樣式 */
-        .card-img-top {
-            width: 100%; height: 180px; object-fit: cover;
-            display: block;
-        }
+        .card-img-top { width: 100%; height: 180px; object-fit: cover; display: block; }
         .card-content { padding: 20px; }
 
         .t-time { font-size: 13px; font-weight: 800; color: var(--cyan); margin-bottom: 5px; letter-spacing: 0.5px; }
@@ -200,7 +187,6 @@
         .naver-link:active { transform: scale(0.98); background: #001f52; }
         .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; }
-
     </style>
 </head>
 <body>
@@ -211,13 +197,12 @@
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         <div class="nav-tabs">
-            <div class="tab-btn" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
             <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
         </div>
     </div>
 
-    <div id="view-accounting" class="view-container">
-        
+    <div id="view-accounting" class="view-container active">
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
             <div class="balance-label">TRIP TOTAL (全旅程總計)</div>
@@ -255,66 +240,38 @@
 
     <div id="view-itinerary" class="view-container">
         <div style="margin-bottom: 20px; font-weight: 700; color: var(--navy); font-size: 18px;">Day 2 • 3/6 (五)</div>
-
         <div class="timeline">
-            
             <div class="trip-card">
                 <img src="https://tong.visitkorea.or.kr/cms/resource/92/3365492_image2_1.jpg" class="card-img-top" alt="甘川洞">
                 <div class="card-content">
                     <div class="t-time">09:00 - 11:00</div>
                     <div class="t-title">甘川洞文化村</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 사하구 감내2로 203</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🚕</div>
-                        <div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">📝</div>
-                        <div class="i-text">附近也有咖啡廳可坐坐</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
+                    <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
+                    <div class="info-block"><div class="i-icon">📝</div><div class="i-text">附近也有咖啡廳可坐坐</div></div>
                     <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--cyan); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
             <div class="trip-card">
                 <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80,w=800" class="card-img-top" alt="豬肉湯飯">
                 <div class="card-content">
                     <div class="t-time">11:00 - 12:00</div>
                     <div class="t-title">密陽家豬肉湯飯</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 중구 중구로47번길 35</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🚕</div>
-                        <div class="i-text"><span class="pill">計程車</span> 約 8 分鐘 (₩5,200)</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중구로47번길 35</div></div>
+                    <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 8 分鐘 (₩5,200)</div></div>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
             <div class="trip-card">
-                <img src="https://images.unsplash.com/photo-1535123002604-e3c796013349?q=80,w=800" class="card-img-top" alt="市場">
+                <img src="https://twobunny.tw/wp-content/uploads/2024/04/2024-0131-bupyeong-market.jpg" alt="市場">
                 <div class="card-content">
                     <div class="t-time">12:00 - 15:00</div>
                     <div class="t-title">市場巡禮</div>
                     <div class="info-block" style="flex-direction:column; gap:15px;">
-                        <div>
-                            <strong>1. 富平罐頭市場</strong><br>
-                            <span style="font-size:13px; color:#999;">부산 중구 부평1길 48</span>
-                        </div>
-                        <div>
-                            <strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br>
-                            <span style="font-size:13px; color:#999;">부산 중구 신창동4가</span>
-                        </div>
-                        <div>
-                            <strong>3. 阿里郎街</strong><br>
-                            <span style="font-size:13px; color:#999;">부산 중구 광복로35번길 11</span>
-                        </div>
+                        <div><strong>1. 富平罐頭市場</strong><br><span style="font-size:13px; color:#999;">부산 중구 부평1길 48</span></div>
+                        <div><strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br><span style="font-size:13px; color:#999;">부산 중구 신창동4가</span></div>
+                        <div><strong>3. 阿里郎街</strong><br><span style="font-size:13px; color:#999;">부산 중구 광복로35번길 11</span></div>
                     </div>
                     <div class="multi-btn-row">
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
@@ -323,102 +280,84 @@
                     </div>
                 </div>
             </div>
-
             <div class="trip-card">
                 <img src="https://images.unsplash.com/photo-1555526362-7d2d3128b706?q=80,w=800" class="card-img-top" alt="白淺灘">
                 <div class="card-content">
                     <div class="t-time">15:00 - 16:00</div>
                     <div class="t-title">白淺灘文化村</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 영도구 영선동4가 605-3</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🚕</div>
-                        <div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,500)</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 영도구 영선동4가 605-3</div></div>
+                    <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,500)</div></div>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
             <div class="trip-card">
                 <img src="https://images.unsplash.com/photo-1529693952771-0818312e737c?q=80,w=800" class="card-img-top" alt="烤肉">
                 <div class="card-content">
                     <div class="t-time">16:00 - 18:00</div>
                     <div class="t-title">晚餐：南浦排骨烤肉</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 중구 남포길 40-2 1층</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🚌</div>
-                        <div class="info-text"><span class="pill">公車</span> 6號/9號 (₩1,500)</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
+                    <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 (₩1,500)</div></div>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
             <div class="trip-card">
                 <img src="https://images.unsplash.com/photo-1596707297926-c290c0a9058b?q=80,w=800" class="card-img-top" alt="草莓">
                 <div class="card-content">
                     <div class="t-time">18:00 - 20:00</div>
                     <div class="t-title">樂天百貨光復店</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 중구 중앙대로 2 , 1층</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🛍️</div>
-                        <div class="i-text">逛街、買草莓</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층</div></div>
+                    <div class="info-block"><div class="i-icon">🛍️</div><div class="i-text">逛街、買草莓</div></div>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
             <div class="trip-card">
                 <img src="https://images.unsplash.com/photo-1549141042-4b2a859427b0?q=80,w=800" class="card-img-top" alt="夜景">
                 <div class="card-content">
                     <div class="t-time">20:00 -</div>
                     <div class="t-title">回飯店</div>
-                    <div class="info-block">
-                        <div class="i-icon">📍</div>
-                        <div class="i-text">부산 사하구 감내2로 203</div>
-                    </div>
-                    <div class="info-block">
-                        <div class="i-icon">🚶</div>
-                        <div class="i-text">步行約 20 分鐘</div>
-                    </div>
+                    <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
+                    <div class="info-block"><div class="i-icon">🚶</div><div class="i-text">步行約 20 分鐘</div></div>
                     <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">NAVER MAP ↗</a>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        let currentRate = 0.024; 
+        // 註冊 Service Worker (讓網頁變成離線 App)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(req => {
+                    console.log('Service Worker Registered');
+                });
+            });
+        }
+
+        let currentRate = 0.024; // 預設匯率
         let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
         let selectedInputDate = '3/5'; 
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
 
         window.onload = function() {
-            // 1. 恢復上次瀏覽的 Tab
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
             switchTab(savedTab);
+            
+            // 嘗試讀取「上次存的匯率」
+            const savedRate = localStorage.getItem('saved_exchange_rate');
+            if (savedRate) {
+                currentRate = parseFloat(savedRate);
+                document.getElementById('rate-display').textContent = `匯率: ${currentRate} (離線)`;
+            }
 
-            // 2. 載入匯率和記帳資料
             fetchExchangeRate();
             selectDate('3/5'); 
             renderExpenses(); 
         };
 
         function switchTab(tabName) {
-            // 儲存當前狀態
             localStorage.setItem('active_tab', tabName);
-
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
-
             document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + tabName).classList.add('active');
             window.scrollTo(0,0);
@@ -440,11 +379,15 @@
                 const data = await response.json();
                 if (data.rates && data.rates.TWD) {
                     currentRate = data.rates.TWD;
+                    // **重點：把最新匯率存起來！**
+                    localStorage.setItem('saved_exchange_rate', currentRate);
+                    
                     rateDisplay.textContent = `匯率: ${currentRate}`;
                     renderExpenses();
                 }
             } catch (error) {
-                rateDisplay.textContent = "匯率載入失敗";
+                console.log("離線模式：使用上次的匯率");
+                // 這裡如果不幸完全沒存過，就會用 0.024
             }
         }
 
@@ -452,33 +395,26 @@
             const name = document.getElementById('item-name').value.trim();
             const price = parseInt(document.getElementById('item-price').value);
             const cat = document.getElementById('item-cat').value;
-
             if (!name || isNaN(price)) { alert('請輸入完整資訊'); return; }
-
             expenses.push({ id: Date.now(), date: selectedInputDate, name, price, cat });
             saveAndRender();
-            
             document.getElementById('item-name').value = '';
             document.getElementById('item-price').value = '';
         }
-
         function deleteExpense(id) {
             if(confirm('刪除此筆紀錄？')) {
                 expenses = expenses.filter(item => item.id !== id);
                 saveAndRender();
             }
         }
-
         function saveAndRender() {
             localStorage.setItem('busan_trip_all_expenses', JSON.stringify(expenses));
             renderExpenses();
         }
-
         function renderExpenses() {
             const listEl = document.getElementById('expense-list');
             listEl.innerHTML = '';
             let grandTotal = 0;
-
             tripDates.forEach(date => {
                 const dailyItems = expenses.filter(item => item.date === date);
                 if (dailyItems.length > 0) {
@@ -486,44 +422,21 @@
                     divider.className = 'date-divider';
                     divider.innerHTML = `${date}`;
                     listEl.appendChild(divider);
-
                     dailyItems.forEach(item => {
                         grandTotal += item.price;
                         const twd = Math.round(item.price * currentRate);
                         const div = document.createElement('div');
                         div.className = 'history-item';
-                        div.innerHTML = `
-                            <div>
-                                <div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div>
-                                <div class="h-cat">${item.cat}</div>
-                            </div>
-                            <div style="display:flex; align-items:center;">
-                                <div>
-                                    <div class="h-price">₩${item.price.toLocaleString()}</div>
-                                    <span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span>
-                                </div>
-                                <button class="del-btn" onclick="deleteExpense(${item.id})">×</button>
-                            </div>
-                        `;
+                        div.innerHTML = `<div><div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div><div class="h-cat">${item.cat}</div></div><div style="display:flex; align-items:center;"><div><div class="h-price">₩${item.price.toLocaleString()}</div><span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span></div><button class="del-btn" onclick="deleteExpense(${item.id})">×</button></div>`;
                         listEl.appendChild(div);
                     });
                 }
             });
-
-            if (expenses.length === 0) {
-                listEl.innerHTML = '<div style="text-align:center; color:#999; padding:30px;">尚無記帳資料</div>';
-            }
-
+            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#999; padding:30px;">尚無記帳資料</div>';
             document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
         }
-
-        function getCatEmoji(cat) {
-            if(cat === '交通') return '🚕';
-            if(cat === '食物') return '🍔';
-            if(cat === '購物') return '🛍️';
-            return '✨';
-        }
+        function getCatEmoji(cat) { return (cat==='交通'?'🚕':(cat==='食物'?'🍔':(cat==='購物'?'🛍️':'✨'))); }
     </script>
 </body>
 </html>
