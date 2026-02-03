@@ -167,11 +167,10 @@
         .trip-card {
             background: white; border-radius: 16px; 
             margin-bottom: 30px; position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06); /* 加深陰影 */
-            border: none; overflow: hidden; /* 確保圖片不溢出圓角 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
+            border: none; overflow: hidden; 
         }
         
-        /* 時間軸圓點 */
         .trip-card::after {
             content: ''; position: absolute; left: -26px; top: 20px;
             width: 14px; height: 14px; border-radius: 50%;
@@ -212,12 +211,12 @@
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         <div class="nav-tabs">
-            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+            <div class="tab-btn" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
             <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
         </div>
     </div>
 
-    <div id="view-accounting" class="view-container active">
+    <div id="view-accounting" class="view-container">
         
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
@@ -260,7 +259,7 @@
         <div class="timeline">
             
             <div class="trip-card">
-                <img src="https://images.unsplash.com/photo-1596414086788-292193b453e9?q=80,w=800" class="card-img-top" alt="甘川洞">
+                <img src="https://tong.visitkorea.or.kr/cms/resource/92/3365492_image2_1.jpg" class="card-img-top" alt="甘川洞">
                 <div class="card-content">
                     <div class="t-time">09:00 - 11:00</div>
                     <div class="t-title">甘川洞文化村</div>
@@ -403,14 +402,23 @@
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
 
         window.onload = function() {
+            // 1. 恢復上次瀏覽的 Tab
+            const savedTab = localStorage.getItem('active_tab') || 'accounting';
+            switchTab(savedTab);
+
+            // 2. 載入匯率和記帳資料
             fetchExchangeRate();
             selectDate('3/5'); 
             renderExpenses(); 
         };
 
         function switchTab(tabName) {
+            // 儲存當前狀態
+            localStorage.setItem('active_tab', tabName);
+
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
+
             document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + tabName).classList.add('active');
             window.scrollTo(0,0);
