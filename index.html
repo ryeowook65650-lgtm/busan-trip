@@ -20,7 +20,7 @@
             --pink: #EE86A8;      /* 晚霞粉 */
             
             --bg-body: #F3F5F9;   /* 冷調灰白背景 */
-            --bg-header: rgba(255, 255, 255, 0.85);
+            --bg-header: rgba(255, 255, 255, 0.95); /* 不透明度提高，防止重疊太亂 */
             --card-bg: #FFFFFF;   /* 純白卡片 */
             --input-bg: #F0F2F5;  
             
@@ -38,13 +38,14 @@
             padding-bottom: 40px;
         }
 
-        /* 頂部固定區 */
+        /* 頂部固定區 (Header + Tabs + Sticky Filter) */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-header);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border);
             box-shadow: 0 4px 20px var(--shadow-color);
+            transition: 0.3s;
         }
 
         .header-info {
@@ -58,7 +59,7 @@
             text-decoration: none;
         }
 
-        .nav-tabs { display: flex; padding: 0 20px; border-bottom: 1px solid var(--border); }
+        .nav-tabs { display: flex; padding: 0 20px; }
         .tab-btn {
             flex: 1; text-align: center; padding: 15px 0;
             font-size: 15px; font-weight: 600; color: var(--text-gray);
@@ -69,6 +70,31 @@
             content: ''; position: absolute; bottom: 0; left: 25%; right: 25%;
             height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
+
+        /* --- 新增：置頂行程過濾器 (隱藏/顯示) --- */
+        #sticky-itinerary-filter {
+            display: none; /* 預設隱藏，只有切換到行程頁才顯示 */
+            padding: 10px 20px 15px;
+            border-top: 1px solid var(--input-bg);
+            background: var(--bg-header);
+        }
+        #sticky-itinerary-filter.active { display: block; animation: slideDown 0.2s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .day-select-wrapper { position: relative; }
+        .day-select-wrapper::after {
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: var(--cyan); pointer-events: none;
+        }
+        .day-select {
+            width: 100%; appearance: none; -webkit-appearance: none;
+            padding: 12px; border-radius: 10px; border: 1px solid var(--cyan);
+            font-size: 15px; font-weight: 700; color: var(--navy);
+            background: rgba(0, 185, 231, 0.05); outline: none;
+        }
+        .day-select:focus { background: white; box-shadow: 0 0 0 3px rgba(0,185,231,0.1); }
+
 
         /* 日期選擇器 (記帳用) */
         .date-scroll-container {
@@ -194,32 +220,11 @@
         }
         .export-btn:active { background: rgba(248, 182, 45, 0.1); transform: scale(0.98); }
 
-        /* --- 行程相關樣式 --- */
-        
-        /* 下拉選單樣式 */
-        .day-select-wrapper {
-            position: relative; margin-bottom: 25px;
-        }
-        .day-select-wrapper::after {
-            content: '▼'; 
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 12px; color: var(--cyan); pointer-events: none;
-        }
-        .day-select {
-            width: 100%; appearance: none; -webkit-appearance: none;
-            padding: 14px; border-radius: 12px; border: 1px solid var(--border);
-            font-size: 16px; font-weight: 700; color: var(--navy);
-            background: white; outline: none;
-            box-shadow: 0 4px 15px var(--shadow-color);
-        }
-        .day-select:focus { border-color: var(--cyan); }
-
-        /* 行程內容區塊 (預設隱藏，active才顯示) */
+        /* 行程內容區塊 */
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
         .day-schedule.active { display: block; }
 
-        /* 時間軸線 */
-        .timeline { position: relative; padding-left: 20px; }
+        .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
             width: 2px; background: var(--border);
@@ -278,12 +283,24 @@
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         <div class="nav-tabs">
-            <div class="tab-btn" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
             <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
+        </div>
+        
+        <div id="sticky-itinerary-filter">
+            <div class="day-select-wrapper">
+                <select class="day-select" id="day-selector" onchange="handleDayChange(this)">
+                    <option value="day1">Day 1 • 3/5 (四) 抵達與晚餐</option>
+                    <option value="day2">Day 2 • 3/6 (五) 文化村與市區</option>
+                    <option value="day3">Day 3 • 3/7 (六)</option>
+                    <option value="day4">Day 4 • 3/8 (日)</option>
+                    <option value="day5">Day 5 • 3/9 (一)</option>
+                </select>
+            </div>
         </div>
     </div>
 
-    <div id="view-accounting" class="view-container">
+    <div id="view-accounting" class="view-container active">
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
             <div class="balance-label">TRIP TOTAL (全旅程總計)</div>
@@ -332,17 +349,7 @@
 
     <div id="view-itinerary" class="view-container">
         
-        <div class="day-select-wrapper">
-            <select class="day-select" onchange="handleDayChange(this)">
-                <option value="day1">Day 1 • 3/5 (四) 抵達與晚餐</option>
-                <option value="day2">Day 2 • 3/6 (五) 文化村與市區</option>
-                <option value="day3">Day 3 • 3/7 (六)</option>
-                <option value="day4">Day 4 • 3/8 (日)</option>
-                <option value="day5">Day 5 • 3/9 (一)</option>
-            </select>
-        </div>
-
-        <div id="day1-content" class="day-schedule active">
+        <div id="day1-content" class="day-schedule">
             <div class="day-header">Day 1 • 3/5 (四)</div>
             <div class="timeline">
                 <div class="trip-card">
@@ -431,7 +438,7 @@
                         <div class="t-title">晚餐：南浦排骨烤肉</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
                         <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 約 25 分鐘 (₩1,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
@@ -494,20 +501,39 @@
 
         function switchTab(tabName) {
             localStorage.setItem('active_tab', tabName);
+            
+            // 處理 Tab 樣式
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // 處理內容顯示
             document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
             document.getElementById('view-' + tabName).classList.add('active');
+            
+            // 處理行程過濾器的顯示/隱藏
+            const filter = document.getElementById('sticky-itinerary-filter');
+            if(tabName === 'itinerary') {
+                filter.classList.add('active');
+                // 預設選中下拉選單第一項，並顯示對應內容 (如果目前沒有 active 的話)
+                const currentDayVal = document.getElementById('day-selector').value;
+                if(!document.querySelector('.day-schedule.active')) {
+                    handleDayChange(document.getElementById('day-selector'));
+                }
+            } else {
+                filter.classList.remove('active');
+            }
+
             window.scrollTo(0,0);
         }
 
-        // 新增：下拉選單切換行程功能
+        // 下拉選單切換行程
         function handleDayChange(selectElement) {
             const selectedDayId = selectElement.value;
             // 1. 隱藏所有行程
             document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
             // 2. 顯示選中的那一天
             document.getElementById(selectedDayId + '-content').classList.add('active');
+            window.scrollTo(0,0);
         }
 
         function selectDate(date) {
