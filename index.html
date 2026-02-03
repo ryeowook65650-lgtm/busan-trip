@@ -64,13 +64,13 @@
             height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
 
-        /* --- 日期選擇器 (新增) --- */
+        /* --- 日期選擇器 --- */
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
             padding: 15px 20px 5px; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
-        .date-scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        .date-scroll-container::-webkit-scrollbar { display: none; }
 
         .date-chip {
             display: inline-block;
@@ -95,7 +95,6 @@
             color: white; border-radius: 20px; padding: 25px;
             box-shadow: 0 10px 30px rgba(0, 47, 123, 0.25);
             margin-bottom: 25px; position: relative; overflow: hidden;
-            transition: all 0.3s ease;
         }
         .balance-card::before {
             content: ''; position: absolute; right: -20px; top: -20px;
@@ -114,7 +113,10 @@
         .input-area {
             background: white; padding: 20px; border-radius: 16px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px;
+            border: 1px solid var(--border);
         }
+        .input-title { font-size: 14px; font-weight: 700; color: var(--text-gray); margin-bottom: 10px; display:block;}
+        
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .modern-input {
             width: 100%; padding: 12px; border: 1px solid var(--border);
@@ -128,19 +130,28 @@
             padding: 14px; border-radius: 12px; border: none;
             font-size: 16px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 185, 231, 0.3);
+            transition: 0.2s;
         }
         .add-btn:active { transform: scale(0.98); }
 
+        /* 記帳列表與分類標題 */
         .history-list { margin-top: 10px; padding-bottom: 20px; }
+        
+        .date-divider {
+            font-size: 14px; font-weight: 800; color: var(--text-gray);
+            margin: 25px 0 10px 5px; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .date-divider::before {
+            content: ''; width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
+        }
+
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
             background: white; padding: 15px; border-radius: 12px;
             margin-bottom: 10px; border-left: 4px solid var(--cyan);
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            animation: slideIn 0.3s ease;
         }
-        @keyframes slideIn { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
-
         .h-name { font-weight: 700; font-size: 15px; }
         .h-cat { font-size: 12px; color: var(--text-gray); }
         .h-price { font-weight: 700; color: var(--navy); text-align: right; }
@@ -200,22 +211,23 @@
 
     <div id="view-accounting" class="view-container active">
         
-        <div class="date-scroll-container">
-            <div class="date-chip active" onclick="switchDate('3/5')">3/5 (四)</div>
-            <div class="date-chip" onclick="switchDate('3/6')">3/6 (五)</div>
-            <div class="date-chip" onclick="switchDate('3/7')">3/7 (六)</div>
-            <div class="date-chip" onclick="switchDate('3/8')">3/8 (日)</div>
-            <div class="date-chip" onclick="switchDate('3/9')">3/9 (一)</div>
-        </div>
-
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
-            <div class="balance-label"><span id="display-date">3/5</span> 總支出</div>
+            <div class="balance-label">TRIP TOTAL (全旅程總計)</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
         </div>
 
         <div class="input-area">
+            <span class="input-title">新增支出至：</span>
+            <div class="date-scroll-container" style="margin-bottom:15px; padding-left:0;">
+                <div class="date-chip active" onclick="selectDate('3/5')">3/5</div>
+                <div class="date-chip" onclick="selectDate('3/6')">3/6</div>
+                <div class="date-chip" onclick="selectDate('3/7')">3/7</div>
+                <div class="date-chip" onclick="selectDate('3/8')">3/8</div>
+                <div class="date-chip" onclick="selectDate('3/9')">3/9</div>
+            </div>
+
             <div class="input-row">
                 <input type="text" id="item-name" class="modern-input" placeholder="項目 (如: 計程車)">
                 <select id="item-cat" class="modern-input" style="flex:0.6;">
@@ -228,7 +240,7 @@
             <div class="input-row">
                 <input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)">
             </div>
-            <button onclick="addExpense()" class="add-btn">新增至 <span id="btn-date-label">3/5</span></button>
+            <button onclick="addExpense()" class="add-btn">確認新增 (至 <span id="btn-date-label">3/5</span>)</button>
         </div>
 
         <div class="history-list" id="expense-list">
@@ -358,13 +370,16 @@
 
     <script>
         let currentRate = 0.024; 
-        // 使用新的儲存 key，因為結構變了
         let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
-        let currentDate = '3/5'; // 預設日期
+        let selectedInputDate = '3/5'; // 僅控制新增時的日期
+
+        // 定義這趟旅程的所有日期 (用於排序和分組)
+        const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
 
         window.onload = function() {
             fetchExchangeRate();
-            switchDate('3/5'); // 初始化顯示 3/5
+            selectDate('3/5'); // 預設輸入日期
+            renderExpenses();  // 渲染所有紀錄
         };
 
         function switchTab(tabName) {
@@ -376,8 +391,9 @@
             window.scrollTo(0,0);
         }
 
-        function switchDate(date) {
-            currentDate = date;
+        // 切換「輸入日期」 (不影響列表顯示)
+        function selectDate(date) {
+            selectedInputDate = date;
             
             // 更新按鈕樣式
             document.querySelectorAll('.date-chip').forEach(chip => {
@@ -385,11 +401,8 @@
                 if(chip.innerText.includes(date)) chip.classList.add('active');
             });
 
-            // 更新顯示標籤
-            document.getElementById('display-date').innerText = date;
+            // 更新按鈕上的日期提示
             document.getElementById('btn-date-label').innerText = date;
-
-            renderExpenses();
         }
 
         async function fetchExchangeRate() {
@@ -414,10 +427,10 @@
 
             if (!name || isNaN(price)) { alert('請輸入完整資訊'); return; }
 
-            // 儲存時多存一個 date 欄位
-            expenses.unshift({ 
+            // 新增時帶入當前選擇的日期
+            expenses.push({ 
                 id: Date.now(), 
-                date: currentDate, 
+                date: selectedInputDate, 
                 name, price, cat 
             });
             
@@ -442,40 +455,53 @@
         function renderExpenses() {
             const listEl = document.getElementById('expense-list');
             listEl.innerHTML = '';
-            let total = 0;
+            let grandTotal = 0;
 
-            // 只篩選出目前選定日期的帳目
-            const dailyExpenses = expenses.filter(item => item.date === currentDate);
-
-            dailyExpenses.forEach(item => {
-                total += item.price;
-                const twd = Math.round(item.price * currentRate);
+            // 依照日期順序渲染
+            tripDates.forEach(date => {
+                // 找出該日期的所有支出
+                const dailyItems = expenses.filter(item => item.date === date);
                 
-                const div = document.createElement('div');
-                div.className = 'history-item';
-                div.innerHTML = `
-                    <div>
-                        <div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div>
-                        <div class="h-cat">${item.cat}</div>
-                    </div>
-                    <div style="display:flex; align-items:center;">
-                        <div>
-                            <div class="h-price">₩${item.price.toLocaleString()}</div>
-                            <span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span>
-                        </div>
-                        <button class="del-btn" onclick="deleteExpense(${item.id})">×</button>
-                    </div>
-                `;
-                listEl.appendChild(div);
+                if (dailyItems.length > 0) {
+                    // 1. 加入日期分隔線 (標題)
+                    const divider = document.createElement('div');
+                    divider.className = 'date-divider';
+                    divider.innerHTML = `${date}`;
+                    listEl.appendChild(divider);
+
+                    // 2. 渲染該日期的項目
+                    dailyItems.forEach(item => {
+                        grandTotal += item.price;
+                        const twd = Math.round(item.price * currentRate);
+                        
+                        const div = document.createElement('div');
+                        div.className = 'history-item';
+                        div.innerHTML = `
+                            <div>
+                                <div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div>
+                                <div class="h-cat">${item.cat}</div>
+                            </div>
+                            <div style="display:flex; align-items:center;">
+                                <div>
+                                    <div class="h-price">₩${item.price.toLocaleString()}</div>
+                                    <span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span>
+                                </div>
+                                <button class="del-btn" onclick="deleteExpense(${item.id})">×</button>
+                            </div>
+                        `;
+                        listEl.appendChild(div);
+                    });
+                }
             });
 
-            // 如果沒資料顯示提示
-            if (dailyExpenses.length === 0) {
-                listEl.innerHTML = '<div style="text-align:center; color:#999; padding:20px;">今日尚未記帳</div>';
+            // 如果完全沒有資料
+            if (expenses.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; color:#999; padding:30px;">尚無記帳資料</div>';
             }
 
-            document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
-            document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(total * currentRate).toLocaleString()}`;
+            // 更新總金額 (全旅程)
+            document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
+            document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
         }
 
         function getCatEmoji(cat) {
