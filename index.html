@@ -110,19 +110,19 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 資產卡片 --- */
+        /* --- 資產卡片 (整合統計功能) --- */
         .balance-card {
             background: linear-gradient(135deg, var(--color-orange), #C06C5A);
             color: var(--bg-paper); 
-            border-radius: 16px; padding: 25px;
+            border-radius: 16px; padding: 20px 25px 15px;
             box-shadow: 5px 5px 0px rgba(0,0,0,0.3);
-            margin-bottom: 20px; position: relative; overflow: hidden;
+            margin-bottom: 25px; position: relative; overflow: hidden;
             border: 2px solid var(--bg-paper);
         }
         .balance-card::before {
             content: ''; position: absolute; right: -10px; top: -10px;
             width: 100px; height: 100px; background: var(--color-pink);
-            border-radius: 50%; opacity: 0.3;
+            border-radius: 50%; opacity: 0.3; pointer-events: none;
         }
         .balance-label { 
             font-family: var(--font-serif); letter-spacing: 1px; 
@@ -130,7 +130,7 @@
         }
         .balance-amount { 
             font-family: var(--font-serif);
-            font-size: 36px; font-weight: 900; margin: 5px 0 10px; 
+            font-size: 36px; font-weight: 900; margin: 5px 0 5px; 
             text-shadow: 2px 2px 0 var(--bg-main);
         }
         .balance-sub { font-size: 15px; color: var(--bg-main); font-weight: 700; }
@@ -140,18 +140,23 @@
             padding: 4px 8px; border-radius: 4px; font-weight: bold;
         }
 
-        /* --- 新增：分類統計區塊 --- */
-        .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px;
-            margin-bottom: 25px;
+        /* 內嵌統計列 */
+        .stats-divider {
+            border-top: 1px dashed rgba(39, 62, 73, 0.4);
+            margin: 15px 0 10px;
         }
-        .stat-item {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 10px; padding: 10px 5px; text-align: center;
+        .stats-row {
+            display: flex; justify-content: space-between;
         }
-        .stat-icon { font-size: 18px; margin-bottom: 4px; display: block; }
-        .stat-label { font-size: 11px; color: var(--color-pink); font-weight: 600; display: block; margin-bottom: 2px; }
-        .stat-val { font-size: 13px; font-weight: 700; color: var(--text-light); }
+        .stat-col {
+            text-align: center; flex: 1;
+        }
+        .stat-icon-small { font-size: 16px; display: block; margin-bottom: 2px; }
+        .stat-val-small { 
+            font-size: 13px; font-weight: 800; 
+            color: var(--bg-main); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
 
         /* --- 輸入區 --- */
         .input-area {
@@ -367,28 +372,25 @@
             <div class="balance-label">TRIP TOTAL</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-icon">🚕</span>
-                <span class="stat-label">交通</span>
-                <span class="stat-val" id="stat-transport">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon">🍔</span>
-                <span class="stat-label">食物</span>
-                <span class="stat-val" id="stat-food">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon">🛍️</span>
-                <span class="stat-label">購物</span>
-                <span class="stat-val" id="stat-shopping">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-icon">✨</span>
-                <span class="stat-label">其他</span>
-                <span class="stat-val" id="stat-other">0</span>
+            
+            <div class="stats-divider"></div>
+            <div class="stats-row">
+                <div class="stat-col">
+                    <span class="stat-icon-small">🚕</span>
+                    <span class="stat-val-small" id="stat-transport">0</span>
+                </div>
+                <div class="stat-col">
+                    <span class="stat-icon-small">🍔</span>
+                    <span class="stat-val-small" id="stat-food">0</span>
+                </div>
+                <div class="stat-col">
+                    <span class="stat-icon-small">🛍️</span>
+                    <span class="stat-val-small" id="stat-shopping">0</span>
+                </div>
+                <div class="stat-col">
+                    <span class="stat-icon-small">✨</span>
+                    <span class="stat-val-small" id="stat-other">0</span>
+                </div>
             </div>
         </div>
 
@@ -586,9 +588,8 @@
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">
                             回飯店
-                            <span class="t-kr-name">토요코인 부산중앙역</span>
                         </div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; color:#999;">(토요코인 부산중앙역)</span></div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從樂天百貨約 15 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
