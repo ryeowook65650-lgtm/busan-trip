@@ -3,360 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BUSAN DAY 2</title>
+    <title>BUSAN TRIP</title>
     <link rel="icon" type="image/png" href="icon.png">
-    <link rel="apple-touch-icon" href="icon.png">
     
     <style>
         :root {
-            /* 指定的高級配色 */
-            --cyan: #00B9E7;      /* 亮天藍 (Highlight) */
-            --navy: #002F7B;      /* 深藍 (Primary Text/Bg) */
-            --gold: #F8B62D;      /* 金黃 (Accent) */
-            --pink: #EE86A8;      /* 粉紅 (Soft Highlight) */
-
-            --bg-body: #F4F6F9;   /* 冷灰白背景 */
-            --bg-card: #FFFFFF;
-            --text-main: #1A1A1A;
-            --text-sub: #8E8E93;
-            --border-light: #E5E5EA;
+            /* 指定配色 */
+            --cyan: #00B9E7;
+            --navy: #002F7B;
+            --gold: #F8B62D;
+            --pink: #EE86A8;
+            
+            --bg-body: #F4F7FB;
+            --card-bg: #FFFFFF;
+            --text-main: #002F7B; /* 主字色改為深藍，更具整體感 */
+            --text-gray: #64748B;
+            --border: #E2E8F0;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-body); color: var(--text-main);
-            padding-bottom: 120px;
-            letter-spacing: -0.02em; /* 緊湊的現代字體感 */
+            padding-bottom: 40px;
         }
 
-        /* --- 摩登頂部導覽 (毛玻璃) --- */
-        .header {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        /* --- 頂部固定區 (Header + Nav) --- */
+        .top-bar {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 47, 123, 0.1);
+        }
+
+        .header-info {
+            padding: 15px 20px 5px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .header-title {
-            font-size: 20px; font-weight: 800; color: var(--navy);
-            letter-spacing: 0.5px; text-transform: uppercase;
-        }
-        .header-date {
-            font-size: 12px; color: var(--cyan); font-weight: 600; letter-spacing: 1px;
-        }
-        .weather-link {
-            font-size: 12px; color: var(--text-sub); text-decoration: none;
-            display: flex; align-items: center; gap: 5px; font-weight: 500;
-            background: #F2F2F7; padding: 6px 12px; border-radius: 20px;
+        .app-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: var(--navy); }
+        .weather-badge {
+            font-size: 12px; font-weight: 600; color: var(--cyan);
+            background: rgba(0, 185, 231, 0.1); padding: 4px 10px; border-radius: 20px;
+            text-decoration: none;
         }
 
-        main { padding: 24px 20px; max-width: 600px; margin: 0 auto; }
-
-        /* --- 行程時間軸設計 --- */
-        .timeline-label {
-            font-size: 12px; font-weight: 700; color: var(--text-sub);
-            margin: 30px 0 10px 5px; text-transform: uppercase; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 8px;
+        /* 選單切換器 */
+        .nav-tabs {
+            display: flex; padding: 0 20px;
+            border-bottom: 1px solid var(--border);
         }
-        .timeline-label::before {
-            content: ''; width: 8px; height: 8px; background: var(--cyan);
-            border-radius: 50%;
+        .tab-btn {
+            flex: 1; text-align: center; padding: 15px 0;
+            font-size: 15px; font-weight: 600; color: var(--text-gray);
+            cursor: pointer; position: relative; transition: 0.3s;
         }
-
-        /* --- 質感卡片 --- */
-        .card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px -10px rgba(0, 47, 123, 0.08); /* 深藍色系的柔和陰影 */
-            border: 1px solid rgba(255,255,255,0.5);
-            position: relative; overflow: hidden;
-        }
-        /* 左側裝飾條 (取代原本粗邊框) */
-        .card::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-            width: 4px; background: linear-gradient(to bottom, var(--navy), var(--cyan));
+        .tab-btn.active { color: var(--cyan); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 25%; right: 25%;
+            height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
 
-        .card-time {
-            font-size: 13px; font-weight: 700; color: var(--cyan);
-            margin-bottom: 8px; display: block; letter-spacing: 0.5px;
+        /* --- 內容容器 --- */
+        .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .view-container.active { display: block; animation: fadeIn 0.3s ease; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 記帳版面 (Dashboard Style) --- */
+        .balance-card {
+            background: linear-gradient(135deg, var(--navy), #004494);
+            color: white; border-radius: 20px; padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 47, 123, 0.25);
+            margin-bottom: 25px; position: relative; overflow: hidden;
         }
-        .card-title {
-            font-size: 20px; font-weight: 800; color: var(--navy);
-            margin-bottom: 16px; line-height: 1.3;
+        .balance-card::before {
+            content: ''; position: absolute; right: -20px; top: -20px;
+            width: 100px; height: 100px; background: var(--cyan);
+            border-radius: 50%; opacity: 0.3; filter: blur(20px);
+        }
+        .balance-label { font-size: 13px; opacity: 0.8; letter-spacing: 1px; }
+        .balance-amount { font-size: 32px; font-weight: 800; margin: 5px 0 10px; }
+        .balance-sub { font-size: 14px; color: var(--gold); font-weight: 600; }
+        .rate-tag { 
+            position: absolute; top: 20px; right: 20px; 
+            font-size: 11px; background: rgba(255,255,255,0.2); 
+            padding: 4px 8px; border-radius: 6px; 
         }
 
-        /* 資訊網格 */
-        .info-grid { display: grid; grid-template-columns: 30px 1fr; gap: 8px 12px; margin-bottom: 16px; }
-        .info-icon { color: var(--text-sub); font-size: 14px; text-align: center; }
-        .info-text { font-size: 14px; color: var(--text-main); line-height: 1.6; }
-        .info-sub { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
-
-        /* 摩登標籤 Pill */
-        .pill {
-            display: inline-flex; align-items: center; padding: 4px 10px;
-            border-radius: 6px; font-size: 12px; font-weight: 600;
-            margin-right: 6px; letter-spacing: 0.3px;
+        .input-area {
+            background: white; padding: 20px; border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px;
         }
-        .pill-gold { background: rgba(248, 182, 45, 0.15); color: #B48008; }
-        .pill-gray { background: #F2F2F7; color: var(--text-sub); }
-        .pill-cyan { background: rgba(0, 185, 231, 0.1); color: var(--navy); }
-
-        /* Naver Map 按鈕 (質感風) */
-        .naver-btn {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 14px;
-            background: var(--navy); color: white;
-            border-radius: 12px; text-decoration: none;
-            font-size: 14px; font-weight: 600;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(0, 47, 123, 0.2);
-            transition: transform 0.2s;
-        }
-        .naver-btn:active { transform: scale(0.98); }
-        .naver-btn span { font-weight: 300; opacity: 0.8; font-size: 12px; }
-
-        .link-text {
-            display: inline-block; margin-top: 12px; font-size: 13px;
-            color: var(--cyan); text-decoration: none; font-weight: 500;
-            border-bottom: 1px solid transparent;
-        }
-
-        /* --- 記帳區塊 (財務報表風) --- */
-        .accounting-wrapper {
-            background: white; border-radius: 20px; padding: 24px;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
-        }
-        .acc-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .acc-title { font-size: 18px; font-weight: 800; color: var(--navy); }
-        .rate-badge {
-            font-size: 11px; background: var(--bg-body); color: var(--text-sub);
-            padding: 4px 8px; border-radius: 4px; font-weight: 600;
-        }
-
-        /* 輸入框組 */
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .modern-input {
-            width: 100%; padding: 12px; border: 1px solid var(--border-light);
-            border-radius: 10px; font-size: 15px; background: #FAFAFA;
-            color: var(--text-main); outline: none; transition: 0.2s;
+            width: 100%; padding: 12px; border: 1px solid var(--border);
+            border-radius: 10px; background: #F8FAFC; outline: none;
+            font-size: 15px; color: var(--navy);
         }
         .modern-input:focus { border-color: var(--cyan); background: white; }
-        .modern-select { flex: 0.6; }
-
+        
         .add-btn {
             width: 100%; background: var(--cyan); color: white;
-            padding: 14px; border-radius: 10px; border: none;
-            font-size: 15px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 185, 231, 0.3);
+            padding: 14px; border-radius: 12px; border: none;
+            font-size: 16px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 185, 231, 0.3);
         }
+        .add-btn:active { transform: scale(0.98); }
 
-        /* 列表 */
-        .expense-list { margin-top: 20px; max-height: 300px; overflow-y: auto; }
-        .expense-item {
+        .history-list { margin-top: 10px; }
+        .history-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px solid var(--border-light);
+            background: white; padding: 15px; border-radius: 12px;
+            margin-bottom: 10px; border-left: 4px solid var(--cyan);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
-        .item-main { font-weight: 600; font-size: 15px; color: var(--text-main); }
-        .item-sub { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
-        .price-krw { font-weight: 700; color: var(--navy); }
-        .price-twd { font-size: 12px; color: var(--pink); text-align: right; }
-        .del-btn { color: #CCC; background: none; border: none; padding: 0 0 0 10px; font-size: 18px; }
+        .h-name { font-weight: 700; font-size: 15px; }
+        .h-cat { font-size: 12px; color: var(--text-gray); }
+        .h-price { font-weight: 700; color: var(--navy); text-align: right; }
+        .h-twd { font-size: 11px; color: var(--pink); display: block; }
+        .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* 總計卡片 */
-        .total-card {
-            background: var(--navy); color: white;
-            border-radius: 12px; padding: 20px; margin-top: 20px;
-            position: relative; overflow: hidden;
+        /* --- 行程版面 (Timeline Style) --- */
+        .timeline {
+            position: relative; padding-left: 20px;
         }
-        .total-card::after {
-            content: ''; position: absolute; right: -20px; top: -20px;
-            width: 80px; height: 80px; background: var(--cyan);
-            border-radius: 50%; opacity: 0.2; blur: 20px;
+        .timeline::before {
+            content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
+            width: 2px; background: #E2E8F0;
         }
-        .total-label { font-size: 12px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
-        .total-krw { font-size: 28px; font-weight: 800; margin: 5px 0; letter-spacing: -0.5px; }
-        .total-twd { font-size: 14px; color: var(--gold); font-weight: 600; }
+
+        .trip-card {
+            background: white; border-radius: 16px; padding: 20px;
+            margin-bottom: 25px; position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid white;
+        }
+        
+        /* 時間軸圓點 */
+        .trip-card::after {
+            content: ''; position: absolute; left: -20px; top: 20px;
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--bg-body); border: 3px solid var(--cyan);
+            z-index: 1;
+        }
+
+        .t-time {
+            font-size: 13px; font-weight: 800; color: var(--cyan);
+            margin-bottom: 8px; letter-spacing: 0.5px;
+        }
+        .t-title { font-size: 19px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
+        
+        .info-block {
+            display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px;
+        }
+        .i-icon { color: var(--gold); width: 20px; text-align: center; }
+        .i-text { color: var(--text-gray); flex: 1; }
+
+        /* 標籤 Pill */
+        .pill { 
+            display: inline-block; padding: 3px 8px; border-radius: 6px; 
+            font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600;
+        }
+
+        /* Naver 按鈕 */
+        .naver-link {
+            display: flex; align-items: center; justify-content: center;
+            background: var(--navy); color: white; text-decoration: none;
+            padding: 12px; border-radius: 10px; margin-top: 15px;
+            font-size: 14px; font-weight: 600; gap: 8px;
+            transition: 0.2s;
+        }
+        .naver-link:active { transform: scale(0.98); background: #001f52; }
+        
+        .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
+        .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; }
 
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div>
-            <div class="header-title">BUSAN</div>
-            <div class="header-date">DAY 2 • 3/6 (FRI)</div>
+    <div class="top-bar">
+        <div class="header-info">
+            <div class="app-title">BUSAN DAY 2</div>
+            <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
-        <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-link">
-            <span>20°C 🌤️</span>
-        </a>
-    </header>
+        <div class="nav-tabs">
+            <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
+            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
+        </div>
+    </div>
 
-    <main>
+    <div id="view-accounting" class="view-container active">
         
-        <div class="timeline-label">MORNING</div>
-
-        <div class="card">
-            <span class="card-time">09:00 - 11:00</span>
-            <div class="card-title">甘川洞文化村</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 사하구 감내2로 203</div>
-                
-                <div class="info-icon">🚕</div>
-                <div class="info-text">
-                    <span class="pill pill-gold">計程車</span> 約 15 分鐘<br>
-                    <span class="info-sub">費用：₩6,600</span>
-                </div>
-            </div>
-            <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" class="link-text">READ MORE →</a>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
+        <div class="balance-card">
+            <div class="rate-tag" id="rate-display">匯率載入中...</div>
+            <div class="balance-label">TOTAL SPENT</div>
+            <div class="balance-amount" id="total-krw">₩0</div>
+            <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
         </div>
 
-        <div class="timeline-label">LUNCH</div>
-
-        <div class="card">
-            <span class="card-time">11:00 - 12:00</span>
-            <div class="card-title">密陽家豬肉湯飯</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 중구 중구로47번길 35</div>
-                
-                <div class="info-icon">🚕</div>
-                <div class="info-text">
-                    <span class="pill pill-gold">計程車</span> 約 8 分鐘<br>
-                    <span class="info-sub">費用：₩5,200</span>
-                </div>
-
-                <div class="info-icon">★</div>
-                <div class="info-text">評價 4.25 (推薦豬肉湯飯)</div>
-            </div>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
-        </div>
-
-        <div class="timeline-label">AFTERNOON</div>
-
-        <div class="card">
-            <span class="card-time">12:00 - 15:00</span>
-            <div class="card-title">市場巡禮</div>
-            
-            <div style="margin-bottom: 20px;">
-                <div style="font-weight:700; margin-bottom:4px;">1. 富平罐頭市場</div>
-                <div class="info-sub" style="margin-bottom:8px;">步行 1 分鐘 • 부산 중구 부평1길 48</div>
-                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="link-text" style="font-size:12px;">NAVER MAP ↗</a>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <div style="font-weight:700; margin-bottom:4px;">2. 國際市場 <span style="font-size:11px; color:var(--pink);">(很多人買棉被)</span></div>
-                <div class="info-sub" style="margin-bottom:8px;">步行 1 分鐘 • 부산 중구 신창동4가</div>
-                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="link-text" style="font-size:12px;">NAVER MAP ↗</a>
-            </div>
-
-            <div>
-                <div style="font-weight:700; margin-bottom:4px;">3. 阿里郎街</div>
-                <div class="info-sub" style="margin-bottom:8px;">步行 1 分鐘 • 부산 중구 광복로35번길 11</div>
-                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="link-text" style="font-size:12px;">NAVER MAP ↗</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <span class="card-time">15:00 - 16:00</span>
-            <div class="card-title">白淺灘文化村</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 영도구 영선동4가 605-3</div>
-                
-                <div class="info-icon">🚕</div>
-                <div class="info-text">
-                    <span class="pill pill-gold">計程車</span> 約 15 分鐘<br>
-                    <span class="info-sub">費用：₩6,500</span>
-                </div>
-            </div>
-            <a href="https://tsnio.com/huinnyeoul-culture-village/" target="_blank" class="link-text">READ MORE →</a>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
-        </div>
-
-        <div class="timeline-label">EVENING</div>
-
-        <div class="card">
-            <span class="card-time">16:00 - 18:00</span>
-            <div class="card-title">晚餐：南浦排骨烤肉</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 중구 남포길 40-2 1층</div>
-                
-                <div class="info-icon">🚌</div>
-                <div class="info-text">
-                    <span class="pill pill-cyan">公車</span> 6號 / 9號<br>
-                    <span class="info-sub">흰여울문화마을 ➔ 남포동 (₩1,500)</span>
-                </div>
-            </div>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
-        </div>
-
-        <div class="card">
-            <span class="card-time">18:00 - 20:00</span>
-            <div class="card-title">樂天百貨光復店 (買草莓)</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 중구 중앙대로 2 , 1층</div>
-                
-                <div class="info-icon">🚶</div>
-                <div class="info-text">
-                    <span class="pill pill-gray">步行</span> 約 6 分鐘
-                </div>
-            </div>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
-        </div>
-
-        <div class="card">
-            <span class="card-time">20:00 -</span>
-            <div class="card-title">回飯店 (甘川文化村)</div>
-            <div class="info-grid">
-                <div class="info-icon">📍</div>
-                <div class="info-text">부산 사하구 감내2로 203</div>
-                
-                <div class="info-icon">🚶</div>
-                <div class="info-text">
-                    <span class="pill pill-gray">步行</span> 約 20 分鐘
-                </div>
-            </div>
-            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-btn">
-                開啟 NAVER Map <span>↗</span>
-            </a>
-        </div>
-
-        <div class="timeline-label">EXPENSES</div>
-        
-        <div class="accounting-wrapper">
-            <div class="acc-header">
-                <div class="acc-title">記帳本</div>
-                <div id="rate-display" class="rate-badge">讀取匯率中...</div>
-            </div>
-
+        <div class="input-area">
             <div class="input-row">
-                <input type="text" id="item-name" class="modern-input" placeholder="項目 (如:計程車)">
-                <select id="item-cat" class="modern-input modern-select">
+                <input type="text" id="item-name" class="modern-input" placeholder="項目 (如: 計程車)">
+                <select id="item-cat" class="modern-input" style="flex:0.6;">
                     <option value="交通">🚕</option>
                     <option value="食物">🍔</option>
                     <option value="購物">🛍️</option>
@@ -366,28 +216,155 @@
             <div class="input-row">
                 <input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)">
             </div>
-            
             <button onclick="addExpense()" class="add-btn">新增紀錄</button>
-
-            <div class="expense-list" id="expense-list"></div>
-
-            <div class="total-card">
-                <div class="total-label">Total Expenses</div>
-                <div class="total-krw" id="total-krw">₩0</div>
-                <div class="total-twd" id="total-twd">≈ NT$ 0</div>
-            </div>
         </div>
 
-    </main>
+        <div class="history-list" id="expense-list">
+            </div>
+    </div>
+
+    <div id="view-itinerary" class="view-container">
+        <div class="timeline">
+            
+            <div class="trip-card">
+                <div class="t-time">09:00 - 11:00</div>
+                <div class="t-title">甘川洞文化村</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 사하구 감내2로 203</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚕</div>
+                    <div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">📝</div>
+                    <div class="i-text">附近也有咖啡廳可坐坐</div>
+                </div>
+                <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--cyan); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">11:00 - 12:00</div>
+                <div class="t-title">密陽家豬肉湯飯</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 중구 중구로47번길 35</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚕</div>
+                    <div class="i-text"><span class="pill">計程車</span> 約 8 分鐘 (₩5,200)</div>
+                </div>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">12:00 - 15:00</div>
+                <div class="t-title">市場巡禮</div>
+                <div class="info-block" style="flex-direction:column; gap:15px;">
+                    <div>
+                        <strong>1. 富平罐頭市場</strong><br>
+                        <span style="font-size:13px; color:#999;">부산 중구 부평1길 48</span>
+                    </div>
+                    <div>
+                        <strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br>
+                        <span style="font-size:13px; color:#999;">부산 중구 신창동4가</span>
+                    </div>
+                    <div>
+                        <strong>3. 阿里郎街</strong><br>
+                        <span style="font-size:13px; color:#999;">부산 중구 광복로35번길 11</span>
+                    </div>
+                </div>
+                <div class="multi-btn-row">
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
+                    <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a>
+                </div>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">15:00 - 16:00</div>
+                <div class="t-title">白淺灘文化村</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 영도구 영선동4가 605-3</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚕</div>
+                    <div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,500)</div>
+                </div>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">16:00 - 18:00</div>
+                <div class="t-title">晚餐：南浦排骨烤肉</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 중구 남포길 40-2 1층</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚌</div>
+                    <div class="info-text"><span class="pill">公車</span> 6號/9號 (₩1,500)</div>
+                </div>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">18:00 - 20:00</div>
+                <div class="t-title">樂天百貨光復店 (買草莓)</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 중구 중앙대로 2 , 1층</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚶</div>
+                    <div class="info-text">步行約 6 分鐘</div>
+                </div>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+            <div class="trip-card">
+                <div class="t-time">20:00 -</div>
+                <div class="t-title">回飯店</div>
+                <div class="info-block">
+                    <div class="i-icon">📍</div>
+                    <div class="i-text">부산 사하구 감내2로 203</div>
+                </div>
+                <div class="info-block">
+                    <div class="i-icon">🚶</div>
+                    <div class="info-text">步行約 20 分鐘</div>
+                </div>
+                <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">NAVER MAP ↗</a>
+            </div>
+
+        </div>
+    </div>
 
     <script>
-        let currentRate = 0.024; // 預設
-        let expenses = JSON.parse(localStorage.getItem('busan_day2_modern_expenses')) || [];
+        let currentRate = 0.024; 
+        let expenses = JSON.parse(localStorage.getItem('busan_day2_app_expenses')) || [];
 
         window.onload = function() {
+            // 預設開啟記帳頁面
+            switchTab('accounting');
             fetchExchangeRate();
             renderExpenses();
         };
+
+        function switchTab(tabName) {
+            // 切換按鈕樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // 切換內容顯示
+            document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
+            document.getElementById('view-' + tabName).classList.add('active');
+            
+            // 捲動到頂部
+            window.scrollTo(0,0);
+        }
 
         async function fetchExchangeRate() {
             const rateDisplay = document.getElementById('rate-display');
@@ -400,7 +377,7 @@
                     renderExpenses();
                 }
             } catch (error) {
-                rateDisplay.textContent = "使用預設匯率";
+                rateDisplay.textContent = "匯率載入失敗";
             }
         }
 
@@ -411,7 +388,7 @@
 
             if (!name || isNaN(price)) { alert('請輸入完整資訊'); return; }
 
-            expenses.push({ id: Date.now(), name, price, cat });
+            expenses.unshift({ id: Date.now(), name, price, cat }); // 新的在上面
             saveAndRender();
             
             document.getElementById('item-name').value = '';
@@ -426,7 +403,7 @@
         }
 
         function saveAndRender() {
-            localStorage.setItem('busan_day2_modern_expenses', JSON.stringify(expenses));
+            localStorage.setItem('busan_day2_app_expenses', JSON.stringify(expenses));
             renderExpenses();
         }
 
@@ -440,16 +417,16 @@
                 const twd = Math.round(item.price * currentRate);
                 
                 const div = document.createElement('div');
-                div.className = 'expense-item';
+                div.className = 'history-item';
                 div.innerHTML = `
                     <div>
-                        <div class="item-main">${getCatEmoji(item.cat)} ${item.name}</div>
-                        <div class="item-sub">${item.cat}</div>
+                        <div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div>
+                        <div class="h-cat">${item.cat}</div>
                     </div>
                     <div style="display:flex; align-items:center;">
-                        <div style="text-align:right; margin-right:10px;">
-                            <div class="price-krw">₩${item.price.toLocaleString()}</div>
-                            <div class="price-twd">≈ NT$${twd.toLocaleString()}</div>
+                        <div>
+                            <div class="h-price">₩${item.price.toLocaleString()}</div>
+                            <span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span>
                         </div>
                         <button class="del-btn" onclick="deleteExpense(${item.id})">×</button>
                     </div>
