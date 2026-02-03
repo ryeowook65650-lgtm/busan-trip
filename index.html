@@ -7,272 +7,298 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F3F5F9">
+    <meta name="theme-color" content="#273E49">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
     <style>
         :root {
-            /* --- 冬日海邊配色系統 --- */
-            --cyan: #00B9E7;      /* 冰藍色 */
-            --navy: #002F7B;      /* 深海藍 */
-            --gold: #F8B62D;      /* 暖金色 */
-            --pink: #EE86A8;      /* 晚霞粉 */
+            /* --- 復古海報配色系統 (Vintage Poster Theme) --- */
+            --bg-main: #273E49;      /* 深岩藍 (背景) */
+            --bg-paper: #F4F1EA;     /* 米黃紙張 (卡片背景) */
             
-            --bg-body: #F3F5F9;   /* 冷調灰白背景 */
-            --bg-header: rgba(255, 255, 255, 0.98); /* 幾乎不透明，避免重疊干擾 */
-            --card-bg: #FFFFFF;   /* 純白卡片 */
-            --input-bg: #F0F2F5;  
+            --color-pink: #EA998E;   /* 復古粉 (裝飾/次要按鈕) */
+            --color-orange: #D48572; /* 陶土橘 (強調色/Tab) */
+            --color-green: #AFD28D;  /* 抹茶綠 (金錢/確認按鈕) */
             
-            --text-main: #002F7B; 
-            --text-gray: #64748B; 
-            --border: #E2E8F0;    
-            --shadow-color: rgba(0, 47, 123, 0.08); 
+            --text-dark: #273E49;    /* 深藍字 (卡片內文字) */
+            --text-light: #F4F1EA;   /* 淺色字 (深色背景上) */
+            
+            --border-radius: 12px;
+            --font-serif: "Georgia", "Times New Roman", serif; /* 復古標題字體 */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-            background-color: var(--bg-body); color: var(--text-main);
+            background-color: var(--bg-main); 
+            color: var(--text-light);
             padding-bottom: 40px;
         }
 
-        /* 頂部固定區 (Header + Main Tabs + Sub Tabs) */
+        /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
-            background: var(--bg-header);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 4px 20px var(--shadow-color);
-            padding-bottom: 0; transition: 0.3s;
+            background: rgba(39, 62, 73, 0.95); /* 深藍色半透明 */
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--color-orange); /* 橘色邊框裝飾 */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
         .header-info {
-            padding: 15px 20px 5px;
+            padding: 15px 20px 10px;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .app-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: var(--navy); }
+        .app-title { 
+            font-family: var(--font-serif); /* 襯線體標題 */
+            font-size: 24px; font-weight: 900; 
+            letter-spacing: 2px; 
+            color: var(--color-pink); 
+            text-shadow: 2px 2px 0px #000; /* 復古陰影 */
+        }
         .weather-badge {
-            font-size: 12px; font-weight: 600; color: var(--cyan);
-            background: rgba(0, 185, 231, 0.1); padding: 4px 10px; border-radius: 20px;
-            text-decoration: none;
+            font-size: 13px; font-weight: 700; color: var(--bg-main);
+            background: var(--color-green); padding: 4px 12px; border-radius: 20px;
+            text-decoration: none; border: 1px solid var(--text-light);
         }
 
-        /* 主導航 (支出/行程) */
-        .nav-tabs { display: flex; padding: 0 20px; border-bottom: 1px solid transparent; }
-        .tab-btn {
-            flex: 1; text-align: center; padding: 12px 0;
-            font-size: 15px; font-weight: 600; color: var(--text-gray);
+        /* 導覽列 */
+        .nav-bar-row { 
+            display: flex; align-items: center; padding: 5px 20px 15px; gap: 15px; 
+        }
+
+        /* 左側按鈕 */
+        .nav-btn {
+            flex: 1; text-align: center; padding: 10px 0;
+            font-size: 16px; font-weight: 600; color: var(--color-pink);
             cursor: pointer; position: relative; transition: 0.3s;
+            background: none; border: 1px solid var(--color-pink);
+            border-radius: 8px;
         }
-        .tab-btn.active { color: var(--cyan); font-weight: 800; }
-        .tab-btn.active::after {
-            content: ''; position: absolute; bottom: 0; left: 25%; right: 25%;
-            height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
+        .nav-btn.active { 
+            background: var(--color-pink); color: var(--bg-main); 
+            font-weight: 800; box-shadow: 0 4px 0 var(--color-orange);
+            transform: translateY(-2px);
         }
+        .nav-btn:active { transform: translateY(0); box-shadow: none; }
 
-        /* --- 子導航 (日期按鈕列) --- */
-        #sub-nav-days {
-            display: none; /* 預設隱藏 */
-            overflow-x: auto; white-space: nowrap;
-            padding: 10px 15px 12px; 
-            border-top: 1px solid var(--input-bg);
-            background: rgba(255,255,255,0.5);
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        /* 右側選單 */
+        .nav-select-wrapper { flex: 1.5; position: relative; }
+        .nav-select-wrapper::after {
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: var(--bg-main); pointer-events: none;
         }
-        #sub-nav-days::-webkit-scrollbar { display: none; }
-        #sub-nav-days.active { display: flex; animation: slideDown 0.2s ease-out; }
-        
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .day-pill {
-            display: inline-block; flex: 0 0 auto;
-            padding: 6px 14px; border-radius: 20px; margin-right: 8px;
-            font-size: 13px; font-weight: 600; color: var(--text-gray);
-            background: var(--input-bg); border: 1px solid transparent;
-            cursor: pointer; transition: 0.2s;
+        .nav-select {
+            width: 100%; appearance: none; -webkit-appearance: none;
+            padding: 10px 15px; border-radius: 8px; 
+            border: 1px solid var(--color-orange);
+            font-size: 15px; font-weight: 700; color: var(--color-orange);
+            background: transparent; outline: none; transition: 0.3s;
         }
-        .day-pill.active {
-            background: rgba(0, 185, 231, 0.1); 
-            color: var(--cyan); border-color: var(--cyan);
-            box-shadow: 0 2px 8px var(--shadow-color);
+        /* 選單選中狀態 */
+        .nav-select.active {
+            background: var(--color-orange); 
+            color: var(--bg-main);
+            box-shadow: 0 4px 0 var(--color-pink);
+            transform: translateY(-2px);
         }
+        .nav-select-wrapper.active::after { color: var(--bg-main); }
 
 
-        /* 內容區塊 */
         .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 行程內容區塊 (預設隱藏，active才顯示) */
-        .day-schedule { display: none; animation: fadeIn 0.3s ease; }
-        .day-schedule.active { display: block; }
-
-        /* --- 其他元件樣式 (維持不變) --- */
-        .date-scroll-container {
-            overflow-x: auto; white-space: nowrap;
-            padding: 15px 20px 5px; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .date-scroll-container::-webkit-scrollbar { display: none; }
-
-        .date-chip {
-            display: inline-block;
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 8px 16px; border-radius: 20px;
-            margin-right: 10px; font-size: 14px; font-weight: 600;
-            color: var(--text-gray); cursor: pointer; transition: 0.2s;
-            box-shadow: 0 2px 5px var(--shadow-color);
-        }
-        .date-chip.active {
-            background: var(--navy); color: white; border-color: var(--navy);
-            box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
-        }
-
-        .cat-row { 
-            display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; 
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
-        }
-        .cat-row::-webkit-scrollbar { display: none; }
-        
-        .cat-btn {
-            flex: 1; min-width: 70px; text-align: center;
-            padding: 10px 5px; border-radius: 12px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            font-size: 13px; font-weight: 600; color: var(--text-gray);
-            cursor: pointer; transition: 0.2s;
-        }
-        .cat-btn.active {
-            background: rgba(0, 185, 231, 0.1); 
-            color: var(--navy); border-color: var(--cyan);
-            box-shadow: 0 2px 8px var(--shadow-color);
-        }
-        .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
-
+        /* --- 資產卡片 (復古車票風格) --- */
         .balance-card {
-            background: linear-gradient(135deg, var(--navy), #007EA7);
-            color: white; border-radius: 20px; padding: 25px;
-            box-shadow: 0 15px 35px rgba(0, 47, 123, 0.25);
+            background: var(--color-orange);
+            background: linear-gradient(135deg, var(--color-orange), #C06C5A);
+            color: var(--bg-paper); 
+            border-radius: 16px; padding: 25px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.3); /* 硬陰影 */
             margin-bottom: 25px; position: relative; overflow: hidden;
+            border: 2px solid var(--bg-paper);
         }
         .balance-card::before {
-            content: ''; position: absolute; right: -20px; top: -20px;
-            width: 120px; height: 120px; background: var(--cyan);
-            border-radius: 50%; opacity: 0.25; filter: blur(30px);
+            content: ''; position: absolute; right: -10px; top: -10px;
+            width: 100px; height: 100px; background: var(--color-pink);
+            border-radius: 50%; opacity: 0.3;
         }
-        .balance-label { font-size: 13px; opacity: 0.9; letter-spacing: 1px; color: rgba(255,255,255,0.8); }
-        .balance-amount { font-size: 32px; font-weight: 800; margin: 5px 0 10px; }
-        .balance-sub { font-size: 14px; color: var(--gold); font-weight: 600; }
+        .balance-label { 
+            font-family: var(--font-serif); letter-spacing: 1px; 
+            font-size: 14px; opacity: 0.9; color: var(--bg-main); font-weight: 700;
+        }
+        .balance-amount { 
+            font-family: var(--font-serif);
+            font-size: 36px; font-weight: 900; margin: 5px 0 10px; 
+            text-shadow: 2px 2px 0 var(--bg-main);
+        }
+        .balance-sub { font-size: 15px; color: var(--bg-main); font-weight: 700; }
         .rate-tag { 
             position: absolute; top: 20px; right: 20px; 
-            font-size: 11px; background: rgba(255,255,255,0.25); color: white;
-            padding: 4px 8px; border-radius: 6px; backdrop-filter: blur(5px);
+            font-size: 12px; background: var(--bg-main); color: var(--color-pink);
+            padding: 4px 8px; border-radius: 4px; font-weight: bold;
         }
 
+        /* --- 輸入區 (米色紙張) --- */
         .input-area {
-            background: var(--card-bg); padding: 20px; border-radius: 16px;
-            box-shadow: 0 10px 30px var(--shadow-color); margin-bottom: 20px;
-            border: 1px solid white;
+            background: var(--bg-paper); padding: 20px; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px;
+            border: 1px solid var(--color-pink);
         }
-        .input-title { font-size: 14px; font-weight: 700; color: var(--text-gray); margin-bottom: 10px; display:block;}
+        .input-title { font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 10px; display:block; border-left: 4px solid var(--color-orange); padding-left: 8px;}
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         
         .modern-input {
-            width: 100%; padding: 12px; border: 1px solid var(--border);
-            border-radius: 10px; background: var(--input-bg); outline: none;
-            font-size: 15px; color: var(--navy); transition: 0.3s;
+            width: 100%; padding: 12px; border: 2px solid #E0DCD5;
+            border-radius: 8px; background: #FFF; outline: none;
+            font-size: 15px; color: var(--text-dark); transition: 0.3s;
+            font-weight: 600;
         }
-        .modern-input::placeholder { color: #999; }
-        .modern-input:focus { border-color: var(--cyan); background: white; box-shadow: 0 0 0 3px rgba(0, 185, 231, 0.1); }
+        .modern-input::placeholder { color: #AAA; font-weight: 400; }
+        .modern-input:focus { border-color: var(--color-orange); background: #FFF; }
         
+        /* 確認按鈕 (抹茶綠) */
         .add-btn {
-            width: 100%; background: var(--cyan); color: white;
-            padding: 14px; border-radius: 12px; border: none;
-            font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 185, 231, 0.25);
-            transition: 0.2s;
+            width: 100%; background: var(--color-green); color: var(--bg-main);
+            padding: 14px; border-radius: 8px; border: 2px solid var(--bg-main);
+            font-size: 16px; font-weight: 800; cursor: pointer;
+            box-shadow: 4px 4px 0px var(--bg-main); /* 復古硬陰影 */
+            transition: 0.2s; margin-top: 5px;
         }
-        .add-btn:active { transform: scale(0.98); }
+        .add-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--bg-main); }
 
         .history-list { margin-top: 10px; padding-bottom: 20px; }
         
         .date-divider {
-            font-size: 14px; font-weight: 800; color: var(--text-gray);
-            margin: 25px 0 10px 5px; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 8px;
+            font-family: var(--font-serif);
+            font-size: 18px; font-weight: 700; color: var(--color-pink);
+            margin: 30px 0 15px 5px; letter-spacing: 1px;
+            border-bottom: 1px dashed var(--color-pink); padding-bottom: 5px;
         }
-        .date-divider::before { content: ''; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
 
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--card-bg); padding: 15px; border-radius: 12px;
-            margin-bottom: 10px; border-left: 4px solid var(--cyan);
-            box-shadow: 0 4px 10px var(--shadow-color);
-            border: 1px solid white;
+            background: var(--bg-paper); padding: 15px; border-radius: 10px;
+            margin-bottom: 10px; border-left: 6px solid var(--color-orange);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .h-name { font-weight: 700; font-size: 15px; color: var(--navy); }
-        .h-cat { font-size: 12px; color: var(--text-gray); }
-        .h-price { font-weight: 700; color: var(--navy); text-align: right; }
-        .h-twd { font-size: 11px; color: var(--pink); display: block; }
-        .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
+        .h-name { font-weight: 700; font-size: 15px; color: var(--text-dark); }
+        .h-cat { font-size: 12px; color: #888; font-weight: 600; }
+        .h-price { font-weight: 800; color: var(--text-dark); text-align: right; }
+        .h-twd { font-size: 12px; color: var(--color-orange); display: block; font-weight: 600; }
+        .del-btn { color: #CCC; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* 匯出按鈕樣式 */
+        /* --- 日期與分類按鈕 (膠囊) --- */
+        .date-scroll-container {
+            overflow-x: auto; white-space: nowrap;
+            padding: 5px 0 15px; scrollbar-width: none;
+        }
+        .date-chip {
+            display: inline-block;
+            background: #EAE6DE; border: 1px solid #CCC;
+            padding: 8px 16px; border-radius: 20px;
+            margin-right: 8px; font-size: 14px; font-weight: 700;
+            color: #888; cursor: pointer; transition: 0.2s;
+        }
+        .date-chip.active {
+            background: var(--color-green); color: var(--bg-main); border-color: var(--text-dark);
+            box-shadow: 2px 2px 0 var(--text-dark);
+        }
+
+        .cat-row { 
+            display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; 
+        }
+        
+        .cat-btn {
+            flex: 1; min-width: 70px; text-align: center;
+            padding: 10px 5px; border-radius: 10px;
+            background: #EAE6DE; border: 1px solid #CCC;
+            font-size: 13px; font-weight: 700; color: #888;
+            cursor: pointer; transition: 0.2s;
+        }
+        .cat-btn.active {
+            background: var(--color-pink); 
+            color: var(--bg-main); border-color: var(--text-dark);
+            box-shadow: 2px 2px 0 var(--text-dark);
+        }
+        .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
+
         .export-btn {
             width: 100%; padding: 12px; border-radius: 10px; margin-top: 20px; margin-bottom: 30px;
-            background: transparent; border: 1px solid var(--gold); color: #B48008;
+            background: transparent; border: 2px dashed var(--color-orange); color: var(--color-orange);
             font-size: 14px; font-weight: 700; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             transition: 0.2s;
         }
-        .export-btn:active { background: rgba(248, 182, 45, 0.1); transform: scale(0.98); }
+        .export-btn:active { background: rgba(212, 133, 114, 0.1); }
+
+        /* --- 行程部分 --- */
+        .day-schedule { display: none; animation: fadeIn 0.3s ease; }
+        .day-schedule.active { display: block; }
 
         .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
-            width: 2px; background: var(--border);
+            width: 2px; background: var(--color-pink); /* 變成粉色時間軸 */
+            opacity: 0.5;
         }
 
         .day-header {
-            font-weight: 700; color: var(--navy); font-size: 18px;
-            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--gold);
+            font-family: var(--font-serif);
+            font-weight: 700; color: var(--color-green); font-size: 20px;
+            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--color-green);
+            text-shadow: 1px 1px 0 #000;
         }
 
         .trip-card {
-            background: var(--card-bg); border-radius: 16px; 
+            background: var(--bg-paper); border-radius: 12px; 
             margin-bottom: 30px; position: relative;
-            box-shadow: 0 15px 35px var(--shadow-color); 
-            border: 1px solid white; overflow: hidden; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 1px solid var(--color-pink); overflow: hidden; 
         }
         .trip-card::after {
             content: ''; position: absolute; left: -26px; top: 20px;
             width: 14px; height: 14px; border-radius: 50%;
-            background: var(--bg-body); border: 3px solid var(--cyan); z-index: 1;
+            background: var(--bg-main); border: 3px solid var(--color-green); z-index: 1;
         }
 
-        .card-img-top { width: 100%; height: 180px; object-fit: cover; display: block; }
-        .card-content { padding: 20px; }
+        .card-img-top { 
+            width: 100%; height: 180px; object-fit: cover; display: block; 
+            border-bottom: 4px solid var(--color-pink); /* 圖片下緣裝飾 */
+        }
+        .card-content { padding: 20px; color: var(--text-dark); }
 
-        .t-time { font-size: 13px; font-weight: 800; color: var(--cyan); margin-bottom: 5px; letter-spacing: 0.5px; }
-        .t-title { font-size: 20px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; color: var(--navy); }
+        .t-time { 
+            font-size: 14px; font-weight: 800; color: var(--color-orange); 
+            margin-bottom: 5px; letter-spacing: 0.5px; 
+            display: inline-block; border-bottom: 2px solid rgba(212, 133, 114, 0.3);
+        }
+        .t-title { 
+            font-family: var(--font-serif);
+            font-size: 22px; font-weight: 800; margin-bottom: 12px; 
+            line-height: 1.3; color: var(--text-dark); 
+        }
         
-        .info-block { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; }
-        .i-icon { color: var(--gold); width: 20px; text-align: center; }
-        .i-text { color: var(--text-gray); flex: 1; line-height: 1.5; }
+        .info-block { display: flex; gap: 10px; margin-bottom: 8px; font-size: 15px; }
+        .i-icon { color: var(--color-orange); width: 20px; text-align: center; }
+        .i-text { color: #555; flex: 1; line-height: 1.5; font-weight: 500; }
         
         .pill { 
-            display: inline-block; padding: 3px 8px; border-radius: 6px; 
-            font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600; 
+            display: inline-block; padding: 3px 8px; border-radius: 4px; 
+            font-size: 12px; background: var(--bg-main); color: var(--text-light); font-weight: 600; 
         }
 
         .naver-link {
             display: flex; align-items: center; justify-content: center;
-            background: var(--navy); color: white; text-decoration: none;
-            padding: 14px; border-radius: 12px; margin-top: 18px;
+            background: var(--text-dark); color: var(--text-light); text-decoration: none;
+            padding: 14px; border-radius: 8px; margin-top: 18px;
             font-size: 14px; font-weight: 700; gap: 8px; 
-            transition: 0.2s; box-shadow: 0 8px 20px rgba(0, 47, 123, 0.2); 
+            transition: 0.2s; border: 1px solid var(--text-dark);
         }
-        .naver-link:active { transform: scale(0.98); box-shadow: 0 4px 10px rgba(0, 47, 123, 0.2); }
+        .naver-link:active { background: transparent; color: var(--text-dark); }
         
         .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; padding: 12px; }
@@ -286,31 +312,35 @@
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
         
-        <div class="nav-tabs">
-            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
-            <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
-        </div>
-
-        <div id="sub-nav-days">
-            <div class="day-pill active" onclick="switchItineraryDay('day1', this)">Day 1 (3/5)</div>
-            <div class="day-pill" onclick="switchItineraryDay('day2', this)">Day 2 (3/6)</div>
-            <div class="day-pill" onclick="switchItineraryDay('day3', this)">Day 3 (3/7)</div>
-            <div class="day-pill" onclick="switchItineraryDay('day4', this)">Day 4 (3/8)</div>
-            <div class="day-pill" onclick="switchItineraryDay('day5', this)">Day 5 (3/9)</div>
+        <div class="nav-bar-row">
+            <button class="nav-btn active" id="btn-accounting" onclick="switchView('accounting')">
+                支出紀錄
+            </button>
+            
+            <div class="nav-select-wrapper" id="wrapper-itinerary">
+                <select class="nav-select" id="day-selector" onchange="switchView('itinerary', this.value)">
+                    <option value="" disabled selected>行程一覽 ▾</option>
+                    <option value="day1">Day 1 (3/5)</option>
+                    <option value="day2">Day 2 (3/6)</option>
+                    <option value="day3">Day 3 (3/7)</option>
+                    <option value="day4">Day 4 (3/8)</option>
+                    <option value="day5">Day 5 (3/9)</option>
+                </select>
+            </div>
         </div>
     </div>
 
     <div id="view-accounting" class="view-container active">
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
-            <div class="balance-label">TRIP TOTAL (全旅程總計)</div>
+            <div class="balance-label">TRIP TOTAL</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
         </div>
 
         <div class="input-area">
             <span class="input-title">新增支出至：</span>
-            <div class="date-scroll-container" style="margin-bottom:15px; padding-left:0;">
+            <div class="date-scroll-container">
                 <div class="date-chip active" onclick="selectDate('3/5')">3/5</div>
                 <div class="date-chip" onclick="selectDate('3/6')">3/6</div>
                 <div class="date-chip" onclick="selectDate('3/7')">3/7</div>
@@ -349,7 +379,7 @@
 
     <div id="view-itinerary" class="view-container">
         
-        <div id="day1-content" class="day-schedule active">
+        <div id="day1-content" class="day-schedule">
             <div class="day-header">Day 1 • 3/5 (四)</div>
             <div class="timeline">
                 <div class="trip-card">
@@ -386,7 +416,7 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
                         <div class="info-block"><div class="i-icon">📝</div><div class="i-text">附近也有咖啡廳可坐坐</div></div>
-                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--cyan); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
+                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--color-orange); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -407,7 +437,7 @@
                         <div class="t-title">市場巡禮</div>
                         <div class="info-block" style="flex-direction:column; gap:15px;">
                             <div><strong>1. 富平罐頭市場</strong><br><span style="font-size:13px; color:#888;">부산 중구 부평1길 48</span></div>
-                            <div><strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--pink);">*買棉被</span><br><span style="font-size:13px; color:#888;">부산 중구 신창동4가</span></div>
+                            <div><strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--color-pink);">*買棉被</span><br><span style="font-size:13px; color:#888;">부산 중구 신창동4가</span></div>
                             <div><strong>3. 阿里郎街</strong><br><span style="font-size:13px; color:#888;">부산 중구 광복로35번길 11</span></div>
                         </div>
                         <div class="info-block" style="margin-top:10px;">
@@ -449,7 +479,7 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從烤肉店約 6 分鐘</div></div>
                         <div class="info-block"><div class="i-icon">🛍️</div><div class="i-text">逛街、買草莓</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
@@ -465,9 +495,9 @@
             </div>
         </div>
 
-        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:#999;padding:50px;">Day 3 尚無行程</div></div>
-        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:#999;padding:50px;">Day 4 尚無行程</div></div>
-        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:#999;padding:50px;">Day 5 尚無行程</div></div>
+        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 3 尚無行程</div></div>
+        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 4 尚無行程</div></div>
+        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 5 尚無行程</div></div>
 
     </div>
 
@@ -486,56 +516,47 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
-            switchTab(savedTab);
+            
+            if(savedTab === 'itinerary') {
+                const savedDay = localStorage.getItem('active_day') || 'day1';
+                switchView('itinerary', savedDay);
+                document.getElementById('day-selector').value = savedDay;
+            } else {
+                switchView('accounting');
+            }
             
             const savedRate = localStorage.getItem('saved_exchange_rate');
             if (savedRate) {
                 currentRate = parseFloat(savedRate);
                 document.getElementById('rate-display').textContent = `匯率: ${currentRate} (離線)`;
             }
-
             fetchExchangeRate();
             selectDate('3/5'); 
             renderExpenses(); 
         });
 
-        function switchTab(tabName) {
-            localStorage.setItem('active_tab', tabName);
+        function switchView(target, dayId) {
+            localStorage.setItem('active_tab', target);
             
-            // 處理 Tab 樣式
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             
-            // 處理內容顯示
-            document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
-            document.getElementById('view-' + tabName).classList.add('active');
-            
-            // 處理行程過濾器的顯示/隱藏
-            const subNav = document.getElementById('sub-nav-days');
-            if(tabName === 'itinerary') {
-                subNav.classList.add('active');
-                // 如果目前沒有 active 的行程，預設選中第一天
-                if(!document.querySelector('.day-schedule.active')) {
-                    switchItineraryDay('day1', document.querySelector('.day-pill'));
-                }
-            } else {
-                subNav.classList.remove('active');
+            if (target === 'accounting') {
+                document.getElementById('view-accounting').classList.add('active');
+                document.getElementById('btn-accounting').classList.add('active');
+                document.getElementById('day-selector').classList.remove('active');
+                document.getElementById('wrapper-itinerary').classList.remove('active');
+                document.getElementById('day-selector').value = "";
+            } 
+            else if (target === 'itinerary') {
+                if (!dayId) dayId = 'day1';
+                document.getElementById('view-itinerary').classList.add('active');
+                document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
+                document.getElementById(dayId + '-content').classList.add('active');
+                document.getElementById('btn-accounting').classList.remove('active');
+                document.getElementById('day-selector').classList.add('active');
+                document.getElementById('wrapper-itinerary').classList.add('active');
+                localStorage.setItem('active_day', dayId);
             }
-
-            window.scrollTo(0,0);
-        }
-
-        // 點選日期按鈕切換行程
-        function switchItineraryDay(dayId, btnElement) {
-            // 1. 隱藏所有行程內容
-            document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
-            // 2. 顯示選中的行程
-            document.getElementById(dayId + '-content').classList.add('active');
-            
-            // 3. 更新按鈕樣式
-            document.querySelectorAll('.day-pill').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
-            
             window.scrollTo(0,0);
         }
 
@@ -617,35 +638,26 @@
                     });
                 }
             });
-            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#999; padding:30px;">尚無記帳資料</div>';
+            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#ccc; padding:30px;">尚無記帳資料</div>';
             document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
         }
         function getCatEmoji(cat) { return (cat==='交通'?'🚕':(cat==='食物'?'🍔':(cat==='購物'?'🛍️':'✨'))); }
 
-        // 匯出 CSV 功能
         function exportToCSV() {
             if (expenses.length === 0) { alert('沒有資料可以匯出！'); return; }
-
-            // 加入 BOM 讓 Excel 辨識中文
-            let csvContent = "\uFEFF"; 
-            csvContent += "日期,分類,項目,金額(KRW),預估(TWD)\n";
-
+            let csvContent = "\uFEFF日期,分類,項目,金額(KRW),預估(TWD)\n";
             expenses.forEach(item => {
                 let twd = Math.round(item.price * currentRate);
                 let safeName = item.name.replace(/,/g, " ");
                 csvContent += `${item.date},${item.cat},${safeName},${item.price},${twd}\n`;
             });
-
-            // 建立下載連結
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
-            
             link.setAttribute("href", url);
             link.setAttribute("download", "busan_expenses.csv");
             link.style.visibility = 'hidden';
-            
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
