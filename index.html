@@ -58,19 +58,59 @@
             text-decoration: none;
         }
 
-        .nav-tabs { display: flex; padding: 0 20px; }
-        .tab-btn {
-            flex: 1; text-align: center; padding: 15px 0;
+        /* 導覽列 (包含按鈕與下拉選單) */
+        .nav-bar-row { 
+            display: flex; align-items: center; padding: 5px 20px 10px; gap: 15px; 
+        }
+
+        /* 左側：支出紀錄按鈕 */
+        .nav-btn {
+            flex: 1; text-align: center; padding: 12px 0;
             font-size: 15px; font-weight: 600; color: var(--text-gray);
             cursor: pointer; position: relative; transition: 0.3s;
+            background: none; border: none;
         }
-        .tab-btn.active { color: var(--cyan); }
-        .tab-btn.active::after {
-            content: ''; position: absolute; bottom: 0; left: 25%; right: 25%;
+        .nav-btn.active { color: var(--cyan); font-weight: 800; }
+        .nav-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
             height: 3px; background: var(--cyan); border-radius: 3px 3px 0 0;
         }
 
-        /* 日期選擇器 (記帳用) */
+        /* 右側：行程選擇下拉選單 (取代原本的按鈕) */
+        .nav-select-wrapper {
+            flex: 1.5; position: relative;
+        }
+        .nav-select-wrapper::after {
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 10px; color: var(--text-gray); pointer-events: none;
+        }
+        .nav-select {
+            width: 100%; appearance: none; -webkit-appearance: none;
+            padding: 10px 15px; border-radius: 20px; 
+            border: 1px solid var(--border);
+            font-size: 14px; font-weight: 600; color: var(--text-gray);
+            background: var(--input-bg); outline: none; transition: 0.3s;
+        }
+        /* 當選單被選中時的樣式 */
+        .nav-select.active {
+            background: rgba(0, 185, 231, 0.1); 
+            color: var(--cyan); border-color: var(--cyan);
+            font-weight: 800;
+        }
+        .nav-select-wrapper.active::after { color: var(--cyan); }
+
+
+        /* 內容區塊 */
+        .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 行程內容區塊 (預設隱藏，active才顯示) */
+        .day-schedule { display: none; animation: fadeIn 0.3s ease; }
+        .day-schedule.active { display: block; }
+
+        /* --- 其他元件樣式 (維持不變) --- */
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
             padding: 15px 20px 5px; -webkit-overflow-scrolling: touch;
@@ -91,7 +131,6 @@
             box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
         }
 
-        /* 分類按鈕區 */
         .cat-row { 
             display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; 
             scrollbar-width: none; -webkit-overflow-scrolling: touch;
@@ -112,11 +151,6 @@
         }
         .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
 
-        .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
-        .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 資產卡片 */
         .balance-card {
             background: linear-gradient(135deg, var(--navy), #007EA7);
             color: white; border-radius: 20px; padding: 25px;
@@ -150,7 +184,6 @@
             border-radius: 10px; background: var(--input-bg); outline: none;
             font-size: 15px; color: var(--navy); transition: 0.3s;
         }
-        .modern-input::placeholder { color: #999; }
         .modern-input:focus { border-color: var(--cyan); background: white; box-shadow: 0 0 0 3px rgba(0, 185, 231, 0.1); }
         
         .add-btn {
@@ -184,7 +217,6 @@
         .h-twd { font-size: 11px; color: var(--pink); display: block; }
         .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
-        /* 匯出按鈕樣式 */
         .export-btn {
             width: 100%; padding: 12px; border-radius: 10px; margin-top: 20px; margin-bottom: 30px;
             background: transparent; border: 1px solid var(--gold); color: #B48008;
@@ -194,32 +226,6 @@
         }
         .export-btn:active { background: rgba(248, 182, 45, 0.1); transform: scale(0.98); }
 
-        /* --- 行程相關樣式 --- */
-        
-        /* 內嵌式下拉選單 (Banner 風格) */
-        .inline-day-selector {
-            position: relative; margin-bottom: 25px;
-            background: linear-gradient(135deg, #FFFFFF, #F8FAFC);
-            border-radius: 16px; border: 1px solid var(--border);
-            box-shadow: 0 4px 15px var(--shadow-color);
-            padding: 5px;
-        }
-        .inline-day-selector::after {
-            content: '▼'; 
-            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-            font-size: 12px; color: var(--navy); pointer-events: none;
-        }
-        .day-select-input {
-            width: 100%; appearance: none; -webkit-appearance: none;
-            background: transparent; border: none;
-            padding: 15px 20px; font-size: 16px; font-weight: 800;
-            color: var(--navy); outline: none;
-        }
-
-        /* 行程內容區塊 (預設隱藏，active才顯示) */
-        .day-schedule { display: none; animation: fadeIn 0.3s ease; }
-        .day-schedule.active { display: block; }
-
         .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
@@ -227,9 +233,8 @@
         }
 
         .day-header {
-            font-weight: 700; color: var(--text-gray); font-size: 14px;
-            margin-bottom: 20px; padding-left: 5px; letter-spacing: 1px;
-            text-transform: uppercase;
+            font-weight: 700; color: var(--navy); font-size: 18px;
+            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--gold);
         }
 
         .trip-card {
@@ -279,9 +284,22 @@
             <div class="app-title">BUSAN TRIP</div>
             <a href="https://www.google.com/search?q=釜山+天氣" target="_blank" class="weather-badge">20°C 🌤️</a>
         </div>
-        <div class="nav-tabs">
-            <div class="tab-btn active" onclick="switchTab('accounting')" id="tab-accounting">支出紀錄</div>
-            <div class="tab-btn" onclick="switchTab('itinerary')" id="tab-itinerary">行程一覽</div>
+        
+        <div class="nav-bar-row">
+            <button class="nav-btn active" id="btn-accounting" onclick="switchView('accounting')">
+                支出紀錄
+            </button>
+            
+            <div class="nav-select-wrapper" id="wrapper-itinerary">
+                <select class="nav-select" id="day-selector" onchange="switchView('itinerary', this.value)">
+                    <option value="" disabled selected>行程一覽 ▾</option>
+                    <option value="day1">Day 1 • 3/5</option>
+                    <option value="day2">Day 2 • 3/6</option>
+                    <option value="day3">Day 3 • 3/7</option>
+                    <option value="day4">Day 4 • 3/8</option>
+                    <option value="day5">Day 5 • 3/9</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -334,18 +352,8 @@
 
     <div id="view-itinerary" class="view-container">
         
-        <div class="inline-day-selector">
-            <select class="day-select-input" onchange="handleDayChange(this)">
-                <option value="day1">Day 1 • 3/5 (四) 抵達與晚餐</option>
-                <option value="day2">Day 2 • 3/6 (五) 文化村與市區</option>
-                <option value="day3">Day 3 • 3/7 (六)</option>
-                <option value="day4">Day 4 • 3/8 (日)</option>
-                <option value="day5">Day 5 • 3/9 (一)</option>
-            </select>
-        </div>
-
-        <div id="day1-content" class="day-schedule active">
-            <div class="day-header">ITINERARY - DAY 1</div>
+        <div id="day1-content" class="day-schedule">
+            <div class="day-header">Day 1 • 3/5 (四)</div>
             <div class="timeline">
                 <div class="trip-card">
                     <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top" alt="Hotel">
@@ -371,7 +379,7 @@
         </div>
 
         <div id="day2-content" class="day-schedule">
-            <div class="day-header">ITINERARY - DAY 2</div>
+            <div class="day-header">Day 2 • 3/6 (五)</div>
             <div class="timeline">
                 <div class="trip-card">
                     <img src="https://tong.visitkorea.or.kr/cms/resource/92/3365492_image2_1.jpg" class="card-img-top" alt="甘川洞">
@@ -437,7 +445,7 @@
                     </div>
                 </div>
                 <div class="trip-card">
-                    <img src="lotte.jpg" class="card-img-top" alt="樂天百貨">
+                    <img src="image_c3d567.jpg" class="card-img-top" alt="樂天百貨" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'">
                     <div class="card-content">
                         <div class="t-time">18:00 - 20:00</div>
                         <div class="t-title">樂天百貨光復店</div>
@@ -481,35 +489,60 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
-            switchTab(savedTab);
             
+            // 恢復上次的狀態
+            if(savedTab === 'itinerary') {
+                const savedDay = localStorage.getItem('active_day') || 'day1';
+                switchView('itinerary', savedDay);
+                document.getElementById('day-selector').value = savedDay;
+            } else {
+                switchView('accounting');
+            }
+            
+            // 匯率與記帳初始化
             const savedRate = localStorage.getItem('saved_exchange_rate');
             if (savedRate) {
                 currentRate = parseFloat(savedRate);
                 document.getElementById('rate-display').textContent = `匯率: ${currentRate} (離線)`;
             }
-
             fetchExchangeRate();
             selectDate('3/5'); 
             renderExpenses(); 
         });
 
-        function switchTab(tabName) {
-            localStorage.setItem('active_tab', tabName);
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tabName).classList.add('active');
-            document.querySelectorAll('.view-container').forEach(view => view.classList.remove('active'));
-            document.getElementById('view-' + tabName).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        // 下拉選單切換行程功能
-        function handleDayChange(selectElement) {
-            const selectedDayId = selectElement.value;
-            // 1. 隱藏所有行程
-            document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
-            // 2. 顯示選中的那一天
-            document.getElementById(selectedDayId + '-content').classList.add('active');
+        // 統一的視圖切換函數
+        function switchView(target, dayId) {
+            localStorage.setItem('active_tab', target);
+            
+            // 隱藏所有視圖
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            
+            if (target === 'accounting') {
+                // 1. 顯示記帳頁
+                document.getElementById('view-accounting').classList.add('active');
+                // 2. 更新導覽列樣式
+                document.getElementById('btn-accounting').classList.add('active');
+                document.getElementById('day-selector').classList.remove('active');
+                document.getElementById('wrapper-itinerary').classList.remove('active');
+                // 3. 重置下拉選單文字
+                document.getElementById('day-selector').value = "";
+            } 
+            else if (target === 'itinerary') {
+                // 如果沒有指定天數，預設為 Day 1
+                if (!dayId) dayId = 'day1';
+                
+                // 1. 顯示行程頁
+                document.getElementById('view-itinerary').classList.add('active');
+                // 2. 切換行程內容
+                document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
+                document.getElementById(dayId + '-content').classList.add('active');
+                // 3. 更新導覽列樣式
+                document.getElementById('btn-accounting').classList.remove('active');
+                document.getElementById('day-selector').classList.add('active');
+                document.getElementById('wrapper-itinerary').classList.add('active');
+                
+                localStorage.setItem('active_day', dayId);
+            }
             window.scrollTo(0,0);
         }
 
