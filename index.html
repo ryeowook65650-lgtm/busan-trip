@@ -184,6 +184,16 @@
         .h-twd { font-size: 11px; color: var(--pink); display: block; }
         .del-btn { color: #CBD5E1; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
+        /* 匯出按鈕樣式 */
+        .export-btn {
+            width: 100%; padding: 12px; border-radius: 10px; margin-top: 20px; margin-bottom: 30px;
+            background: transparent; border: 1px solid var(--gold); color: #B48008;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s;
+        }
+        .export-btn:active { background: rgba(248, 182, 45, 0.1); transform: scale(0.98); }
+
         .timeline { position: relative; padding-left: 20px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
@@ -212,7 +222,6 @@
         .i-icon { color: var(--gold); width: 20px; text-align: center; }
         .i-text { color: var(--text-gray); flex: 1; line-height: 1.5; }
         
-        /* 標籤樣式 */
         .pill { 
             display: inline-block; padding: 3px 8px; border-radius: 6px; 
             font-size: 12px; background: #F1F5F9; color: var(--navy); font-weight: 600; 
@@ -294,6 +303,10 @@
         </div>
 
         <div class="history-list" id="expense-list"></div>
+
+        <button onclick="exportToCSV()" class="export-btn">
+            📤 匯出成 Excel / Google Sheet
+        </button>
     </div>
 
     <div id="view-itinerary" class="view-container">
@@ -506,6 +519,35 @@
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
         }
         function getCatEmoji(cat) { return (cat==='交通'?'🚕':(cat==='食物'?'🍔':(cat==='購物'?'🛍️':'✨'))); }
+
+        // 匯出 CSV 功能
+        function exportToCSV() {
+            if (expenses.length === 0) { alert('沒有資料可以匯出！'); return; }
+
+            // 加入 BOM 讓 Excel 辨識中文
+            let csvContent = "\uFEFF"; 
+            csvContent += "日期,分類,項目,金額(KRW),預估(TWD)\n";
+
+            expenses.forEach(item => {
+                let twd = Math.round(item.price * currentRate);
+                // 確保文字中的逗號不會破壞格式
+                let safeName = item.name.replace(/,/g, " ");
+                csvContent += `${item.date},${item.cat},${safeName},${item.price},${twd}\n`;
+            });
+
+            // 建立下載連結
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute("href", url);
+            link.setAttribute("download", "busan_expenses.csv");
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>
