@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -197,27 +196,23 @@
 
         /* --- 行程相關樣式 --- */
         
-        /* 行程日期切換 Tabs */
-        .day-tabs {
-            display: flex; gap: 10px; margin-bottom: 25px; 
-            overflow-x: auto; padding-bottom: 5px;
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        /* 下拉選單樣式 */
+        .day-select-wrapper {
+            position: relative; margin-bottom: 25px;
         }
-        .day-tabs::-webkit-scrollbar { display: none; }
-
-        .day-tab-btn {
-            flex: 0 0 auto; padding: 10px 16px; border-radius: 12px;
-            border: 1px solid var(--border); background: white;
-            color: var(--text-gray); font-size: 14px; font-weight: 700;
-            cursor: pointer; transition: 0.2s; text-align: center;
-            box-shadow: 0 2px 5px var(--shadow-color);
+        .day-select-wrapper::after {
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: var(--cyan); pointer-events: none;
         }
-        .day-tab-btn span { display: block; font-size: 11px; font-weight: 500; margin-top: 2px; opacity: 0.8; }
-        
-        .day-tab-btn.active {
-            background: var(--navy); color: white; border-color: var(--navy);
-            box-shadow: 0 4px 12px rgba(0, 47, 123, 0.3);
+        .day-select {
+            width: 100%; appearance: none; -webkit-appearance: none;
+            padding: 14px; border-radius: 12px; border: 1px solid var(--border);
+            font-size: 16px; font-weight: 700; color: var(--navy);
+            background: white; outline: none;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
+        .day-select:focus { border-color: var(--cyan); }
 
         /* 行程內容區塊 (預設隱藏，active才顯示) */
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
@@ -337,12 +332,14 @@
 
     <div id="view-itinerary" class="view-container">
         
-        <div class="day-tabs">
-            <button class="day-tab-btn active" onclick="switchItineraryDay('day1', this)">Day 1<span>3/5</span></button>
-            <button class="day-tab-btn" onclick="switchItineraryDay('day2', this)">Day 2<span>3/6</span></button>
-            <button class="day-tab-btn" onclick="switchItineraryDay('day3', this)">Day 3<span>3/7</span></button>
-            <button class="day-tab-btn" onclick="switchItineraryDay('day4', this)">Day 4<span>3/8</span></button>
-            <button class="day-tab-btn" onclick="switchItineraryDay('day5', this)">Day 5<span>3/9</span></button>
+        <div class="day-select-wrapper">
+            <select class="day-select" onchange="handleDayChange(this)">
+                <option value="day1">Day 1 • 3/5 (四) 抵達與晚餐</option>
+                <option value="day2">Day 2 • 3/6 (五) 文化村與市區</option>
+                <option value="day3">Day 3 • 3/7 (六)</option>
+                <option value="day4">Day 4 • 3/8 (日)</option>
+                <option value="day5">Day 5 • 3/9 (一)</option>
+            </select>
         </div>
 
         <div id="day1-content" class="day-schedule active">
@@ -434,7 +431,7 @@
                         <div class="t-title">晚餐：南浦排骨烤肉</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
                         <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 約 25 分鐘 (₩1,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
@@ -504,16 +501,13 @@
             window.scrollTo(0,0);
         }
 
-        // 新增：切換行程日期的功能
-        function switchItineraryDay(dayId, btnElement) {
-            // 1. 隱藏所有行程內容
+        // 新增：下拉選單切換行程功能
+        function handleDayChange(selectElement) {
+            const selectedDayId = selectElement.value;
+            // 1. 隱藏所有行程
             document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
-            // 2. 顯示選中的行程
-            document.getElementById(dayId + '-content').classList.add('active');
-            
-            // 3. 更新按鈕樣式
-            document.querySelectorAll('.day-tab-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+            // 2. 顯示選中的那一天
+            document.getElementById(selectedDayId + '-content').classList.add('active');
         }
 
         function selectDate(date) {
