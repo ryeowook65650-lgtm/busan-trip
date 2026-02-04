@@ -120,42 +120,34 @@
             position: relative;
         }
         
-        /* --- 左右缺口效果 (完美凹陷版) --- */
+        /* --- 左右缺口效果 (半圓拼貼法 - 絕對平整) --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 125px; 
-            width: 20px; height: 20px; 
-            background-color: var(--bg-main); /* 填充背景色 */
-            border-radius: 50%; 
+            width: 10px; height: 20px; /* 只有一半寬度，物理上不可能凸出去 */
+            background-color: var(--bg-main); 
             z-index: 2;
-            
-            /* 使用實線邊框 */
             border: 1px solid var(--color-pink);
             box-sizing: border-box;
         }
 
-        /* 左側缺口 */
+        /* 左側缺口：靠左對齊，只留右半圓 */
         .flight-ticket::before { 
-            left: -10px; /* 定位在邊緣 */
-            
-            /* ✨ 關鍵代碼：裁切掉左半邊 (凸出去的部分) */
-            -webkit-clip-path: inset(0 0 0 50%);
-            clip-path: inset(0 0 0 50%);
+            left: -1px; /* 剛好蓋住邊框線 */
+            border-radius: 0 10px 10px 0; /* 右半圓 */
+            border-left: none; /* 移除直邊的框線 */
         }
 
-        /* 右側缺口 */
+        /* 右側缺口：靠右對齊，只留左半圓 */
         .flight-ticket::after { 
-            right: -10px; 
-            
-            /* ✨ 關鍵代碼：裁切掉右半邊 (凸出去的部分) */
-            -webkit-clip-path: inset(0 50% 0 0);
-            clip-path: inset(0 50% 0 0);
+            right: -1px; /* 剛好蓋住邊框線 */
+            border-radius: 10px 0 0 10px; /* 左半圓 */
+            border-right: none; /* 移除直邊的框線 */
         }
 
         .ticket-header {
             padding: 12px 20px; 
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px dashed var(--bg-main);
-            /* 修正上方圓角，防止溢出 */
             border-radius: 11px 11px 0 0;
         }
         .ticket-header.outbound { background: var(--color-green); color: var(--bg-main); }
