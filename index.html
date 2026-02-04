@@ -115,31 +115,47 @@
             background: var(--bg-paper); 
             border-radius: 12px;
             margin-bottom: 25px; 
-            /* 關鍵修改 1：移除 overflow: hidden，讓圓形遮罩可以蓋住邊框 */
-            /* overflow: hidden; */ 
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             border: 1px solid var(--color-pink);
             position: relative;
         }
         
-        /* --- 左右缺口效果 --- */
+        /* --- 左右缺口效果 (完美凹陷版) --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 125px; 
             width: 20px; height: 20px; 
-            background-color: var(--bg-main); /* 用背景色蓋住直線 */
-            border-radius: 50%; z-index: 2;
+            background-color: var(--bg-main); /* 填充背景色 */
+            border-radius: 50%; 
+            z-index: 2;
             
-            /* 這是那條彎曲的粉色邊框線 */
-            box-shadow: 0 0 0 1px var(--color-pink);
+            /* 使用實線邊框 */
+            border: 1px solid var(--color-pink);
+            box-sizing: border-box;
         }
-        .flight-ticket::before { left: -10px; }
-        .flight-ticket::after { right: -10px; }
+
+        /* 左側缺口 */
+        .flight-ticket::before { 
+            left: -10px; /* 定位在邊緣 */
+            
+            /* ✨ 關鍵代碼：裁切掉左半邊 (凸出去的部分) */
+            -webkit-clip-path: inset(0 0 0 50%);
+            clip-path: inset(0 0 0 50%);
+        }
+
+        /* 右側缺口 */
+        .flight-ticket::after { 
+            right: -10px; 
+            
+            /* ✨ 關鍵代碼：裁切掉右半邊 (凸出去的部分) */
+            -webkit-clip-path: inset(0 50% 0 0);
+            clip-path: inset(0 50% 0 0);
+        }
 
         .ticket-header {
             padding: 12px 20px; 
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px dashed var(--bg-main);
-            /* 關鍵修改 2：手動加上上方圓角，防止背景色溢出 */
+            /* 修正上方圓角，防止溢出 */
             border-radius: 11px 11px 0 0;
         }
         .ticket-header.outbound { background: var(--color-green); color: var(--bg-main); }
