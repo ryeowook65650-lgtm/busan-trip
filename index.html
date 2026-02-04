@@ -65,7 +65,7 @@
         }
         .weather-badge:active { transform: scale(0.95); opacity: 0.8; }
 
-        /* 導覽列 (調整為三欄) */
+        /* 導覽列 */
         .nav-bar-row { 
             display: flex; align-items: center; padding: 5px 15px 15px; gap: 8px; 
         }
@@ -112,21 +112,24 @@
 
         /* --- 機票樣式 (Flight Ticket) --- */
         .flight-ticket {
-            background: var(--bg-paper); border-radius: 12px;
-            margin-bottom: 25px; overflow: hidden;
+            background: var(--bg-paper); 
+            border-radius: 12px;
+            margin-bottom: 25px; 
+            /* 關鍵修改 1：移除 overflow: hidden，讓圓形遮罩可以蓋住邊框 */
+            /* overflow: hidden; */ 
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             border: 1px solid var(--color-pink);
             position: relative;
         }
         
-        /* --- 左右缺口效果 (優化版：增加邊框線條) --- */
+        /* --- 左右缺口效果 --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 125px; 
             width: 20px; height: 20px; 
-            background-color: var(--bg-main); /* 內部填充背景色 */
+            background-color: var(--bg-main); /* 用背景色蓋住直線 */
             border-radius: 50%; z-index: 2;
             
-            /* ✨ 關鍵修改：加入一圈 1px 的粉色硬陰影，模擬連續的邊框線 */
+            /* 這是那條彎曲的粉色邊框線 */
             box-shadow: 0 0 0 1px var(--color-pink);
         }
         .flight-ticket::before { left: -10px; }
@@ -136,6 +139,8 @@
             padding: 12px 20px; 
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px dashed var(--bg-main);
+            /* 關鍵修改 2：手動加上上方圓角，防止背景色溢出 */
+            border-radius: 11px 11px 0 0;
         }
         .ticket-header.outbound { background: var(--color-green); color: var(--bg-main); }
         .ticket-header.inbound { background: var(--color-orange); color: var(--bg-main); }
