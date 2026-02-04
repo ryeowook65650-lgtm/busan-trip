@@ -7,46 +7,48 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F3A9A9">
+    <meta name="theme-color" content="#F9D5D5">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
     <style>
         :root {
-            /* --- 依照數量分配配色 (新順序) --- */
+            /* --- 依照數量分配配色 (質感輕量化版) --- */
             
-            /* 1. 最多：背景主色 (柔和粉) */
-            --bg-main: #F3A9A9;      
+            /* 1. 最多：背景主色 (變淡：櫻花淡粉) */
+            --bg-main: #F9D5D5; /* 原本是 #F3A9A9 */
             
-            /* 2. 次多：卡片底色 (湖水藍) */
-            --bg-card: #8DD0D6;     
+            /* 2. 次多：卡片底色 (變淡：粉末寶寶藍) */
+            --bg-card: #BEE3E8; /* 原本是 #8DD0D6 */
             
-            /* 3. 第三：文字與粗框線 (深酒紅) - 漫畫感核心 */
+            /* 3. 第三：文字與粗框線 (深酒紅 - 保持不變以維持對比質感) */
             --text-main: #74404F;    
             
-            /* 4. 最少：強調點綴 (亮桃紅) */
+            /* 4. 最少：強調點綴 (亮桃紅 - 保持不變) */
             --color-accent: #E7336E; 
 
             /* 輔助：輸入框底色 (米白) */
             --bg-input: #FDFBF7;
             
-            --border-radius: 16px; /* 圓角加大，更可愛 */
-            /* 替換為更具裝飾性的字體 */
-            --font-serif: "Brush Script MT", "Comic Sans MS", cursive, serif;
-            --border-width: 3px; /* 粗邊框 */
+            --border-radius: 16px; 
+            --font-serif: "Georgia", "Times New Roman", serif;
+            --border-width: 3px; /* 維持粗框線 */
+            
+            /* 新增：通用的柔和硬陰影變數 */
+            --box-shadow-soft: 4px 4px 0px rgba(116, 64, 79, 0.2);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; 
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-main);
-            /* --- 復古網點背景 --- */
-            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
-                              radial-gradient(var(--text-main) 10%, transparent 10%);
-            background-size: 10px 10px;
-            background-position: 0 0, 5px 5px;
-            background-blend-mode: soft-light;
+            /* --- 復古網點背景 (質感升級：極淡、細緻化) --- */
+            /* 使用極低透明度的深色 (0.07)，製造高級紙張紋理感，而非粗糙印刷感 */
+            background-image: radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%);
+            background-size: 12px 12px; /* 間距稍微加大，視覺更乾淨 */
+            background-position: 0 0, 6px 6px;
             color: var(--text-main);
             padding-bottom: 60px;
         }
@@ -55,14 +57,13 @@
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-main);
-            /* 頂部也要有網點 */
-            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
-                              radial-gradient(var(--text-main) 10%, transparent 10%);
-            background-size: 10px 10px;
-            background-position: 0 0, 5px 5px;
-            background-blend-mode: soft-light;
+            /* 頂部網點同步細緻化 */
+            background-image: radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%);
+            background-size: 12px 12px;
+            background-position: 0 0, 6px 6px;
             border-bottom: var(--border-width) solid var(--text-main);
-            box-shadow: 0 4px 0px rgba(116, 64, 79, 0.3);
+            box-shadow: 0 2px 0px rgba(116, 64, 79, 0.1); /* 陰影變淡 */
             padding-top: env(safe-area-inset-top);
         }
 
@@ -72,13 +73,11 @@
         }
         .app-title { 
             font-family: var(--font-serif);
-            font-size: 32px; /* 字體加大 */
-            font-weight: normal;
+            font-size: 28px; 
+            font-weight: 900;
             letter-spacing: 1px; 
             color: var(--color-accent); 
-            /* 復古描邊文字效果 */
-            -webkit-text-stroke: 1.5px var(--text-main);
-            text-shadow: 3px 3px 0px var(--text-main);
+            text-shadow: 2px 2px 0px var(--text-main);
         }
         
         .weather-badge {
@@ -87,9 +86,9 @@
             text-decoration: none; border: var(--border-width) solid var(--text-main);
             cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 5px;
-            box-shadow: 3px 3px 0 var(--color-accent);
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
-        .weather-badge:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--color-accent); }
+        .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
         /* 導覽列 */
         .nav-bar-row { 
@@ -103,13 +102,13 @@
             background: var(--bg-input); 
             border: var(--border-width) solid var(--text-main);
             border-radius: 12px; white-space: nowrap;
-            box-shadow: 3px 3px 0 var(--text-main);
+            box-shadow: var(--box-shadow-soft);
         }
         /* Active 狀態 */
         .nav-btn.active { 
             background: var(--color-accent); 
             color: #FFF; 
-            box-shadow: 3px 3px 0 var(--text-main);
+            box-shadow: var(--box-shadow-soft);
             transform: translate(-2px, -2px);
         }
         .nav-btn:active { transform: translate(0, 0); box-shadow: none; }
@@ -126,12 +125,12 @@
             border: var(--border-width) solid var(--text-main);
             font-size: 15px; font-weight: 800; color: var(--text-main);
             background: var(--bg-input); outline: none; transition: 0.3s;
-            box-shadow: 3px 3px 0 var(--text-main);
+            box-shadow: var(--box-shadow-soft);
         }
         .nav-select.active {
             background: var(--text-main); 
             color: var(--bg-card);
-            box-shadow: 3px 3px 0 var(--color-accent);
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
         .nav-select-wrapper.active::after { color: var(--bg-card); }
 
@@ -140,17 +139,17 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 通用卡片樣式 (復古風) --- */
+        /* --- 通用卡片樣式 (質感升級) --- */
         .retro-card {
             background-color: var(--bg-card);
-            /* 卡片也要有網點，但顏色不同 */
-            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
-                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
-            background-size: 8px 8px;
-            background-position: 0 0, 4px 4px;
+            /* 卡片網點也同步變淡、細緻 */
+            background-image: radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            box-shadow: var(--box-shadow-soft); /* 使用柔和陰影 */
             color: var(--text-main);
             overflow: hidden;
         }
@@ -159,13 +158,13 @@
         .flight-ticket {
             @extend .retro-card;
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
-                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
-            background-size: 8px 8px;
-            background-position: 0 0, 4px 4px;
+            background-image: radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
             overflow: hidden;
             margin-bottom: 30px; 
@@ -176,13 +175,12 @@
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 135px; 
             width: 12px; height: 24px; 
-            background-color: var(--bg-main); /* 用背景粉色遮擋 */
-            /* 缺口也要有背景網點 */
-            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
-                              radial-gradient(var(--text-main) 10%, transparent 10%);
-            background-size: 10px 10px;
-            background-position: 0 0, 5px 5px;
-            background-blend-mode: soft-light;
+            background-color: var(--bg-main); 
+            /* 缺口處的紋理也要同步背景 */
+            background-image: radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.07) 10%, transparent 10%);
+            background-size: 12px 12px;
+            background-position: 0 0, 6px 6px;
             z-index: 2;
             border: var(--border-width) solid var(--text-main);
             box-sizing: border-box;
@@ -199,24 +197,30 @@
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: var(--border-width) dashed var(--text-main);
         }
-        .ticket-header.outbound { background: rgba(255,255,255,0.4); }
-        .ticket-header.inbound { background: rgba(231, 51, 110, 0.15); }
+        /* 標題背景色也稍微變淡一點 */
+        .ticket-header.outbound { background: rgba(255,255,255,0.5); }
+        .ticket-header.inbound { background: rgba(231, 51, 110, 0.1); }
         
         .ticket-label { 
-            font-family: var(--font-serif); font-size: 22px; 
-            color: var(--color-accent); -webkit-text-stroke: 1px var(--text-main);
+            font-family: var(--font-serif); font-size: 18px; 
+            font-weight: 900;
+            color: var(--color-accent); 
         }
         .ticket-date { font-weight: 800; font-size: 15px; }
 
         .ticket-body { padding: 25px; position: relative; }
         
         .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; -webkit-text-stroke: 1.5px var(--text-main); color: var(--bg-input); text-shadow: 3px 3px 0 var(--text-main); }
-        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; }
+        .airport-code { 
+            font-size: 36px; font-weight: 900; 
+            font-family: var(--font-serif); line-height: 1; 
+            color: var(--text-main);
+        }
+        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.8; }
         
         .flight-icon { 
             font-size: 28px; color: var(--color-accent); 
-            transform: rotate(90deg); filter: drop-shadow(2px 2px 0 var(--text-main));
+            transform: rotate(90deg); filter: drop-shadow(2px 2px 0 rgba(116, 64, 79, 0.3));
         }
 
         .time-row { 
@@ -232,7 +236,7 @@
             padding: 12px 15px; border-radius: 10px;
             display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
             border: 2px solid var(--text-main);
-            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.2);
+            box-shadow: var(--box-shadow-soft);
         }
         .airline-logo { display:flex; align-items:center; gap:8px; color: var(--color-accent); font-weight: 900; }
 
@@ -241,35 +245,37 @@
         .balance-card {
             @extend .retro-card;
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
-                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
-            background-size: 8px 8px;
-            background-position: 0 0, 4px 4px;
+            background-image: radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
             overflow: hidden;
             padding: 25px 30px 20px;
             margin-bottom: 30px; position: relative;
         }
-        /* 裝飾圓 */
         .balance-card::before {
             content: ''; position: absolute; right: -30px; top: -30px;
             width: 140px; height: 140px; background: var(--color-accent);
-            border-radius: 50%; opacity: 0.8; pointer-events: none;
+            border-radius: 50%; opacity: 0.5; /* 裝飾圓透明度降低 */
+            pointer-events: none;
             border: var(--border-width) solid var(--text-main);
         }
         .balance-label { 
-            font-family: var(--font-serif); font-size: 20px; 
-            color: var(--color-accent); -webkit-text-stroke: 1px var(--text-main);
+            font-family: var(--font-serif); font-size: 16px; 
+            font-weight: 900;
+            color: var(--color-accent); 
         }
         .balance-amount { 
             font-family: var(--font-serif);
             font-size: 42px; margin: 10px 0; 
+            font-weight: 900;
             color: var(--bg-input);
-            -webkit-text-stroke: 2px var(--text-main);
-            text-shadow: 4px 4px 0 var(--text-main);
+            -webkit-text-stroke: 1.5px var(--text-main);
+            text-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
         }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
@@ -284,11 +290,11 @@
         /* 內嵌統計列 */
         .stats-divider {
             border-top: var(--border-width) dashed var(--text-main);
-            margin: 20px 0 15px;
+            margin: 20px 0 15px; opacity: 0.6;
         }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-col { text-align: center; flex: 1; }
-        .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 var(--text-main)); }
+        .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(116, 64, 79, 0.3)); }
         .stat-val-small { 
             font-size: 15px; font-weight: 800; 
         }
@@ -297,20 +303,21 @@
         .input-area {
             @extend .retro-card;
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
-                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
-            background-size: 8px 8px;
-            background-position: 0 0, 4px 4px;
+            background-image: radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
             overflow: hidden;
             padding: 25px; margin-bottom: 25px;
         }
         .input-title { 
             font-family: var(--font-serif); font-size: 18px; 
-            color: var(--color-accent); -webkit-text-stroke: 0.8px var(--text-main);
+            font-weight: 800;
+            color: var(--color-accent); 
             margin-bottom: 15px; display:block; 
         }
         .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
@@ -319,29 +326,28 @@
             width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
             border-radius: 12px; background: var(--bg-input); outline: none;
             font-size: 16px; color: var(--text-main); transition: 0.3s;
-            font-weight: 700; box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.2);
+            font-weight: 700; box-shadow: var(--box-shadow-soft);
         }
         .modern-input::placeholder { color: rgba(116, 64, 79, 0.5); }
-        .modern-input:focus { border-color: var(--color-accent); box-shadow: 3px 3px 0 var(--color-accent); }
+        .modern-input:focus { border-color: var(--color-accent); box-shadow: 2px 2px 0 var(--color-accent); }
         
         .add-btn {
             width: 100%; background: var(--color-accent); color: #FFF;
             padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
             font-size: 18px; font-weight: 800; cursor: pointer;
-            box-shadow: 4px 4px 0px var(--text-main);
+            box-shadow: var(--box-shadow-soft);
             transition: 0.2s; margin-top: 10px;
-            font-family: var(--font-serif); -webkit-text-stroke: 1px var(--text-main);
         }
-        .add-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0px var(--text-main); }
+        .add-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 
         .history-list { margin-top: 15px; padding-bottom: 20px; }
         
         .date-divider {
             font-family: var(--font-serif);
             font-size: 22px; color: var(--color-accent);
+            font-weight: 900;
             margin: 35px 0 15px 10px;
-            -webkit-text-stroke: 1px var(--text-main);
-            text-shadow: 2px 2px 0 var(--text-main);
+            text-shadow: 1px 1px 0 rgba(116, 64, 79, 0.3);
         }
 
         .history-item {
@@ -349,13 +355,13 @@
             background: var(--bg-input); padding: 18px; border-radius: 14px;
             margin-bottom: 12px; 
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.3);
+            box-shadow: var(--box-shadow-soft);
         }
         .h-name { font-weight: 800; font-size: 16px; }
         .h-cat { font-size: 13px; opacity: 0.8; font-weight: 700; margin-top: 4px;}
         .h-price { font-weight: 900; font-size: 18px; }
         .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
-        .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; }
+        .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; opacity: 0.5;}
 
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
@@ -367,11 +373,11 @@
             padding: 10px 18px; border-radius: 25px;
             margin-right: 10px; font-size: 15px; font-weight: 800;
             color: var(--text-main); cursor: pointer; transition: 0.2s;
-            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
+            box-shadow: var(--box-shadow-soft);
         }
         .date-chip.active {
             background: var(--color-accent); color: #FFF;
-            box-shadow: 3px 3px 0 var(--text-main);
+            box-shadow: var(--box-shadow-soft);
             transform: translate(-2px, -2px);
         }
 
@@ -385,15 +391,15 @@
             background: var(--bg-input); border: var(--border-width) solid var(--text-main);
             font-size: 14px; font-weight: 800; color: var(--text-main);
             cursor: pointer; transition: 0.2s;
-            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
+            box-shadow: var(--box-shadow-soft);
         }
         .cat-btn.active {
             background: var(--text-main); 
             color: var(--bg-card);
-            box-shadow: 3px 3px 0 var(--color-accent);
+            box-shadow: 2px 2px 0 var(--color-accent);
             transform: translate(-2px, -2px);
         }
-        .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 var(--text-main));}
+        .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 rgba(116, 64, 79, 0.3));}
 
         /* --- 資料管理區 --- */
         .data-mgr-section {
@@ -402,7 +408,7 @@
         }
         .data-mgr-title { 
             font-family: var(--font-serif); font-size: 18px; 
-            color: var(--text-main); -webkit-text-stroke: 0.5px var(--text-main);
+            color: var(--text-main);
             margin-bottom: 15px;
         }
         
@@ -413,7 +419,7 @@
             font-size: 15px; font-weight: 800; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             transition: 0.2s; border: var(--border-width) solid var(--text-main);
-            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
+            box-shadow: var(--box-shadow-soft);
         }
         
         .backup-btn, .restore-btn { flex: 1; background: var(--bg-input); }
@@ -423,7 +429,7 @@
             background: var(--bg-input); border-style: dashed; color: var(--color-accent);
         }
         
-        .export-btn:active, .backup-btn:active, .restore-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(116, 64, 79, 0.3); }
+        .export-btn:active, .backup-btn:active, .restore-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 
         /* --- 行程部分 --- */
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
@@ -433,27 +439,27 @@
         .timeline::before {
             content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
             width: 4px; background: var(--text-main); 
-            border-radius: 4px;
+            border-radius: 4px; opacity: 0.5;
         }
 
         .day-header {
             font-family: var(--font-serif);
             font-size: 26px; color: var(--color-accent);
             margin-bottom: 25px; padding-left: 15px; 
-            -webkit-text-stroke: 1px var(--text-main);
-            text-shadow: 3px 3px 0 var(--text-main);
+            font-weight: 900;
+            text-shadow: 2px 2px 0 rgba(116, 64, 79, 0.3);
         }
 
         .trip-card {
             @extend .retro-card;
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
-                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
-            background-size: 8px 8px;
-            background-position: 0 0, 4px 4px;
+            background-image: radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.05) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
             overflow: hidden;
             margin-bottom: 35px; position: relative;
@@ -477,17 +483,17 @@
         }
         .t-title { 
             font-family: var(--font-serif);
-            font-size: 24px; font-weight: normal; margin-bottom: 15px; 
-            line-height: 1.3; -webkit-text-stroke: 1px var(--text-main);
+            font-size: 24px; font-weight: 900; margin-bottom: 15px; 
+            line-height: 1.3;
         }
         
         .t-kr-name {
             display: block; font-size: 16px; font-weight: 700; margin-top: 6px;
-            font-family: -apple-system, sans-serif; -webkit-text-stroke: 0;
+            font-family: -apple-system, sans-serif;
         }
         
         .info-block { display: flex; gap: 12px; margin-bottom: 10px; font-size: 16px; }
-        .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; filter: drop-shadow(1px 1px 0 var(--text-main)); }
+        .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; filter: drop-shadow(1px 1px 0 rgba(116, 64, 79, 0.3)); }
         .i-text { flex: 1; line-height: 1.5; font-weight: 700; }
         
         .pill { 
@@ -501,10 +507,10 @@
             padding: 15px; border-radius: 12px; margin-top: 20px;
             font-size: 16px; font-weight: 800; gap: 8px; 
             border: var(--border-width) solid var(--text-main);
-            box-shadow: 3px 3px 0 var(--color-accent);
+            box-shadow: 2px 2px 0 var(--color-accent);
             transition: 0.2s;
         }
-        .naver-link:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--color-accent); }
+        .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
         
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
