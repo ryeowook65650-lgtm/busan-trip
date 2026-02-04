@@ -180,11 +180,11 @@
         .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; color: var(--text-main); }
         .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.7; }
         
-        /* 飛機圖示修正：90度，使其水平向右飛 */
+        /* 飛機圖示修正：移除旋轉，使用預設 (推測您裝置預設即為向右) */
         .flight-icon { 
             font-size: 28px; 
             color: var(--color-accent); 
-            transform: rotate(90deg); 
+            transform: none; /* 移除 rotate(90deg) */
         }
 
         .time-row { display: flex; justify-content: space-between; border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px; }
@@ -606,6 +606,7 @@
         <div id="day3-content" class="day-schedule">
             <div class="day-header">Day 3 • 3/7 (六)</div>
             <div class="timeline">
+                
                 <div class="trip-card">
                     <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweoa_KYzGH-pGB1kRud3snA8qvTfk25ZY2xznEKSPc4oJWW4beUbxstPK2ulSleWH2B_a8xSpVSF7XUb6puf7JBm2F0ye5nnP6It0zx4a1CbwMRbUTgRiDTNFKCrFSAfzPGXLWjxY8wBgqNj=s1360-w1360-h1020-rw" class="card-img-top" alt="田浦咖啡街" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80'">
                     <div class="card-content">
@@ -617,6 +618,7 @@
                         <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EB%8F%99%EC%B2%9C%EB%A1%9C%2092" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://mimigo.tw/wp-content/uploads/20180501200925_69.jpg" class="card-img-top" alt="松亭3代豬肉湯飯">
                     <div class="card-content">
@@ -628,6 +630,7 @@
                         <a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%953%EB%8C%80%EA%B5%AD%EB%B0%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://www.visitbusan.net/uploadImgs/files/cntnts/20191227114045978_erhte" class="card-img-top" alt="西面市場">
                     <div class="card-content">
@@ -639,6 +642,7 @@
                         <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EC%84%9C%EB%A9%B4%EB%A1%9C%2056" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://debbiechien.com/wp-content/uploads/2025/03/IMG_1670-2_11zon-1024x768.jpg" class="card-img-top" alt="西面大逛街">
                     <div class="card-content">
@@ -661,6 +665,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://alinalife.tw/webp/wp-content/uploads/2024/11/DSCF5082.jpg.webp" class="card-img-top" alt="味贊王鹽烤肉">
                     <div class="card-content">
@@ -669,9 +674,10 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 중앙대로691번가길 24-3</div></div>
                         <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價不錯的烤肉店</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
-                        <a href="https://map.naver.com/p/search/%EB%A7%9B%EC%B0%AC%EB%93%A4%EC%99%95%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4%20%EC%84%9C%EB%A9%B4%20%EB%B3%B8%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/p/search/%EB%A7%9B%EC%B0%AC%EB%93%A4%EC%99%95%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4%20%EC%84%9C%EB%A9%B4%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://tong.visitkorea.or.kr/cms/resource/56/2997956_image2_1.jpg" class="card-img-top" alt="樂天總店">
                     <div class="card-content">
@@ -683,6 +689,7 @@
                         <a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EB%B0%B1%ED%99%94%EC%A0%90%20%EB%B6%80%EC%82%B0%EB%B3%B8%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top" alt="Hotel">
                     <div class="card-content">
