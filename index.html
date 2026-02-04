@@ -13,30 +13,28 @@
 
     <style>
         :root {
-            /* --- 昭和喫茶店配色 (淡彩質感版) --- */
+            /* --- 昭和喫茶店配色 (質感淡彩 + 乾燥玫瑰) --- */
             
-            /* 1. 背景主色：極淡草莓牛奶粉 */
+            /* 1. 背景主色：極淡草莓牛奶 */
             --bg-main: #FCE9E9;      
             
             /* 2. 卡片底色：清透蘇打藍 */
             --bg-card: #DDF3F5;     
             
-            /* 3. 線條文字：維持深梅子色 (保留漫畫感輪廓) */
+            /* 3. 線條文字：維持深梅子色 (保留輪廓) */
             --text-main: #74404F;    
             
-            /* 4. 強調點綴：亮桃紅 (維持亮點) */
-            --color-accent: #E7336E; 
+            /* 4. 強調點綴：乾燥玫瑰粉 (從原本的亮桃紅改淡) */
+            --color-accent: #E295A0; 
 
             /* 輔助：輸入框底色 (純白) */
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
-            /* 維持清晰的襯線字體 */
             --font-serif: "Georgia", "Times New Roman", serif;
+            --border-width: 3px; 
             
-            --border-width: 3px; /* 粗框線 */
-            
-            /* 極致柔和的質感陰影 */
+            /* 質感柔和陰影 */
             --box-shadow-soft: 4px 4px 0px rgba(116, 64, 79, 0.15);
         }
 
@@ -45,7 +43,7 @@
             margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-main);
-            /* --- 質感網點 (極淡 5%) --- */
+            /* --- 質感網點 (5%) --- */
             background-image: radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%),
                               radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%);
             background-size: 14px 14px;
@@ -58,7 +56,6 @@
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-main);
-            /* 頂部網點同步 */
             background-image: radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%),
                               radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%);
             background-size: 14px 14px;
@@ -78,7 +75,7 @@
             font-weight: 900; 
             letter-spacing: 1px; 
             color: var(--color-accent); 
-            text-shadow: 2px 2px 0px var(--text-main); /* 文字陰影保留深色，增加立體感 */
+            text-shadow: 2px 2px 0px var(--text-main); 
         }
         
         .weather-badge {
@@ -91,49 +88,57 @@
         }
         .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
-        /* 導覽列 */
+        /* --- 導覽列 (按鈕樣式統一化) --- */
         .nav-bar-row { 
             display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
         }
 
-        .nav-btn {
-            flex: 1; text-align: center; padding: 12px 0;
+        /* 定義所有導覽按鈕的基礎樣式 (包含 select) */
+        .nav-btn, .nav-select {
+            display: block; width: 100%;
+            text-align: center; padding: 12px 0;
             font-size: 15px; font-weight: 800; color: var(--text-main);
-            cursor: pointer; position: relative; transition: 0.3s;
+            cursor: pointer; position: relative; transition: 0.2s;
             background: var(--bg-input); 
             border: var(--border-width) solid var(--text-main);
-            border-radius: 12px; white-space: nowrap;
+            border-radius: 12px; 
             box-shadow: var(--box-shadow-soft);
+            appearance: none; -webkit-appearance: none; outline: none;
         }
-        /* Active 狀態 */
-        .nav-btn.active { 
-            background: var(--color-accent); 
-            color: #FFF; 
-            box-shadow: var(--box-shadow-soft);
-            transform: translate(-2px, -2px);
-        }
-        .nav-btn:active { transform: translate(0, 0); box-shadow: none; }
+        
+        /* 一般按鈕的佈局 */
+        .nav-btn { flex: 1; white-space: nowrap; }
 
+        /* 下拉選單的容器佈局 */
         .nav-select-wrapper { flex: 1.3; position: relative; }
+        
+        /* 下拉選單箭頭 (預設顏色) */
         .nav-select-wrapper::after {
             content: '▼'; 
             position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 12px; color: var(--text-main); pointer-events: none;
+            font-size: 10px; color: var(--text-main); pointer-events: none; transition: 0.2s;
         }
-        .nav-select {
-            width: 100%; appearance: none; -webkit-appearance: none;
-            padding: 12px 15px; border-radius: 12px; 
-            border: var(--border-width) solid var(--text-main);
-            font-size: 15px; font-weight: 800; color: var(--text-main);
-            background: var(--bg-input); outline: none; transition: 0.3s;
-            box-shadow: var(--box-shadow-soft);
+        .nav-select { padding: 12px 15px; text-align: left; }
+
+        /* --- 統一的 Active 狀態 (重點修改) --- */
+        /* 當按鈕 active，或選單 wrapper active 時的內部 select */
+        .nav-btn.active, 
+        .nav-select-wrapper.active .nav-select {
+            background: var(--color-accent); /* 統一變為乾燥玫瑰色 */
+            color: #FFF;                     /* 統一變為白字 */
+            box-shadow: 2px 2px 0 var(--text-main); /* 統一陰影變深色，更有壓下去的感覺 */
+            transform: translate(2px, 2px);  /* 統一向下位移 */
+            border-color: var(--text-main);
         }
-        .nav-select.active {
-            background: var(--text-main); 
-            color: var(--bg-card);
-            box-shadow: 2px 2px 0 var(--color-accent);
+
+        /* 按下瞬間的效果 (Active pseudo-class) */
+        .nav-btn:active, .nav-select:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 var(--text-main);
         }
-        .nav-select-wrapper.active::after { color: var(--bg-card); }
+
+        /* 當選單 Active 時，箭頭也要變白 */
+        .nav-select-wrapper.active::after { color: #FFF; }
 
 
         .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
@@ -143,7 +148,6 @@
         /* --- 通用卡片樣式 --- */
         .retro-card {
             background-color: var(--bg-card);
-            /* 卡片紋理更淡 */
             background-image: radial-gradient(rgba(116, 64, 79, 0.03) 15%, transparent 15%),
                               radial-gradient(rgba(116, 64, 79, 0.03) 15%, transparent 15%);
             background-size: 10px 10px;
@@ -152,8 +156,6 @@
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
-            /* ⚠️ 重要修正：移除 overflow: hidden，解決直線問題 */
-            /* overflow: hidden; */ 
         }
 
         /* --- 機票樣式 --- */
@@ -170,47 +172,35 @@
             color: var(--text-main);
             margin-bottom: 30px; 
             position: relative;
-            /* ⚠️ 確保這裡也沒有 overflow: hidden */
         }
         
-        /* --- 左右缺口 (半圓拼貼 - 完美遮擋) --- */
+        /* --- 左右缺口 --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 135px; 
             width: 12px; height: 24px; 
-            background-color: var(--bg-main); /* 使用背景色遮擋直線 */
-            
-            /* 讓缺口的紋理跟背景完全對齊 */
+            background-color: var(--bg-main); 
             background-image: radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%),
                               radial-gradient(rgba(116, 64, 79, 0.05) 15%, transparent 15%);
             background-size: 14px 14px;
-            /* 這裡需要微調 position 以對齊 body 背景，或直接用純色也行 */
-            /* background-position: ...; */
-            
             z-index: 2;
             border: var(--border-width) solid var(--text-main);
             box-sizing: border-box;
         }
         .flight-ticket::before { 
-            left: -3px; /* 剛好蓋住 3px 的邊框 */
-            border-radius: 0 12px 12px 0; 
-            border-left: none; /* 移除左邊框，讓它跟背景融合 */
+            left: -3px; border-radius: 0 12px 12px 0; border-left: none; 
         }
         .flight-ticket::after { 
-            right: -3px; 
-            border-radius: 12px 0 0 12px; 
-            border-right: none; 
+            right: -3px; border-radius: 12px 0 0 12px; border-right: none; 
         }
 
         .ticket-header {
             padding: 15px 25px; 
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: var(--border-width) dashed var(--text-main);
-            /* ⚠️ 手動圓角，因為移除了 overflow: hidden */
             border-radius: 13px 13px 0 0;
         }
-        /* 極淡的區分色 */
         .ticket-header.outbound { background: rgba(255,255,255,0.6); }
-        .ticket-header.inbound { background: rgba(231, 51, 110, 0.05); }
+        .ticket-header.inbound { background: rgba(226, 149, 160, 0.1); }
         
         .ticket-label { 
             font-family: var(--font-serif); font-size: 18px; 
@@ -221,7 +211,6 @@
 
         .ticket-body { 
             padding: 25px; position: relative; 
-            /* 確保底部圓角不溢出 (如果有的話) */
             border-radius: 0 0 13px 13px;
         }
         
@@ -267,14 +256,14 @@
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
-            overflow: hidden; /* 資產卡片沒有缺口，可以保留 hidden */
+            overflow: hidden; 
             padding: 25px 30px 20px;
             margin-bottom: 30px; position: relative;
         }
         .balance-card::before {
             content: ''; position: absolute; right: -30px; top: -30px;
             width: 140px; height: 140px; background: var(--color-accent);
-            border-radius: 50%; opacity: 0.3; /* 更淡 */
+            border-radius: 50%; opacity: 0.3; 
             pointer-events: none;
             border: var(--border-width) solid var(--text-main);
         }
@@ -473,7 +462,7 @@
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
-            overflow: hidden; /* 行程卡可以 hidden，因為沒有外部貼紙 */
+            overflow: hidden; 
             margin-bottom: 35px; position: relative;
         }
         .trip-card::after {
