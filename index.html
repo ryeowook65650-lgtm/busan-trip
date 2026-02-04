@@ -118,11 +118,16 @@
             border: 1px solid var(--color-pink);
             position: relative;
         }
-        /* 左右缺口效果 */
+        
+        /* --- 左右缺口效果 (優化版：增加邊框線條) --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 125px; 
-            width: 20px; height: 20px; background-color: var(--bg-main);
+            width: 20px; height: 20px; 
+            background-color: var(--bg-main); /* 內部填充背景色 */
             border-radius: 50%; z-index: 2;
+            
+            /* ✨ 關鍵修改：加入一圈 1px 的粉色硬陰影，模擬連續的邊框線 */
+            box-shadow: 0 0 0 1px var(--color-pink);
         }
         .flight-ticket::before { left: -10px; }
         .flight-ticket::after { right: -10px; }
