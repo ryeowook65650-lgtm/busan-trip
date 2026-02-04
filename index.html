@@ -7,38 +7,46 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#8DD0D6">
+    <meta name="theme-color" content="#F3A9A9">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
     <style>
         :root {
-            /* --- 依照數量分配配色 --- */
+            /* --- 依照數量分配配色 (新順序) --- */
             
-            /* 1. 最多：背景色 (湖水藍) */
-            --bg-main: #8DD0D6;      
+            /* 1. 最多：背景主色 (柔和粉) */
+            --bg-main: #F3A9A9;      
             
-            /* 2. 次多：卡片底色 (柔和粉) */
-            --bg-card: #F3A9A9;     
+            /* 2. 次多：卡片底色 (湖水藍) */
+            --bg-card: #8DD0D6;     
             
-            /* 3. 第三：文字與線條 (深酒紅) - 確保閱讀清晰 */
+            /* 3. 第三：文字與粗框線 (深酒紅) - 漫畫感核心 */
             --text-main: #74404F;    
             
             /* 4. 最少：強調點綴 (亮桃紅) */
             --color-accent: #E7336E; 
 
-            /* 輔助：輸入框底色 (米白，避免粉色底太花) */
+            /* 輔助：輸入框底色 (米白) */
             --bg-input: #FDFBF7;
             
-            --border-radius: 12px;
-            --font-serif: "Georgia", "Times New Roman", serif;
+            --border-radius: 16px; /* 圓角加大，更可愛 */
+            /* 替換為更具裝飾性的字體 */
+            --font-serif: "Brush Script MT", "Comic Sans MS", cursive, serif;
+            --border-width: 3px; /* 粗邊框 */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-            background-color: var(--bg-main); 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            /* --- 復古網點背景 --- */
+            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
+                              radial-gradient(var(--text-main) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            background-blend-mode: soft-light;
             color: var(--text-main);
             padding-bottom: 60px;
         }
@@ -46,10 +54,15 @@
         /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
-            background: rgba(141, 208, 214, 0.95); /* --bg-main 帶透明度 */
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--text-main);
-            box-shadow: 0 4px 15px rgba(116, 64, 79, 0.15);
+            background: var(--bg-main);
+            /* 頂部也要有網點 */
+            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
+                              radial-gradient(var(--text-main) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            background-blend-mode: soft-light;
+            border-bottom: var(--border-width) solid var(--text-main);
+            box-shadow: 0 4px 0px rgba(116, 64, 79, 0.3);
             padding-top: env(safe-area-inset-top);
         }
 
@@ -59,379 +72,449 @@
         }
         .app-title { 
             font-family: var(--font-serif);
-            font-size: 24px; font-weight: 900; 
-            letter-spacing: 2px; 
-            color: var(--text-main); 
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
+            font-size: 32px; /* 字體加大 */
+            font-weight: normal;
+            letter-spacing: 1px; 
+            color: var(--color-accent); 
+            /* 復古描邊文字效果 */
+            -webkit-text-stroke: 1.5px var(--text-main);
+            text-shadow: 3px 3px 0px var(--text-main);
         }
         
         .weather-badge {
-            font-size: 13px; font-weight: 700; color: var(--bg-card);
-            background: var(--text-main); padding: 6px 12px; border-radius: 20px;
-            text-decoration: none; border: 1px solid var(--text-main);
+            font-size: 14px; font-weight: 800; color: var(--bg-card);
+            background: var(--text-main); padding: 8px 14px; border-radius: 30px;
+            text-decoration: none; border: var(--border-width) solid var(--text-main);
             cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 5px;
+            box-shadow: 3px 3px 0 var(--color-accent);
         }
-        .weather-badge:active { transform: scale(0.95); opacity: 0.8; }
+        .weather-badge:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--color-accent); }
 
         /* 導覽列 */
         .nav-bar-row { 
-            display: flex; align-items: center; padding: 5px 15px 15px; gap: 8px; 
+            display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
         }
 
         .nav-btn {
-            flex: 1; text-align: center; padding: 10px 0;
-            font-size: 14px; font-weight: 700; color: var(--text-main);
+            flex: 1; text-align: center; padding: 12px 0;
+            font-size: 15px; font-weight: 800; color: var(--text-main);
             cursor: pointer; position: relative; transition: 0.3s;
-            background: none; border: 2px solid var(--text-main);
-            border-radius: 8px; white-space: nowrap;
+            background: var(--bg-input); 
+            border: var(--border-width) solid var(--text-main);
+            border-radius: 12px; white-space: nowrap;
+            box-shadow: 3px 3px 0 var(--text-main);
         }
-        /* Active 狀態使用第4色 (強調色) */
+        /* Active 狀態 */
         .nav-btn.active { 
             background: var(--color-accent); 
             color: #FFF; 
-            border-color: var(--text-main);
-            box-shadow: 2px 2px 0 var(--text-main);
-            transform: translateY(-2px);
+            box-shadow: 3px 3px 0 var(--text-main);
+            transform: translate(-2px, -2px);
         }
-        .nav-btn:active { transform: translateY(0); box-shadow: none; }
+        .nav-btn:active { transform: translate(0, 0); box-shadow: none; }
 
         .nav-select-wrapper { flex: 1.3; position: relative; }
         .nav-select-wrapper::after {
             content: '▼'; 
-            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-            font-size: 10px; color: var(--text-main); pointer-events: none;
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 12px; color: var(--text-main); pointer-events: none;
         }
         .nav-select {
             width: 100%; appearance: none; -webkit-appearance: none;
-            padding: 10px 10px; border-radius: 8px; 
-            border: 2px solid var(--text-main);
-            font-size: 14px; font-weight: 700; color: var(--text-main);
-            background: transparent; outline: none; transition: 0.3s;
+            padding: 12px 15px; border-radius: 12px; 
+            border: var(--border-width) solid var(--text-main);
+            font-size: 15px; font-weight: 800; color: var(--text-main);
+            background: var(--bg-input); outline: none; transition: 0.3s;
+            box-shadow: 3px 3px 0 var(--text-main);
         }
         .nav-select.active {
             background: var(--text-main); 
-            color: var(--bg-main);
-            box-shadow: 2px 2px 0 var(--color-accent);
-            transform: translateY(-2px);
+            color: var(--bg-card);
+            box-shadow: 3px 3px 0 var(--color-accent);
         }
-        .nav-select-wrapper.active::after { color: var(--bg-main); }
+        .nav-select-wrapper.active::after { color: var(--bg-card); }
 
 
-        .view-container { display: none; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 機票樣式 (Flight Ticket) --- */
-        .flight-ticket {
-            background: var(--bg-card); /* 第2色：粉紅底 */
-            border-radius: 12px;
-            margin-bottom: 25px; 
-            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2);
-            border: 2px solid var(--text-main); /* 第3色：深色框 */
-            position: relative;
+        /* --- 通用卡片樣式 (復古風) --- */
+        .retro-card {
+            background-color: var(--bg-card);
+            /* 卡片也要有網點，但顏色不同 */
+            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
             color: var(--text-main);
+            overflow: hidden;
+        }
+
+        /* --- 機票樣式 --- */
+        .flight-ticket {
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            color: var(--text-main);
+            overflow: hidden;
+            margin-bottom: 30px; 
+            position: relative;
         }
         
-        /* --- 左右缺口效果 (半圓拼貼法) --- */
+        /* --- 左右缺口 (半圓拼貼) --- */
         .flight-ticket::before, .flight-ticket::after {
-            content: ''; position: absolute; top: 125px; 
-            width: 10px; height: 20px; 
-            background-color: var(--bg-main); /* 使用背景色(藍)來遮擋 */
+            content: ''; position: absolute; top: 135px; 
+            width: 12px; height: 24px; 
+            background-color: var(--bg-main); /* 用背景粉色遮擋 */
+            /* 缺口也要有背景網點 */
+            background-image: radial-gradient(var(--text-main) 10%, transparent 10%),
+                              radial-gradient(var(--text-main) 10%, transparent 10%);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            background-blend-mode: soft-light;
             z-index: 2;
-            border: 2px solid var(--text-main);
+            border: var(--border-width) solid var(--text-main);
             box-sizing: border-box;
         }
-
-        /* 左側缺口 */
         .flight-ticket::before { 
-            left: -2px; 
-            border-radius: 0 10px 10px 0; 
-            border-left: none; 
+            left: -3px; border-radius: 0 12px 12px 0; border-left: none; 
         }
-
-        /* 右側缺口 */
         .flight-ticket::after { 
-            right: -2px; 
-            border-radius: 10px 0 0 10px; 
-            border-right: none; 
+            right: -3px; border-radius: 12px 0 0 12px; border-right: none; 
         }
 
         .ticket-header {
-            padding: 12px 20px; 
+            padding: 15px 25px; 
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px dashed var(--text-main);
-            border-radius: 10px 10px 0 0;
+            border-bottom: var(--border-width) dashed var(--text-main);
         }
-        /* 去程回程用不同顏色區分，但保持在色系內 */
-        .ticket-header.outbound { background: rgba(255,255,255,0.3); color: var(--text-main); }
-        .ticket-header.inbound { background: rgba(116, 64, 79, 0.1); color: var(--text-main); }
+        .ticket-header.outbound { background: rgba(255,255,255,0.4); }
+        .ticket-header.inbound { background: rgba(231, 51, 110, 0.15); }
         
-        .ticket-label { font-weight: 800; font-size: 16px; font-family: var(--font-serif); letter-spacing: 1px; }
-        .ticket-date { font-weight: 700; font-size: 14px; opacity: 0.9; }
+        .ticket-label { 
+            font-family: var(--font-serif); font-size: 22px; 
+            color: var(--color-accent); -webkit-text-stroke: 1px var(--text-main);
+        }
+        .ticket-date { font-weight: 800; font-size: 15px; }
 
-        .ticket-body { padding: 20px; color: var(--text-main); position: relative; }
+        .ticket-body { padding: 25px; position: relative; }
         
-        .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .airport-code { font-size: 32px; font-weight: 900; font-family: var(--font-serif); line-height: 1; }
-        .airport-name { font-size: 12px; opacity: 0.8; font-weight: 600; display: block; margin-top: 4px; }
+        .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; -webkit-text-stroke: 1.5px var(--text-main); color: var(--bg-input); text-shadow: 3px 3px 0 var(--text-main); }
+        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; }
         
         .flight-icon { 
-            font-size: 20px; color: var(--color-accent); 
-            transform: rotate(90deg); 
+            font-size: 28px; color: var(--color-accent); 
+            transform: rotate(90deg); filter: drop-shadow(2px 2px 0 var(--text-main));
         }
 
         .time-row { 
             display: flex; justify-content: space-between; 
-            border-top: 2px solid rgba(116, 64, 79, 0.15); padding-top: 15px; margin-top: 10px;
+            border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px;
         }
         .time-col { flex: 1; }
-        .time-val { font-size: 20px; font-weight: 800; color: var(--text-main); }
-        .time-lbl { font-size: 12px; opacity: 0.7; font-weight: 600; margin-bottom: 2px; display: block;}
+        .time-val { font-size: 24px; font-weight: 900; }
+        .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.8;}
         
         .flight-info-row {
-            margin-top: 15px; background: rgba(255,255,255,0.4);
-            padding: 10px; border-radius: 8px;
-            display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-main);
+            margin-top: 20px; background: var(--bg-input);
+            padding: 12px 15px; border-radius: 10px;
+            display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
+            border: 2px solid var(--text-main);
+            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.2);
         }
-        .airline-logo { display:flex; align-items:center; gap:5px; color: var(--text-main); font-weight: 800; }
+        .airline-logo { display:flex; align-items:center; gap:8px; color: var(--color-accent); font-weight: 900; }
 
 
         /* --- 資產卡片 --- */
         .balance-card {
-            background: var(--bg-card); /* 第2色：粉紅 */
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
             color: var(--text-main);
-            border-radius: 16px; padding: 20px 25px 15px;
-            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2);
-            margin-bottom: 25px; position: relative; overflow: hidden;
-            border: 2px solid var(--text-main);
+            overflow: hidden;
+            padding: 25px 30px 20px;
+            margin-bottom: 30px; position: relative;
         }
         /* 裝飾圓 */
         .balance-card::before {
-            content: ''; position: absolute; right: -20px; top: -20px;
-            width: 120px; height: 120px; background: var(--color-accent);
-            border-radius: 50%; opacity: 0.15; pointer-events: none;
+            content: ''; position: absolute; right: -30px; top: -30px;
+            width: 140px; height: 140px; background: var(--color-accent);
+            border-radius: 50%; opacity: 0.8; pointer-events: none;
+            border: var(--border-width) solid var(--text-main);
         }
         .balance-label { 
-            font-family: var(--font-serif); letter-spacing: 1px; 
-            font-size: 14px; opacity: 0.8; font-weight: 700;
+            font-family: var(--font-serif); font-size: 20px; 
+            color: var(--color-accent); -webkit-text-stroke: 1px var(--text-main);
         }
         .balance-amount { 
             font-family: var(--font-serif);
-            font-size: 36px; font-weight: 900; margin: 5px 0 5px; 
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+            font-size: 42px; margin: 10px 0; 
+            color: var(--bg-input);
+            -webkit-text-stroke: 2px var(--text-main);
+            text-shadow: 4px 4px 0 var(--text-main);
         }
-        .balance-sub { font-size: 15px; opacity: 0.9; font-weight: 700; }
+        .balance-sub { font-size: 16px; font-weight: 800; }
         
         .rate-tag { 
-            position: absolute; top: 20px; right: 20px; 
-            font-size: 12px; background: var(--text-main); color: var(--bg-card);
-            padding: 4px 8px; border-radius: 4px; font-weight: bold;
+            position: absolute; top: 25px; right: 25px; 
+            font-size: 13px; background: var(--text-main); color: var(--bg-card);
+            padding: 6px 10px; border-radius: 8px; font-weight: 800;
+            border: 2px solid var(--bg-input);
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
 
         /* 內嵌統計列 */
         .stats-divider {
-            border-top: 1px dashed var(--text-main);
-            margin: 15px 0 10px; opacity: 0.5;
+            border-top: var(--border-width) dashed var(--text-main);
+            margin: 20px 0 15px;
         }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-col { text-align: center; flex: 1; }
-        .stat-icon-small { font-size: 16px; display: block; margin-bottom: 2px; }
+        .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 var(--text-main)); }
         .stat-val-small { 
-            font-size: 13px; font-weight: 800; 
-            color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px; font-weight: 800; 
         }
 
         /* --- 輸入區 --- */
         .input-area {
-            background: var(--bg-card); padding: 20px; border-radius: 16px;
-            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2); margin-bottom: 20px;
-            border: 2px solid var(--text-main);
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            color: var(--text-main);
+            overflow: hidden;
+            padding: 25px; margin-bottom: 25px;
         }
-        .input-title { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 10px; display:block; border-left: 4px solid var(--color-accent); padding-left: 8px;}
-        .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .input-title { 
+            font-family: var(--font-serif); font-size: 18px; 
+            color: var(--color-accent); -webkit-text-stroke: 0.8px var(--text-main);
+            margin-bottom: 15px; display:block; 
+        }
+        .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
         
         .modern-input {
-            width: 100%; padding: 12px; border: 2px solid var(--text-main);
-            border-radius: 8px; background: var(--bg-input); outline: none;
-            font-size: 15px; color: var(--text-main); transition: 0.3s;
-            font-weight: 600;
+            width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
+            border-radius: 12px; background: var(--bg-input); outline: none;
+            font-size: 16px; color: var(--text-main); transition: 0.3s;
+            font-weight: 700; box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.2);
         }
-        .modern-input::placeholder { color: rgba(116, 64, 79, 0.4); font-weight: 400; }
-        .modern-input:focus { border-color: var(--color-accent); background: #FFF; }
+        .modern-input::placeholder { color: rgba(116, 64, 79, 0.5); }
+        .modern-input:focus { border-color: var(--color-accent); box-shadow: 3px 3px 0 var(--color-accent); }
         
         .add-btn {
             width: 100%; background: var(--color-accent); color: #FFF;
-            padding: 14px; border-radius: 8px; border: 2px solid var(--text-main);
-            font-size: 16px; font-weight: 800; cursor: pointer;
+            padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
+            font-size: 18px; font-weight: 800; cursor: pointer;
             box-shadow: 4px 4px 0px var(--text-main);
-            transition: 0.2s; margin-top: 5px;
+            transition: 0.2s; margin-top: 10px;
+            font-family: var(--font-serif); -webkit-text-stroke: 1px var(--text-main);
         }
-        .add-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--text-main); }
+        .add-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0px var(--text-main); }
 
-        .history-list { margin-top: 10px; padding-bottom: 20px; }
+        .history-list { margin-top: 15px; padding-bottom: 20px; }
         
         .date-divider {
             font-family: var(--font-serif);
-            font-size: 18px; font-weight: 700; color: var(--text-main);
-            margin: 30px 0 15px 5px; letter-spacing: 1px;
-            border-bottom: 2px dashed var(--text-main); padding-bottom: 5px;
+            font-size: 22px; color: var(--color-accent);
+            margin: 35px 0 15px 10px;
+            -webkit-text-stroke: 1px var(--text-main);
+            text-shadow: 2px 2px 0 var(--text-main);
         }
 
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-card); padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; border-left: 6px solid var(--color-accent);
-            border: 1px solid var(--text-main); border-left-width: 6px;
-            box-shadow: 3px 3px 0px rgba(116, 64, 79, 0.1);
+            background: var(--bg-input); padding: 18px; border-radius: 14px;
+            margin-bottom: 12px; 
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.3);
         }
-        .h-name { font-weight: 700; font-size: 15px; color: var(--text-main); }
-        .h-cat { font-size: 12px; color: var(--text-main); opacity: 0.7; font-weight: 600; }
-        .h-price { font-weight: 800; color: var(--text-main); text-align: right; }
-        .h-twd { font-size: 12px; color: var(--color-accent); display: block; font-weight: 600; }
-        .del-btn { color: var(--text-main); opacity: 0.3; background: none; border: none; font-size: 20px; padding-left: 10px; }
+        .h-name { font-weight: 800; font-size: 16px; }
+        .h-cat { font-size: 13px; opacity: 0.8; font-weight: 700; margin-top: 4px;}
+        .h-price { font-weight: 900; font-size: 18px; }
+        .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
+        .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; }
 
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
-            padding: 5px 0 15px; scrollbar-width: none;
+            padding: 5px 5px 20px; scrollbar-width: none;
         }
         .date-chip {
             display: inline-block;
-            background: rgba(255,255,255,0.3); border: 2px solid var(--text-main);
-            padding: 8px 16px; border-radius: 20px;
-            margin-right: 8px; font-size: 14px; font-weight: 700;
+            background: var(--bg-input); border: var(--border-width) solid var(--text-main);
+            padding: 10px 18px; border-radius: 25px;
+            margin-right: 10px; font-size: 15px; font-weight: 800;
             color: var(--text-main); cursor: pointer; transition: 0.2s;
+            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
         }
         .date-chip.active {
-            background: var(--color-accent); color: #FFF; border-color: var(--text-main);
-            box-shadow: 2px 2px 0 var(--text-main);
+            background: var(--color-accent); color: #FFF;
+            box-shadow: 3px 3px 0 var(--text-main);
+            transform: translate(-2px, -2px);
         }
 
         .cat-row { 
-            display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; 
+            display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px;
         }
         
         .cat-btn {
-            flex: 1; min-width: 70px; text-align: center;
-            padding: 10px 5px; border-radius: 10px;
-            background: rgba(255,255,255,0.3); border: 2px solid var(--text-main);
-            font-size: 13px; font-weight: 700; color: var(--text-main);
+            flex: 1; min-width: 75px; text-align: center;
+            padding: 12px 5px; border-radius: 12px;
+            background: var(--bg-input); border: var(--border-width) solid var(--text-main);
+            font-size: 14px; font-weight: 800; color: var(--text-main);
             cursor: pointer; transition: 0.2s;
+            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
         }
         .cat-btn.active {
             background: var(--text-main); 
-            color: var(--bg-main); border-color: var(--text-main);
-            box-shadow: 2px 2px 0 var(--color-accent);
+            color: var(--bg-card);
+            box-shadow: 3px 3px 0 var(--color-accent);
+            transform: translate(-2px, -2px);
         }
-        .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
+        .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 var(--text-main));}
 
         /* --- 資料管理區 --- */
         .data-mgr-section {
-            border-top: 1px solid rgba(116, 64, 79, 0.2);
-            padding-top: 20px; margin-top: 20px;
+            border-top: var(--border-width) dashed var(--text-main);
+            padding-top: 25px; margin-top: 30px;
         }
-        .data-mgr-title { font-size: 14px; color: var(--text-main); font-weight: 700; margin-bottom: 10px; }
+        .data-mgr-title { 
+            font-family: var(--font-serif); font-size: 18px; 
+            color: var(--text-main); -webkit-text-stroke: 0.5px var(--text-main);
+            margin-bottom: 15px;
+        }
         
-        .btn-row { display: flex; gap: 10px; }
+        .btn-row { display: flex; gap: 12px; }
         
         .export-btn, .backup-btn, .restore-btn {
-            padding: 12px; border-radius: 10px; 
-            font-size: 14px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            transition: 0.2s;
+            padding: 14px; border-radius: 12px; 
+            font-size: 15px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s; border: var(--border-width) solid var(--text-main);
+            box-shadow: 3px 3px 0 rgba(116, 64, 79, 0.3);
         }
         
-        .backup-btn, .restore-btn { flex: 1; }
-        .backup-btn { background: transparent; border: 2px solid var(--text-main); color: var(--text-main); }
-        .restore-btn { background: transparent; border: 2px solid rgba(116, 64, 79, 0.4); color: rgba(116, 64, 79, 0.6); }
+        .backup-btn, .restore-btn { flex: 1; background: var(--bg-input); }
         
         .export-btn { 
             width: 100%; margin-top: 15px; 
-            background: transparent; border: 2px dashed var(--color-accent); color: var(--color-accent); 
+            background: var(--bg-input); border-style: dashed; color: var(--color-accent);
         }
         
-        .export-btn:active, .backup-btn:active { opacity: 0.6; transform: scale(0.98); }
+        .export-btn:active, .backup-btn:active, .restore-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(116, 64, 79, 0.3); }
 
         /* --- 行程部分 --- */
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
         .day-schedule.active { display: block; }
 
-        .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
+        .timeline { position: relative; padding-left: 25px; padding-top: 15px; }
         .timeline::before {
-            content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
-            width: 2px; background: var(--text-main); 
-            opacity: 0.3;
+            content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+            width: 4px; background: var(--text-main); 
+            border-radius: 4px;
         }
 
         .day-header {
             font-family: var(--font-serif);
-            font-weight: 700; color: var(--text-main); font-size: 20px;
-            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--color-accent);
-            text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+            font-size: 26px; color: var(--color-accent);
+            margin-bottom: 25px; padding-left: 15px; 
+            -webkit-text-stroke: 1px var(--text-main);
+            text-shadow: 3px 3px 0 var(--text-main);
         }
 
         .trip-card {
-            background: var(--bg-card); border-radius: 12px; 
-            margin-bottom: 30px; position: relative;
-            box-shadow: 4px 4px 0 rgba(116, 64, 79, 0.2); 
-            border: 2px solid var(--text-main); overflow: hidden; 
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            background-image: radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%),
+                              radial-gradient(rgba(116, 64, 79, 0.15) 10%, transparent 10%);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 5px 5px 0px rgba(116, 64, 79, 0.4);
+            color: var(--text-main);
+            overflow: hidden;
+            margin-bottom: 35px; position: relative;
         }
         .trip-card::after {
-            content: ''; position: absolute; left: -26px; top: 20px;
-            width: 14px; height: 14px; border-radius: 50%;
-            background: var(--bg-main); border: 3px solid var(--text-main); z-index: 1;
+            content: ''; position: absolute; left: -32px; top: 25px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1;
         }
 
         .card-img-top { 
-            width: 100%; height: 180px; object-fit: cover; display: block; 
-            border-bottom: 2px solid var(--text-main); 
+            width: 100%; height: 200px; object-fit: cover; display: block; 
+            border-bottom: var(--border-width) solid var(--text-main); 
         }
-        .card-content { padding: 20px; color: var(--text-main); }
+        .card-content { padding: 25px; }
 
         .t-time { 
-            font-size: 14px; font-weight: 800; color: var(--color-accent); 
-            margin-bottom: 5px; letter-spacing: 0.5px; 
-            display: inline-block; border-bottom: 2px solid rgba(116, 64, 79, 0.2);
+            font-size: 16px; font-weight: 900; color: var(--color-accent); 
+            margin-bottom: 8px; display: inline-block; 
+            border-bottom: 3px solid rgba(116, 64, 79, 0.3);
         }
         .t-title { 
             font-family: var(--font-serif);
-            font-size: 22px; font-weight: 800; margin-bottom: 12px; 
-            line-height: 1.3; color: var(--text-main); 
+            font-size: 24px; font-weight: normal; margin-bottom: 15px; 
+            line-height: 1.3; -webkit-text-stroke: 1px var(--text-main);
         }
         
         .t-kr-name {
-            display: block; font-size: 16px; color: var(--text-main); opacity: 0.8;
-            font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
-            font-weight: 600; margin-top: 4px;
+            display: block; font-size: 16px; font-weight: 700; margin-top: 6px;
+            font-family: -apple-system, sans-serif; -webkit-text-stroke: 0;
         }
         
-        .info-block { display: flex; gap: 10px; margin-bottom: 8px; font-size: 15px; }
-        .i-icon { color: var(--color-accent); width: 20px; text-align: center; }
-        .i-text { color: var(--text-main); flex: 1; line-height: 1.5; font-weight: 500; }
+        .info-block { display: flex; gap: 12px; margin-bottom: 10px; font-size: 16px; }
+        .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; filter: drop-shadow(1px 1px 0 var(--text-main)); }
+        .i-text { flex: 1; line-height: 1.5; font-weight: 700; }
         
         .pill { 
-            display: inline-block; padding: 3px 8px; border-radius: 4px; 
-            font-size: 12px; background: var(--text-main); color: var(--bg-card); font-weight: 600; 
+            display: inline-block; padding: 4px 10px; border-radius: 6px; 
+            font-size: 13px; background: var(--text-main); color: var(--bg-card); font-weight: 800; 
         }
 
         .naver-link {
             display: flex; align-items: center; justify-content: center;
             background: var(--text-main); color: var(--bg-card); text-decoration: none;
-            padding: 14px; border-radius: 8px; margin-top: 18px;
-            font-size: 14px; font-weight: 700; gap: 8px; 
-            transition: 0.2s; border: 1px solid var(--text-main);
+            padding: 15px; border-radius: 12px; margin-top: 20px;
+            font-size: 16px; font-weight: 800; gap: 8px; 
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: 3px 3px 0 var(--color-accent);
+            transition: 0.2s;
         }
-        .naver-link:active { background: transparent; color: var(--text-main); }
+        .naver-link:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--color-accent); }
         
-        .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
-        .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; padding: 12px; }
+        .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
+        .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="header-info">
-            <div class="app-title">BUSAN TRIP</div>
+            <div class="app-title">Busan Trip</div>
             <div id="weather-badge" class="weather-badge" onclick="updateWeatherLocation()">
                 📍 定位天氣
             </div>
@@ -462,7 +545,7 @@
     <div id="view-accounting" class="view-container active">
         <div class="balance-card">
             <div class="rate-tag" id="rate-display">匯率載入中...</div>
-            <div class="balance-label">TRIP TOTAL</div>
+            <div class="balance-label">Trip Total</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
             
@@ -538,7 +621,7 @@
         
         <div class="flight-ticket">
             <div class="ticket-header outbound">
-                <div class="ticket-label">OUTBOUND 去程</div>
+                <div class="ticket-label">Outbound 去程</div>
                 <div class="ticket-date">2025/3/5 (四)</div>
             </div>
             <div class="ticket-body">
@@ -572,7 +655,7 @@
 
         <div class="flight-ticket">
             <div class="ticket-header inbound">
-                <div class="ticket-label">INBOUND 回程</div>
+                <div class="ticket-label">Inbound 回程</div>
                 <div class="ticket-date">2025/3/9 (一)</div>
             </div>
             <div class="ticket-body">
@@ -654,7 +737,7 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
                         <div class="info-block"><div class="i-icon">📝</div><div class="i-text">附近也有咖啡廳可坐坐</div></div>
-                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--color-accent); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
+                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--color-accent); font-size:14px; font-weight:800; text-decoration:none; display:block; margin-top:10px;">READ MORE →</a>
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -682,21 +765,21 @@
                         <div class="info-block" style="flex-direction:column; gap:15px;">
                             <div>
                                 <strong>1. 富平罐頭市場</strong>
-                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">부평깡통시장</span>
-                                <span style="font-size:13px; opacity:0.7;">부산 중구 부평1길 48</span>
+                                <span style="display:block; font-size:14px; color:var(--color-accent); font-weight:800;">부평깡통시장</span>
+                                <span style="font-size:13px; opacity:0.8;">부산 중구 부평1길 48</span>
                             </div>
                             <div>
-                                <strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--color-accent);">*買棉被</span>
-                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">국제시장</span>
-                                <span style="font-size:13px; opacity:0.7;">부산 중구 신창동4가</span>
+                                <strong>2. 國際市場</strong> <span style="font-size:13px; color:var(--color-accent); font-weight:800;">*買棉被</span>
+                                <span style="display:block; font-size:14px; color:var(--color-accent); font-weight:800;">국제시장</span>
+                                <span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가</span>
                             </div>
                             <div>
                                 <strong>3. 阿里郎街</strong>
-                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">아리랑거리</span>
-                                <span style="font-size:13px; opacity:0.7;">부산 중구 광복로35번길 11</span>
+                                <span style="display:block; font-size:14px; color:var(--color-accent); font-weight:800;">아리랑거리</span>
+                                <span style="font-size:13px; opacity:0.8;">부산 중구 광복로35번길 11</span>
                             </div>
                         </div>
-                        <div class="info-block" style="margin-top:10px;">
+                        <div class="info-block" style="margin-top:15px;">
                             <div class="i-icon">🚶</div>
                             <div class="i-text"><span class="pill">步行</span> 市場間移動皆約 1-3 分鐘</div>
                         </div>
@@ -754,7 +837,7 @@
                         <div class="t-title">
                             回飯店
                         </div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; opacity:0.6;">(토요코인 부산중앙역)</span></div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; opacity:0.7;">(토요코인 부산중앙역)</span></div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從樂天百貨約 15 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -762,9 +845,9 @@
             </div>
         </div>
 
-        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 3 尚無行程</div></div>
-        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 4 尚無行程</div></div>
-        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 5 尚無行程</div></div>
+        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:var(--text-main);padding:50px;opacity:0.6; font-weight:800;">Day 3 尚無行程</div></div>
+        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:var(--text-main);padding:50px;opacity:0.6; font-weight:800;">Day 4 尚無行程</div></div>
+        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:var(--text-main);padding:50px;opacity:0.6; font-weight:800;">Day 5 尚無行程</div></div>
 
     </div>
 
@@ -964,7 +1047,7 @@
                     });
                 }
             });
-            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#FFF; padding:30px; opacity:0.8;">尚無記帳資料</div>';
+            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:var(--text-main); padding:30px; opacity:0.6; font-weight:800;">尚無記帳資料</div>';
             
             document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
