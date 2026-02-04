@@ -7,20 +7,29 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#273E49">
+    <meta name="theme-color" content="#8DD0D6">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
     <style>
         :root {
-            /* --- 復古海報配色系統 --- */
-            --bg-main: #273E49;      /* 深岩藍 */
-            --bg-paper: #F4F1EA;     /* 米黃紙張 */
-            --color-pink: #EA998E;   /* 復古粉 */
-            --color-orange: #D48572; /* 陶土橘 */
-            --color-green: #AFD28D;  /* 抹茶綠 */
-            --text-dark: #273E49;    
-            --text-light: #F4F1EA;   
+            /* --- 依照數量分配配色 --- */
+            
+            /* 1. 最多：背景色 (湖水藍) */
+            --bg-main: #8DD0D6;      
+            
+            /* 2. 次多：卡片底色 (柔和粉) */
+            --bg-card: #F3A9A9;     
+            
+            /* 3. 第三：文字與線條 (深酒紅) - 確保閱讀清晰 */
+            --text-main: #74404F;    
+            
+            /* 4. 最少：強調點綴 (亮桃紅) */
+            --color-accent: #E7336E; 
+
+            /* 輔助：輸入框底色 (米白，避免粉色底太花) */
+            --bg-input: #FDFBF7;
+            
             --border-radius: 12px;
             --font-serif: "Georgia", "Times New Roman", serif;
         }
@@ -30,17 +39,17 @@
             margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-main); 
-            color: var(--text-light);
+            color: var(--text-main);
             padding-bottom: 60px;
         }
 
         /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
-            background: rgba(39, 62, 73, 0.98); 
+            background: rgba(141, 208, 214, 0.95); /* --bg-main 帶透明度 */
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--color-orange);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            border-bottom: 2px solid var(--text-main);
+            box-shadow: 0 4px 15px rgba(116, 64, 79, 0.15);
             padding-top: env(safe-area-inset-top);
         }
 
@@ -52,14 +61,14 @@
             font-family: var(--font-serif);
             font-size: 24px; font-weight: 900; 
             letter-spacing: 2px; 
-            color: var(--color-pink); 
-            text-shadow: 2px 2px 0px #000;
+            color: var(--text-main); 
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
         }
         
         .weather-badge {
-            font-size: 13px; font-weight: 700; color: var(--bg-main);
-            background: var(--color-green); padding: 6px 12px; border-radius: 20px;
-            text-decoration: none; border: 1px solid var(--text-light);
+            font-size: 13px; font-weight: 700; color: var(--bg-card);
+            background: var(--text-main); padding: 6px 12px; border-radius: 20px;
+            text-decoration: none; border: 1px solid var(--text-main);
             cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 5px;
         }
@@ -72,14 +81,17 @@
 
         .nav-btn {
             flex: 1; text-align: center; padding: 10px 0;
-            font-size: 14px; font-weight: 600; color: var(--color-pink);
+            font-size: 14px; font-weight: 700; color: var(--text-main);
             cursor: pointer; position: relative; transition: 0.3s;
-            background: none; border: 1px solid var(--color-pink);
+            background: none; border: 2px solid var(--text-main);
             border-radius: 8px; white-space: nowrap;
         }
+        /* Active 狀態使用第4色 (強調色) */
         .nav-btn.active { 
-            background: var(--color-pink); color: var(--bg-main); 
-            font-weight: 800; box-shadow: 0 4px 0 var(--color-orange);
+            background: var(--color-accent); 
+            color: #FFF; 
+            border-color: var(--text-main);
+            box-shadow: 2px 2px 0 var(--text-main);
             transform: translateY(-2px);
         }
         .nav-btn:active { transform: translateY(0); box-shadow: none; }
@@ -88,19 +100,19 @@
         .nav-select-wrapper::after {
             content: '▼'; 
             position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-            font-size: 10px; color: var(--bg-main); pointer-events: none;
+            font-size: 10px; color: var(--text-main); pointer-events: none;
         }
         .nav-select {
             width: 100%; appearance: none; -webkit-appearance: none;
             padding: 10px 10px; border-radius: 8px; 
-            border: 1px solid var(--color-orange);
-            font-size: 14px; font-weight: 700; color: var(--color-orange);
+            border: 2px solid var(--text-main);
+            font-size: 14px; font-weight: 700; color: var(--text-main);
             background: transparent; outline: none; transition: 0.3s;
         }
         .nav-select.active {
-            background: var(--color-orange); 
+            background: var(--text-main); 
             color: var(--bg-main);
-            box-shadow: 0 4px 0 var(--color-pink);
+            box-shadow: 2px 2px 0 var(--color-accent);
             transform: translateY(-2px);
         }
         .nav-select-wrapper.active::after { color: var(--bg-main); }
@@ -112,167 +124,172 @@
 
         /* --- 機票樣式 (Flight Ticket) --- */
         .flight-ticket {
-            background: var(--bg-paper); 
+            background: var(--bg-card); /* 第2色：粉紅底 */
             border-radius: 12px;
             margin-bottom: 25px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border: 1px solid var(--color-pink);
+            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2);
+            border: 2px solid var(--text-main); /* 第3色：深色框 */
             position: relative;
+            color: var(--text-main);
         }
         
-        /* --- 左右缺口效果 (半圓拼貼法 - 絕對平整) --- */
+        /* --- 左右缺口效果 (半圓拼貼法) --- */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 125px; 
-            width: 10px; height: 20px; /* 只有一半寬度，物理上不可能凸出去 */
-            background-color: var(--bg-main); 
+            width: 10px; height: 20px; 
+            background-color: var(--bg-main); /* 使用背景色(藍)來遮擋 */
             z-index: 2;
-            border: 1px solid var(--color-pink);
+            border: 2px solid var(--text-main);
             box-sizing: border-box;
         }
 
-        /* 左側缺口：靠左對齊，只留右半圓 */
+        /* 左側缺口 */
         .flight-ticket::before { 
-            left: -1px; /* 剛好蓋住邊框線 */
-            border-radius: 0 10px 10px 0; /* 右半圓 */
-            border-left: none; /* 移除直邊的框線 */
+            left: -2px; 
+            border-radius: 0 10px 10px 0; 
+            border-left: none; 
         }
 
-        /* 右側缺口：靠右對齊，只留左半圓 */
+        /* 右側缺口 */
         .flight-ticket::after { 
-            right: -1px; /* 剛好蓋住邊框線 */
-            border-radius: 10px 0 0 10px; /* 左半圓 */
-            border-right: none; /* 移除直邊的框線 */
+            right: -2px; 
+            border-radius: 10px 0 0 10px; 
+            border-right: none; 
         }
 
         .ticket-header {
             padding: 12px 20px; 
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px dashed var(--bg-main);
-            border-radius: 11px 11px 0 0;
+            border-bottom: 2px dashed var(--text-main);
+            border-radius: 10px 10px 0 0;
         }
-        .ticket-header.outbound { background: var(--color-green); color: var(--bg-main); }
-        .ticket-header.inbound { background: var(--color-orange); color: var(--bg-main); }
+        /* 去程回程用不同顏色區分，但保持在色系內 */
+        .ticket-header.outbound { background: rgba(255,255,255,0.3); color: var(--text-main); }
+        .ticket-header.inbound { background: rgba(116, 64, 79, 0.1); color: var(--text-main); }
         
         .ticket-label { font-weight: 800; font-size: 16px; font-family: var(--font-serif); letter-spacing: 1px; }
         .ticket-date { font-weight: 700; font-size: 14px; opacity: 0.9; }
 
-        .ticket-body { padding: 20px; color: var(--text-dark); position: relative; }
+        .ticket-body { padding: 20px; color: var(--text-main); position: relative; }
         
         .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .airport-code { font-size: 32px; font-weight: 900; font-family: var(--font-serif); line-height: 1; }
-        .airport-name { font-size: 12px; color: #666; font-weight: 600; display: block; margin-top: 4px; }
+        .airport-name { font-size: 12px; opacity: 0.8; font-weight: 600; display: block; margin-top: 4px; }
         
         .flight-icon { 
-            font-size: 20px; color: var(--color-pink); 
-            transform: rotate(90deg); /* 飛機圖標轉向 */
+            font-size: 20px; color: var(--color-accent); 
+            transform: rotate(90deg); 
         }
 
         .time-row { 
             display: flex; justify-content: space-between; 
-            border-top: 1px solid #DDD; padding-top: 15px; margin-top: 10px;
+            border-top: 2px solid rgba(116, 64, 79, 0.15); padding-top: 15px; margin-top: 10px;
         }
         .time-col { flex: 1; }
-        .time-val { font-size: 20px; font-weight: 800; color: var(--text-dark); }
-        .time-lbl { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 2px; display: block;}
+        .time-val { font-size: 20px; font-weight: 800; color: var(--text-main); }
+        .time-lbl { font-size: 12px; opacity: 0.7; font-weight: 600; margin-bottom: 2px; display: block;}
         
         .flight-info-row {
-            margin-top: 15px; background: #EAE6DE; 
+            margin-top: 15px; background: rgba(255,255,255,0.4);
             padding: 10px; border-radius: 8px;
-            display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: #555;
+            display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--text-main);
         }
-        .airline-logo { display:flex; align-items:center; gap:5px; color: var(--bg-main); font-weight: 800; }
+        .airline-logo { display:flex; align-items:center; gap:5px; color: var(--text-main); font-weight: 800; }
 
 
         /* --- 資產卡片 --- */
         .balance-card {
-            background: linear-gradient(135deg, var(--color-orange), #C06C5A);
-            color: var(--bg-paper); 
+            background: var(--bg-card); /* 第2色：粉紅 */
+            color: var(--text-main);
             border-radius: 16px; padding: 20px 25px 15px;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.3);
+            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2);
             margin-bottom: 25px; position: relative; overflow: hidden;
-            border: 2px solid var(--bg-paper);
+            border: 2px solid var(--text-main);
         }
+        /* 裝飾圓 */
         .balance-card::before {
-            content: ''; position: absolute; right: -10px; top: -10px;
-            width: 100px; height: 100px; background: var(--color-pink);
-            border-radius: 50%; opacity: 0.3; pointer-events: none;
+            content: ''; position: absolute; right: -20px; top: -20px;
+            width: 120px; height: 120px; background: var(--color-accent);
+            border-radius: 50%; opacity: 0.15; pointer-events: none;
         }
         .balance-label { 
             font-family: var(--font-serif); letter-spacing: 1px; 
-            font-size: 14px; opacity: 0.9; color: var(--bg-main); font-weight: 700;
+            font-size: 14px; opacity: 0.8; font-weight: 700;
         }
         .balance-amount { 
             font-family: var(--font-serif);
             font-size: 36px; font-weight: 900; margin: 5px 0 5px; 
-            text-shadow: 2px 2px 0 var(--bg-main);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
         }
-        .balance-sub { font-size: 15px; color: var(--bg-main); font-weight: 700; }
+        .balance-sub { font-size: 15px; opacity: 0.9; font-weight: 700; }
+        
         .rate-tag { 
             position: absolute; top: 20px; right: 20px; 
-            font-size: 12px; background: var(--bg-main); color: var(--color-pink);
+            font-size: 12px; background: var(--text-main); color: var(--bg-card);
             padding: 4px 8px; border-radius: 4px; font-weight: bold;
         }
 
         /* 內嵌統計列 */
         .stats-divider {
-            border-top: 1px dashed rgba(39, 62, 73, 0.4);
-            margin: 15px 0 10px;
+            border-top: 1px dashed var(--text-main);
+            margin: 15px 0 10px; opacity: 0.5;
         }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-col { text-align: center; flex: 1; }
         .stat-icon-small { font-size: 16px; display: block; margin-bottom: 2px; }
         .stat-val-small { 
             font-size: 13px; font-weight: 800; 
-            color: var(--bg-main); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         /* --- 輸入區 --- */
         .input-area {
-            background: var(--bg-paper); padding: 20px; border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px;
-            border: 1px solid var(--color-pink);
+            background: var(--bg-card); padding: 20px; border-radius: 16px;
+            box-shadow: 4px 4px 0px rgba(116, 64, 79, 0.2); margin-bottom: 20px;
+            border: 2px solid var(--text-main);
         }
-        .input-title { font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 10px; display:block; border-left: 4px solid var(--color-orange); padding-left: 8px;}
+        .input-title { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 10px; display:block; border-left: 4px solid var(--color-accent); padding-left: 8px;}
         .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
         
         .modern-input {
-            width: 100%; padding: 12px; border: 2px solid #E0DCD5;
-            border-radius: 8px; background: #FFF; outline: none;
-            font-size: 15px; color: var(--text-dark); transition: 0.3s;
+            width: 100%; padding: 12px; border: 2px solid var(--text-main);
+            border-radius: 8px; background: var(--bg-input); outline: none;
+            font-size: 15px; color: var(--text-main); transition: 0.3s;
             font-weight: 600;
         }
-        .modern-input::placeholder { color: #AAA; font-weight: 400; }
-        .modern-input:focus { border-color: var(--color-orange); background: #FFF; }
+        .modern-input::placeholder { color: rgba(116, 64, 79, 0.4); font-weight: 400; }
+        .modern-input:focus { border-color: var(--color-accent); background: #FFF; }
         
         .add-btn {
-            width: 100%; background: var(--color-green); color: var(--bg-main);
-            padding: 14px; border-radius: 8px; border: 2px solid var(--bg-main);
+            width: 100%; background: var(--color-accent); color: #FFF;
+            padding: 14px; border-radius: 8px; border: 2px solid var(--text-main);
             font-size: 16px; font-weight: 800; cursor: pointer;
-            box-shadow: 4px 4px 0px var(--bg-main);
+            box-shadow: 4px 4px 0px var(--text-main);
             transition: 0.2s; margin-top: 5px;
         }
-        .add-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--bg-main); }
+        .add-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--text-main); }
 
         .history-list { margin-top: 10px; padding-bottom: 20px; }
         
         .date-divider {
             font-family: var(--font-serif);
-            font-size: 18px; font-weight: 700; color: var(--color-pink);
+            font-size: 18px; font-weight: 700; color: var(--text-main);
             margin: 30px 0 15px 5px; letter-spacing: 1px;
-            border-bottom: 1px dashed var(--color-pink); padding-bottom: 5px;
+            border-bottom: 2px dashed var(--text-main); padding-bottom: 5px;
         }
 
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-paper); padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; border-left: 6px solid var(--color-orange);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background: var(--bg-card); padding: 15px; border-radius: 10px;
+            margin-bottom: 10px; border-left: 6px solid var(--color-accent);
+            border: 1px solid var(--text-main); border-left-width: 6px;
+            box-shadow: 3px 3px 0px rgba(116, 64, 79, 0.1);
         }
-        .h-name { font-weight: 700; font-size: 15px; color: var(--text-dark); }
-        .h-cat { font-size: 12px; color: #888; font-weight: 600; }
-        .h-price { font-weight: 800; color: var(--text-dark); text-align: right; }
-        .h-twd { font-size: 12px; color: var(--color-orange); display: block; font-weight: 600; }
-        .del-btn { color: #CCC; background: none; border: none; font-size: 20px; padding-left: 10px; }
+        .h-name { font-weight: 700; font-size: 15px; color: var(--text-main); }
+        .h-cat { font-size: 12px; color: var(--text-main); opacity: 0.7; font-weight: 600; }
+        .h-price { font-weight: 800; color: var(--text-main); text-align: right; }
+        .h-twd { font-size: 12px; color: var(--color-accent); display: block; font-weight: 600; }
+        .del-btn { color: var(--text-main); opacity: 0.3; background: none; border: none; font-size: 20px; padding-left: 10px; }
 
         .date-scroll-container {
             overflow-x: auto; white-space: nowrap;
@@ -280,14 +297,14 @@
         }
         .date-chip {
             display: inline-block;
-            background: #EAE6DE; border: 1px solid #CCC;
+            background: rgba(255,255,255,0.3); border: 2px solid var(--text-main);
             padding: 8px 16px; border-radius: 20px;
             margin-right: 8px; font-size: 14px; font-weight: 700;
-            color: #888; cursor: pointer; transition: 0.2s;
+            color: var(--text-main); cursor: pointer; transition: 0.2s;
         }
         .date-chip.active {
-            background: var(--color-green); color: var(--bg-main); border-color: var(--text-dark);
-            box-shadow: 2px 2px 0 var(--text-dark);
+            background: var(--color-accent); color: #FFF; border-color: var(--text-main);
+            box-shadow: 2px 2px 0 var(--text-main);
         }
 
         .cat-row { 
@@ -297,23 +314,23 @@
         .cat-btn {
             flex: 1; min-width: 70px; text-align: center;
             padding: 10px 5px; border-radius: 10px;
-            background: #EAE6DE; border: 1px solid #CCC;
-            font-size: 13px; font-weight: 700; color: #888;
+            background: rgba(255,255,255,0.3); border: 2px solid var(--text-main);
+            font-size: 13px; font-weight: 700; color: var(--text-main);
             cursor: pointer; transition: 0.2s;
         }
         .cat-btn.active {
-            background: var(--color-pink); 
-            color: var(--bg-main); border-color: var(--text-dark);
-            box-shadow: 2px 2px 0 var(--text-dark);
+            background: var(--text-main); 
+            color: var(--bg-main); border-color: var(--text-main);
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
         .cat-emoji { font-size: 18px; display: block; margin-bottom: 4px; }
 
         /* --- 資料管理區 --- */
         .data-mgr-section {
-            border-top: 1px solid rgba(255,255,255,0.2);
+            border-top: 1px solid rgba(116, 64, 79, 0.2);
             padding-top: 20px; margin-top: 20px;
         }
-        .data-mgr-title { font-size: 14px; color: var(--color-pink); font-weight: 700; margin-bottom: 10px; }
+        .data-mgr-title { font-size: 14px; color: var(--text-main); font-weight: 700; margin-bottom: 10px; }
         
         .btn-row { display: flex; gap: 10px; }
         
@@ -325,12 +342,12 @@
         }
         
         .backup-btn, .restore-btn { flex: 1; }
-        .backup-btn { background: transparent; border: 2px solid var(--color-green); color: var(--color-green); }
-        .restore-btn { background: transparent; border: 2px solid #AAA; color: #CCC; }
+        .backup-btn { background: transparent; border: 2px solid var(--text-main); color: var(--text-main); }
+        .restore-btn { background: transparent; border: 2px solid rgba(116, 64, 79, 0.4); color: rgba(116, 64, 79, 0.6); }
         
         .export-btn { 
             width: 100%; margin-top: 15px; 
-            background: transparent; border: 2px dashed var(--color-orange); color: var(--color-orange); 
+            background: transparent; border: 2px dashed var(--color-accent); color: var(--color-accent); 
         }
         
         .export-btn:active, .backup-btn:active { opacity: 0.6; transform: scale(0.98); }
@@ -342,69 +359,69 @@
         .timeline { position: relative; padding-left: 20px; padding-top: 10px; }
         .timeline::before {
             content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
-            width: 2px; background: var(--color-pink); 
-            opacity: 0.5;
+            width: 2px; background: var(--text-main); 
+            opacity: 0.3;
         }
 
         .day-header {
             font-family: var(--font-serif);
-            font-weight: 700; color: var(--color-green); font-size: 20px;
-            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--color-green);
-            text-shadow: 1px 1px 0 #000;
+            font-weight: 700; color: var(--text-main); font-size: 20px;
+            margin-bottom: 20px; padding-left: 10px; border-left: 4px solid var(--color-accent);
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
         }
 
         .trip-card {
-            background: var(--bg-paper); border-radius: 12px; 
+            background: var(--bg-card); border-radius: 12px; 
             margin-bottom: 30px; position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
-            border: 1px solid var(--color-pink); overflow: hidden; 
+            box-shadow: 4px 4px 0 rgba(116, 64, 79, 0.2); 
+            border: 2px solid var(--text-main); overflow: hidden; 
         }
         .trip-card::after {
             content: ''; position: absolute; left: -26px; top: 20px;
             width: 14px; height: 14px; border-radius: 50%;
-            background: var(--bg-main); border: 3px solid var(--color-green); z-index: 1;
+            background: var(--bg-main); border: 3px solid var(--text-main); z-index: 1;
         }
 
         .card-img-top { 
             width: 100%; height: 180px; object-fit: cover; display: block; 
-            border-bottom: 4px solid var(--color-pink); 
+            border-bottom: 2px solid var(--text-main); 
         }
-        .card-content { padding: 20px; color: var(--text-dark); }
+        .card-content { padding: 20px; color: var(--text-main); }
 
         .t-time { 
-            font-size: 14px; font-weight: 800; color: var(--color-orange); 
+            font-size: 14px; font-weight: 800; color: var(--color-accent); 
             margin-bottom: 5px; letter-spacing: 0.5px; 
-            display: inline-block; border-bottom: 2px solid rgba(212, 133, 114, 0.3);
+            display: inline-block; border-bottom: 2px solid rgba(116, 64, 79, 0.2);
         }
         .t-title { 
             font-family: var(--font-serif);
             font-size: 22px; font-weight: 800; margin-bottom: 12px; 
-            line-height: 1.3; color: var(--text-dark); 
+            line-height: 1.3; color: var(--text-main); 
         }
         
         .t-kr-name {
-            display: block; font-size: 16px; color: var(--color-orange); 
+            display: block; font-size: 16px; color: var(--text-main); opacity: 0.8;
             font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
             font-weight: 600; margin-top: 4px;
         }
         
         .info-block { display: flex; gap: 10px; margin-bottom: 8px; font-size: 15px; }
-        .i-icon { color: var(--color-orange); width: 20px; text-align: center; }
-        .i-text { color: #555; flex: 1; line-height: 1.5; font-weight: 500; }
+        .i-icon { color: var(--color-accent); width: 20px; text-align: center; }
+        .i-text { color: var(--text-main); flex: 1; line-height: 1.5; font-weight: 500; }
         
         .pill { 
             display: inline-block; padding: 3px 8px; border-radius: 4px; 
-            font-size: 12px; background: var(--bg-main); color: var(--text-light); font-weight: 600; 
+            font-size: 12px; background: var(--text-main); color: var(--bg-card); font-weight: 600; 
         }
 
         .naver-link {
             display: flex; align-items: center; justify-content: center;
-            background: var(--text-dark); color: var(--text-light); text-decoration: none;
+            background: var(--text-main); color: var(--bg-card); text-decoration: none;
             padding: 14px; border-radius: 8px; margin-top: 18px;
             font-size: 14px; font-weight: 700; gap: 8px; 
-            transition: 0.2s; border: 1px solid var(--text-dark);
+            transition: 0.2s; border: 1px solid var(--text-main);
         }
-        .naver-link:active { background: transparent; color: var(--text-dark); }
+        .naver-link:active { background: transparent; color: var(--text-main); }
         
         .multi-btn-row { display: flex; gap: 10px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 13px; padding: 12px; }
@@ -637,7 +654,7 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
                         <div class="info-block"><div class="i-icon">📝</div><div class="i-text">附近也有咖啡廳可坐坐</div></div>
-                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--color-orange); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
+                        <a href="https://tsnio.com/gamcheon-culture-village/" target="_blank" style="color:var(--color-accent); font-size:13px; font-weight:600; text-decoration:none; display:block; margin-top:5px;">READ MORE →</a>
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -665,18 +682,18 @@
                         <div class="info-block" style="flex-direction:column; gap:15px;">
                             <div>
                                 <strong>1. 富平罐頭市場</strong>
-                                <span style="display:block; font-size:12px; color:var(--color-orange); font-weight:600;">부평깡통시장</span>
-                                <span style="font-size:13px; color:#888;">부산 중구 부평1길 48</span>
+                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">부평깡통시장</span>
+                                <span style="font-size:13px; opacity:0.7;">부산 중구 부평1길 48</span>
                             </div>
                             <div>
-                                <strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--color-pink);">*買棉被</span>
-                                <span style="display:block; font-size:12px; color:var(--color-orange); font-weight:600;">국제시장</span>
-                                <span style="font-size:13px; color:#888;">부산 중구 신창동4가</span>
+                                <strong>2. 國際市場</strong> <span style="font-size:12px; color:var(--color-accent);">*買棉被</span>
+                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">국제시장</span>
+                                <span style="font-size:13px; opacity:0.7;">부산 중구 신창동4가</span>
                             </div>
                             <div>
                                 <strong>3. 阿里郎街</strong>
-                                <span style="display:block; font-size:12px; color:var(--color-orange); font-weight:600;">아리랑거리</span>
-                                <span style="font-size:13px; color:#888;">부산 중구 광복로35번길 11</span>
+                                <span style="display:block; font-size:12px; color:var(--color-accent); font-weight:600;">아리랑거리</span>
+                                <span style="font-size:13px; opacity:0.7;">부산 중구 광복로35번길 11</span>
                             </div>
                         </div>
                         <div class="info-block" style="margin-top:10px;">
@@ -737,7 +754,7 @@
                         <div class="t-title">
                             回飯店
                         </div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; color:#999;">(토요코인 부산중앙역)</span></div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125<br><span style="font-size:12px; opacity:0.6;">(토요코인 부산중앙역)</span></div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從樂天百貨約 15 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -745,9 +762,9 @@
             </div>
         </div>
 
-        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 3 尚無行程</div></div>
-        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 4 尚無行程</div></div>
-        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:var(--text-light);padding:50px;">Day 5 尚無行程</div></div>
+        <div id="day3-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 3 尚無行程</div></div>
+        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 4 尚無行程</div></div>
+        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:#FFF;padding:50px;opacity:0.8;">Day 5 尚無行程</div></div>
 
     </div>
 
@@ -767,7 +784,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
             
-            // 恢復上次的狀態 (如果是飛行資訊也恢復)
+            // 恢復上次的狀態
             if(savedTab === 'itinerary') {
                 const savedDay = localStorage.getItem('active_day') || 'day1';
                 switchView('itinerary', savedDay);
@@ -924,7 +941,6 @@
             const listEl = document.getElementById('expense-list');
             listEl.innerHTML = '';
             
-            // 統計變數
             let grandTotal = 0;
             let stats = { '交通':0, '食物':0, '購物':0, '其他':0 };
 
@@ -948,13 +964,11 @@
                     });
                 }
             });
-            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#ccc; padding:30px;">尚無記帳資料</div>';
+            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:#FFF; padding:30px; opacity:0.8;">尚無記帳資料</div>';
             
-            // 更新總金額
             document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
 
-            // 更新分類統計
             document.getElementById('stat-transport').textContent = `₩${stats['交通'].toLocaleString()}`;
             document.getElementById('stat-food').textContent = `₩${stats['食物'].toLocaleString()}`;
             document.getElementById('stat-shopping').textContent = `₩${stats['購物'].toLocaleString()}`;
