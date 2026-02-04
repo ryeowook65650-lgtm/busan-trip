@@ -65,17 +65,17 @@
         }
         .weather-badge:active { transform: scale(0.95); opacity: 0.8; }
 
-        /* 導覽列 */
+        /* 導覽列 (調整為三欄) */
         .nav-bar-row { 
-            display: flex; align-items: center; padding: 5px 20px 15px; gap: 15px; 
+            display: flex; align-items: center; padding: 5px 15px 15px; gap: 8px; 
         }
 
         .nav-btn {
             flex: 1; text-align: center; padding: 10px 0;
-            font-size: 16px; font-weight: 600; color: var(--color-pink);
+            font-size: 14px; font-weight: 600; color: var(--color-pink);
             cursor: pointer; position: relative; transition: 0.3s;
             background: none; border: 1px solid var(--color-pink);
-            border-radius: 8px;
+            border-radius: 8px; white-space: nowrap;
         }
         .nav-btn.active { 
             background: var(--color-pink); color: var(--bg-main); 
@@ -84,17 +84,17 @@
         }
         .nav-btn:active { transform: translateY(0); box-shadow: none; }
 
-        .nav-select-wrapper { flex: 1.5; position: relative; }
+        .nav-select-wrapper { flex: 1.3; position: relative; }
         .nav-select-wrapper::after {
             content: '▼'; 
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 12px; color: var(--bg-main); pointer-events: none;
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            font-size: 10px; color: var(--bg-main); pointer-events: none;
         }
         .nav-select {
             width: 100%; appearance: none; -webkit-appearance: none;
-            padding: 10px 15px; border-radius: 8px; 
+            padding: 10px 10px; border-radius: 8px; 
             border: 1px solid var(--color-orange);
-            font-size: 15px; font-weight: 700; color: var(--color-orange);
+            font-size: 14px; font-weight: 700; color: var(--color-orange);
             background: transparent; outline: none; transition: 0.3s;
         }
         .nav-select.active {
@@ -110,7 +110,62 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 資產卡片 (整合統計功能) --- */
+        /* --- 機票樣式 (Flight Ticket) --- */
+        .flight-ticket {
+            background: var(--bg-paper); border-radius: 12px;
+            margin-bottom: 25px; overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border: 1px solid var(--color-pink);
+            position: relative;
+        }
+        /* 左右缺口效果 */
+        .flight-ticket::before, .flight-ticket::after {
+            content: ''; position: absolute; top: 125px; 
+            width: 20px; height: 20px; background-color: var(--bg-main);
+            border-radius: 50%; z-index: 2;
+        }
+        .flight-ticket::before { left: -10px; }
+        .flight-ticket::after { right: -10px; }
+
+        .ticket-header {
+            padding: 12px 20px; 
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px dashed var(--bg-main);
+        }
+        .ticket-header.outbound { background: var(--color-green); color: var(--bg-main); }
+        .ticket-header.inbound { background: var(--color-orange); color: var(--bg-main); }
+        
+        .ticket-label { font-weight: 800; font-size: 16px; font-family: var(--font-serif); letter-spacing: 1px; }
+        .ticket-date { font-weight: 700; font-size: 14px; opacity: 0.9; }
+
+        .ticket-body { padding: 20px; color: var(--text-dark); position: relative; }
+        
+        .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .airport-code { font-size: 32px; font-weight: 900; font-family: var(--font-serif); line-height: 1; }
+        .airport-name { font-size: 12px; color: #666; font-weight: 600; display: block; margin-top: 4px; }
+        
+        .flight-icon { 
+            font-size: 20px; color: var(--color-pink); 
+            transform: rotate(90deg); /* 飛機圖標轉向 */
+        }
+
+        .time-row { 
+            display: flex; justify-content: space-between; 
+            border-top: 1px solid #DDD; padding-top: 15px; margin-top: 10px;
+        }
+        .time-col { flex: 1; }
+        .time-val { font-size: 20px; font-weight: 800; color: var(--text-dark); }
+        .time-lbl { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 2px; display: block;}
+        
+        .flight-info-row {
+            margin-top: 15px; background: #EAE6DE; 
+            padding: 10px; border-radius: 8px;
+            display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: #555;
+        }
+        .airline-logo { display:flex; align-items:center; gap:5px; color: var(--bg-main); font-weight: 800; }
+
+
+        /* --- 資產卡片 --- */
         .balance-card {
             background: linear-gradient(135deg, var(--color-orange), #C06C5A);
             color: var(--bg-paper); 
@@ -145,18 +200,13 @@
             border-top: 1px dashed rgba(39, 62, 73, 0.4);
             margin: 15px 0 10px;
         }
-        .stats-row {
-            display: flex; justify-content: space-between;
-        }
-        .stat-col {
-            text-align: center; flex: 1;
-        }
+        .stats-row { display: flex; justify-content: space-between; }
+        .stat-col { text-align: center; flex: 1; }
         .stat-icon-small { font-size: 16px; display: block; margin-bottom: 2px; }
         .stat-val-small { 
             font-size: 13px; font-weight: 800; 
             color: var(--bg-main); font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
-
 
         /* --- 輸入區 --- */
         .input-area {
@@ -249,7 +299,6 @@
         
         .btn-row { display: flex; gap: 10px; }
         
-        /* 通用按鈕樣式 */
         .export-btn, .backup-btn, .restore-btn {
             padding: 12px; border-radius: 10px; 
             font-size: 14px; font-weight: 700; cursor: pointer;
@@ -257,18 +306,12 @@
             transition: 0.2s;
         }
         
-        /* 備份與還原按鈕 (並排) */
-        .backup-btn, .restore-btn {
-            flex: 1; 
-        }
-
+        .backup-btn, .restore-btn { flex: 1; }
         .backup-btn { background: transparent; border: 2px solid var(--color-green); color: var(--color-green); }
         .restore-btn { background: transparent; border: 2px solid #AAA; color: #CCC; }
         
-        /* 匯出 CSV 按鈕 (獨立一行，拉長) */
         .export-btn { 
-            width: 100%; /* 拉長對齊 */
-            margin-top: 15px; /* 下移一點 */
+            width: 100%; margin-top: 15px; 
             background: transparent; border: 2px dashed var(--color-orange); color: var(--color-orange); 
         }
         
@@ -321,7 +364,6 @@
             line-height: 1.3; color: var(--text-dark); 
         }
         
-        /* 韓文名稱樣式 */
         .t-kr-name {
             display: block; font-size: 16px; color: var(--color-orange); 
             font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
@@ -363,6 +405,10 @@
         <div class="nav-bar-row">
             <button class="nav-btn active" id="btn-accounting" onclick="switchView('accounting')">
                 支出紀錄
+            </button>
+            
+            <button class="nav-btn" id="btn-flight" onclick="switchView('flight')">
+                航班資訊
             </button>
             
             <div class="nav-select-wrapper" id="wrapper-itinerary">
@@ -451,6 +497,78 @@
             <button onclick="exportToCSV()" class="export-btn">📤 匯出 Excel (CSV)</button>
             <input type="file" id="import-file" style="display:none" onchange="importData(this)">
         </div>
+    </div>
+
+    <div id="view-flight" class="view-container">
+        
+        <div class="flight-ticket">
+            <div class="ticket-header outbound">
+                <div class="ticket-label">OUTBOUND 去程</div>
+                <div class="ticket-date">2025/3/5 (四)</div>
+            </div>
+            <div class="ticket-body">
+                <div class="route-row">
+                    <div>
+                        <span class="airport-code">TPE</span>
+                        <span class="airport-name">台北桃園 T2</span>
+                    </div>
+                    <div class="flight-icon">✈</div>
+                    <div style="text-align:right;">
+                        <span class="airport-code">PUS</span>
+                        <span class="airport-name">釜山金海 I</span>
+                    </div>
+                </div>
+                <div class="time-row">
+                    <div class="time-col">
+                        <span class="time-lbl">DEPARTURE</span>
+                        <span class="time-val">14:25</span>
+                    </div>
+                    <div class="time-col" style="text-align:right;">
+                        <span class="time-lbl">ARRIVAL</span>
+                        <span class="time-val">17:40</span>
+                    </div>
+                </div>
+                <div class="flight-info-row">
+                    <div class="airline-logo">🌲 EVA AIR BR164</div>
+                    <div>2h 15m • A321</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flight-ticket">
+            <div class="ticket-header inbound">
+                <div class="ticket-label">INBOUND 回程</div>
+                <div class="ticket-date">2025/3/9 (一)</div>
+            </div>
+            <div class="ticket-body">
+                <div class="route-row">
+                    <div>
+                        <span class="airport-code">PUS</span>
+                        <span class="airport-name">釜山金海 I</span>
+                    </div>
+                    <div class="flight-icon">✈</div>
+                    <div style="text-align:right;">
+                        <span class="airport-code">TPE</span>
+                        <span class="airport-name">台北桃園 T2</span>
+                    </div>
+                </div>
+                <div class="time-row">
+                    <div class="time-col">
+                        <span class="time-lbl">DEPARTURE</span>
+                        <span class="time-val">18:55</span>
+                    </div>
+                    <div class="time-col" style="text-align:right;">
+                        <span class="time-lbl">ARRIVAL</span>
+                        <span class="time-val">20:25</span>
+                    </div>
+                </div>
+                <div class="flight-info-row">
+                    <div class="airline-logo">🌲 EVA AIR BR163</div>
+                    <div>2h 30m • A321</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="view-itinerary" class="view-container">
@@ -631,12 +749,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
             
+            // 恢復上次的狀態 (如果是飛行資訊也恢復)
             if(savedTab === 'itinerary') {
                 const savedDay = localStorage.getItem('active_day') || 'day1';
                 switchView('itinerary', savedDay);
                 document.getElementById('day-selector').value = savedDay;
             } else {
-                switchView('accounting');
+                switchView(savedTab);
             }
             
             const savedRate = localStorage.getItem('saved_exchange_rate');
@@ -694,21 +813,31 @@
         function switchView(target, dayId) {
             localStorage.setItem('active_tab', target);
             
+            // 隱藏所有視圖
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             
+            // 重置按鈕樣式
+            document.getElementById('btn-accounting').classList.remove('active');
+            document.getElementById('btn-flight').classList.remove('active');
+            document.getElementById('day-selector').classList.remove('active');
+            document.getElementById('wrapper-itinerary').classList.remove('active');
+
             if (target === 'accounting') {
                 document.getElementById('view-accounting').classList.add('active');
                 document.getElementById('btn-accounting').classList.add('active');
-                document.getElementById('day-selector').classList.remove('active');
-                document.getElementById('wrapper-itinerary').classList.remove('active');
                 document.getElementById('day-selector').value = "";
             } 
+            else if (target === 'flight') {
+                document.getElementById('view-flight').classList.add('active');
+                document.getElementById('btn-flight').classList.add('active');
+                document.getElementById('day-selector').value = "";
+            }
             else if (target === 'itinerary') {
                 if (!dayId) dayId = 'day1';
                 document.getElementById('view-itinerary').classList.add('active');
                 document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
                 document.getElementById(dayId + '-content').classList.add('active');
-                document.getElementById('btn-accounting').classList.remove('active');
+                
                 document.getElementById('day-selector').classList.add('active');
                 document.getElementById('wrapper-itinerary').classList.add('active');
                 localStorage.setItem('active_day', dayId);
