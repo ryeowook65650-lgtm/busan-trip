@@ -13,63 +13,34 @@
 
     <style>
         :root {
-            /* --- 質感透明玻璃配色 (Glassmorphism) --- */
+            /* --- 昭和復古配色 (實色版) --- */
+            --bg-main: #DCD3CC;      /* 淺米色 */
+            --bg-card: #FFFFFF;      /* 白色 */
+            --text-main: #326775;    /* 深青色 */
+            --color-accent: #546A88; /* 柔和藍 */
+            --bg-input: #FFFFFF;
             
-            /* 基底背景：原本的米色，但給予高透明度，透出底層 */
-            --bg-main-glass: rgba(220, 211, 204, 0.3);
-            
-            /* 卡片背景：高透明度的白色，製造磨砂玻璃感 */
-            --bg-card-glass: rgba(255, 255, 255, 0.35);
-            
-            /* 輸入框/次要按鈕背景：稍微不透明一點，增加層次 */
-            --bg-input-glass: rgba(255, 255, 255, 0.5);
-
-            /* 主要文字/邊框：深青色，稍微降低一點點透明度讓它不那麼死硬 */
-            --text-main: rgba(50, 103, 117, 0.95);
-            
-            /* 強調色/主按鈕：柔和藍，設為半透明 */
-            --color-accent-glass: rgba(84, 106, 136, 0.8);
-            /* 強調色文字：保留實色以確保閱讀性 */
-            --color-accent-solid: #546A88;
-
             --border-radius: 16px; 
             --font-serif: "Georgia", "Times New Roman", serif;
-            
-            /* 邊框稍微變細，配合輕盈感 */
-            --border-width: 2px; 
-            /* 陰影變得更淡更柔和 */
-            --box-shadow-soft: 4px 4px 0px rgba(50, 103, 117, 0.08);
-            
-            /* 核心濾鏡：磨砂玻璃模糊效果 */
-            --glass-blur: blur(12px);
+            --border-width: 3px; 
+            --box-shadow-soft: 4px 4px 0px rgba(50, 103, 117, 0.15);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        /* 給 HTML 一個基底色，當 body 透明時會透出來，增加層次感 */
-        html { background-color: #F0F0F0; }
-
         body { 
             margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-            /* 整體背景改為半透明米色 */
-            background-color: var(--bg-main-glass);
+            background-color: var(--bg-main);
             color: var(--text-main);
             padding-bottom: 60px;
-            /* 讓整個頁面背景也有一點模糊感，增加景深 */
-            backdrop-filter: blur(5px); 
-            min-height: 100vh;
         }
 
-        /* --- 頂部固定區 (玻璃化) --- */
+        /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
-            /* 背景半透明 + 模糊濾鏡 */
-            background-color: var(--bg-card-glass);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur); /* Safari 支援 */
+            background: var(--bg-main);
             border-bottom: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft);
+            box-shadow: 0 2px 5px rgba(50, 103, 117, 0.05);
             padding-top: env(safe-area-inset-top);
         }
 
@@ -82,24 +53,21 @@
             font-size: 28px; 
             font-weight: 900; 
             letter-spacing: 1px; 
-            color: var(--color-accent-solid); 
-            text-shadow: 2px 2px 0px rgba(50, 103, 117, 0.2);
+            color: var(--color-accent); 
+            text-shadow: 2px 2px 0px var(--text-main); 
         }
         
         .weather-badge {
             font-size: 14px; font-weight: 800; color: #FFF;
-            /* 天氣按鈕改為半透明強調色 */
-            background: var(--color-accent-glass);
-            backdrop-filter: var(--glass-blur);
-            padding: 8px 14px; border-radius: 30px;
+            background: var(--text-main); padding: 8px 14px; border-radius: 30px;
             text-decoration: none; border: var(--border-width) solid var(--text-main);
             cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 5px;
-            box-shadow: 2px 2px 0 var(--color-accent-solid);
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
         .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
-        /* --- 導覽列 (玻璃化按鈕) --- */
+        /* --- 導覽列 --- */
         .nav-bar-row { 
             display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
         }
@@ -109,9 +77,7 @@
             text-align: center; padding: 12px 0;
             font-size: 15px; font-weight: 800; color: var(--text-main);
             cursor: pointer; position: relative; transition: 0.2s;
-            /* 按鈕背景半透明 + 模糊 */
-            background: var(--bg-input-glass); 
-            backdrop-filter: var(--glass-blur);
+            background: var(--bg-input); 
             border: var(--border-width) solid var(--text-main);
             border-radius: 12px; 
             box-shadow: var(--box-shadow-soft);
@@ -128,10 +94,9 @@
         }
         .nav-select { padding: 12px 15px; text-align: left; }
 
-        /* 選中狀態：使用半透明強調色 */
         .nav-btn.active, 
         .nav-select-wrapper.active .nav-select {
-            background: var(--color-accent-glass); 
+            background: var(--color-accent); 
             color: #FFF;                     
             box-shadow: 2px 2px 0 var(--text-main); 
             transform: translate(2px, 2px);  
@@ -150,13 +115,9 @@
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 通用卡片樣式 (核心玻璃效果) --- */
+        /* --- 卡片樣式 --- */
         .retro-card {
-            /* 背景改為高透明度白色 */
-            background-color: var(--bg-card-glass);
-            /* 加入磨砂玻璃濾鏡 */
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background-color: var(--bg-card);
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
@@ -165,9 +126,7 @@
 
         .flight-ticket {
             @extend .retro-card;
-            background-color: var(--bg-card-glass);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background-color: var(--bg-card);
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
@@ -176,190 +135,158 @@
             position: relative;
         }
         
-        /* 機票缺口也需要透明化，這裡用一個小技巧：用半透明的邊框色來模擬 */
         .flight-ticket::before, .flight-ticket::after {
             content: ''; position: absolute; top: 135px; 
             width: 12px; height: 24px; 
-            background-color: transparent; /* 內部透明 */
+            background-color: var(--bg-main); 
             z-index: 2;
             border: var(--border-width) solid var(--text-main);
             box-sizing: border-box;
-            /* 利用 box-shadow 模擬缺口處的底色，這裡用一個較深的半透明色 */
-            box-shadow: inset 0 0 0 10px rgba(220, 211, 204, 0.5); 
         }
-        .flight-ticket::before { left: -var(--border-width); border-radius: 0 12px 12px 0; border-left: none; }
-        .flight-ticket::after { right: -var(--border-width); border-radius: 12px 0 0 12px; border-right: none; }
+        .flight-ticket::before { left: -3px; border-radius: 0 12px 12px 0; border-left: none; }
+        .flight-ticket::after { right: -3px; border-radius: 12px 0 0 12px; border-right: none; }
 
         .ticket-header {
             padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0;
         }
-        /* 機票 Header 的半透明背景 */
-        .ticket-header.outbound { background: rgba(84, 106, 136, 0.15); }
-        .ticket-header.inbound { background: rgba(50, 103, 117, 0.15); }
+        .ticket-header.outbound { background: rgba(84, 106, 136, 0.1); }
+        .ticket-header.inbound { background: rgba(50, 103, 117, 0.1); }
         
-        .ticket-label { font-family: var(--font-serif); font-size: 18px; font-weight: 900; color: var(--color-accent-solid); }
+        .ticket-label { font-family: var(--font-serif); font-size: 18px; font-weight: 900; color: var(--color-accent); }
         .ticket-date { font-weight: 800; font-size: 15px; }
         .ticket-body { padding: 25px; position: relative; border-radius: 0 0 13px 13px; }
         
         .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; color: var(--text-main); }
-        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.8; }
+        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.7; }
         
         .flight-icon { 
             font-size: 28px; 
-            color: var(--color-accent-solid); 
+            color: var(--color-accent); 
             transform: none; 
         }
 
         .time-row { display: flex; justify-content: space-between; border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px; }
         .time-col { flex: 1; }
         .time-val { font-size: 24px; font-weight: 900; }
-        .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.7;}
+        .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.6;}
         
         .flight-info-row {
-            margin-top: 20px; 
-            /* 內部資訊列也使用半透明白背景 */
-            background: var(--bg-input-glass); 
-            padding: 12px 15px; border-radius: 10px;
+            margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px;
             display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
-            border: var(--border-width) solid var(--text-main); box-shadow: var(--box-shadow-soft);
+            border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft);
         }
         
         .airline-logo { 
             display:flex; align-items:center; gap:8px; 
             font-weight: 900;
-            color: #568c71; /* EVA 綠色保持實色，對比更鮮明 */
+            color: #568c71; /* 綠色 */
         }
 
-        /* --- 資產卡片 (玻璃化) --- */
+        /* --- 資產卡片 --- */
         .balance-card {
-            background-color: var(--bg-card-glass);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background-color: var(--bg-card);
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative;
         }
         .balance-card::before {
             content: ''; position: absolute; right: -30px; top: -30px;
-            width: 140px; height: 140px; 
-            background: var(--color-accent-glass); /* 裝飾圓圈也半透明 */
-            border-radius: 50%; opacity: 0.4; pointer-events: none;
+            width: 140px; height: 140px; background: var(--color-accent);
+            border-radius: 50%; opacity: 0.3; pointer-events: none;
             border: var(--border-width) solid var(--text-main);
         }
-        .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent-solid); }
-        /* 金額文字：因為背景變透明，文字內部改用半透明白，邊框維持深色，增加層次 */
-        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: rgba(255,255,255,0.7); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 3px 3px 0 rgba(50, 103, 117, 0.3); }
+        .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
+        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 3px 3px 0 var(--text-main); }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
         .rate-tag { 
             position: absolute; top: 25px; right: 25px; 
             font-size: 13px; background: var(--text-main); color: #FFF;
             padding: 6px 10px; border-radius: 8px; font-weight: 800;
-            border: var(--border-width) solid rgba(255,255,255,0.5); box-shadow: 2px 2px 0 var(--color-accent-solid);
+            border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent);
         }
 
-        .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.5; }
+        .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.4; }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-col { text-align: center; flex: 1; }
         .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2)); }
         .stat-val-small { font-size: 15px; font-weight: 800; }
 
-        /* --- 輸入區 (玻璃化) --- */
+        /* --- 輸入區 --- */
         .input-area {
-            background-color: var(--bg-card-glass);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background-color: var(--bg-card);
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; padding: 25px; margin-bottom: 25px;
         }
-        .input-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--color-accent-solid); margin-bottom: 15px; display:block; }
+        .input-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--color-accent); margin-bottom: 15px; display:block; }
         .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
         
-        /* 輸入框玻璃化 */
         .modern-input {
             width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
-            border-radius: 12px; 
-            background: var(--bg-input-glass); /* 半透明背景 */
-            backdrop-filter: var(--glass-blur);
-            outline: none;
+            border-radius: 12px; background: var(--bg-input); outline: none;
             font-size: 16px; color: var(--text-main); transition: 0.3s;
             font-weight: 700; box-shadow: var(--box-shadow-soft);
         }
-        .modern-input::placeholder { color: rgba(50, 103, 117, 0.5); }
-        .modern-input:focus { border-color: var(--color-accent-solid); box-shadow: 2px 2px 0 var(--color-accent-solid); }
+        .modern-input::placeholder { color: rgba(50, 103, 117, 0.4); }
+        .modern-input:focus { border-color: var(--color-accent); box-shadow: 2px 2px 0 var(--color-accent); }
         
-        /* 新增按鈕玻璃化 */
         .add-btn {
-            width: 100%; 
-            background: var(--color-accent-glass); /* 半透明強調色 */
-            backdrop-filter: var(--glass-blur);
-            color: #FFF;
+            width: 100%; background: var(--color-accent); color: #FFF;
             padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
             font-size: 18px; font-weight: 800; cursor: pointer;
             box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px;
-            text-shadow: 1px 1px 0 var(--text-main);
         }
         .add-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 
         .history-list { margin-top: 15px; padding-bottom: 20px; }
         .date-divider {
-            font-family: var(--font-serif); font-size: 22px; color: var(--color-accent-solid);
+            font-family: var(--font-serif); font-size: 22px; color: var(--color-accent);
             font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2);
         }
-        /* 歷史紀錄項目玻璃化 */
         .history-item {
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-input-glass);
-            backdrop-filter: var(--glass-blur);
-            padding: 18px; border-radius: 14px;
+            background: #FFFFFF; padding: 18px; border-radius: 14px;
             margin-bottom: 12px; border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
         }
         .h-name { font-weight: 800; font-size: 16px; }
-        .h-cat { font-size: 13px; opacity: 0.8; font-weight: 700; margin-top: 4px;}
+        .h-cat { font-size: 13px; opacity: 0.7; font-weight: 700; margin-top: 4px;}
         .h-price { font-weight: 900; font-size: 18px; }
-        .h-twd { font-size: 13px; color: var(--color-accent-solid); display: block; font-weight: 700; }
+        .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
         .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; opacity: 0.5;}
 
-        /* 日期與分類按鈕玻璃化 */
         .date-scroll-container { overflow-x: auto; white-space: nowrap; padding: 5px 5px 20px; scrollbar-width: none; }
-        .date-chip, .cat-btn {
-            display: inline-block; 
-            background: var(--bg-input-glass);
-            backdrop-filter: var(--glass-blur);
-            border: var(--border-width) solid var(--text-main);
+        .date-chip {
+            display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main);
             padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800;
             color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
         }
-        .cat-btn { flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px; margin-right: 0; }
-        
-        .date-chip.active, .cat-btn.active { 
-            background: var(--color-accent-glass); 
-            color: #FFF; 
-            box-shadow: var(--box-shadow-soft); transform: translate(-2px, -2px); 
-             text-shadow: 1px 1px 0 var(--text-main);
-        }
+        .date-chip.active { background: var(--color-accent); color: #FFF; box-shadow: var(--box-shadow-soft); transform: translate(-2px, -2px); }
 
         .cat-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .cat-btn {
+            flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px;
+            background: #FFFFFF; border: var(--border-width) solid var(--text-main);
+            font-size: 14px; font-weight: 800; color: var(--text-main);
+            cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
+        }
+        .cat-btn.active { background: var(--text-main); color: #FFF; box-shadow: 2px 2px 0 var(--color-accent); transform: translate(-2px, -2px); }
         .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2));}
 
         .data-mgr-section { border-top: var(--border-width) dashed var(--text-main); padding-top: 25px; margin-top: 30px; }
         .data-mgr-title { font-family: var(--font-serif); font-size: 18px; color: var(--text-main); margin-bottom: 15px; }
         .btn-row { display: flex; gap: 12px; }
-        
-        /* 管理按鈕玻璃化 */
         .export-btn, .backup-btn, .restore-btn {
             padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             transition: 0.2s; border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
-            background: var(--bg-input-glass);
-            backdrop-filter: var(--glass-blur);
         }
-        .export-btn { width: 100%; margin-top: 15px; border-style: dashed; color: var(--color-accent-solid); }
+        .backup-btn, .restore-btn { flex: 1; background: #FFFFFF; }
+        .export-btn { width: 100%; margin-top: 15px; background: #FFFFFF; border-style: dashed; color: var(--color-accent); }
         .export-btn:active, .backup-btn:active, .restore-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
@@ -370,16 +297,12 @@
             background: var(--text-main); border-radius: 4px; opacity: 0.3;
         }
         .day-header {
-            font-family: var(--font-serif); font-size: 26px; color: var(--color-accent-solid);
+            font-family: var(--font-serif); font-size: 26px; color: var(--color-accent);
             margin-bottom: 25px; padding-left: 15px; font-weight: 900;
             text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2);
         }
-        
-        /* --- 行程卡片 (玻璃化，但照片保持原樣) --- */
         .trip-card {
-            background-color: var(--bg-card-glass);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background-color: var(--bg-card);
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; margin-bottom: 35px; position: relative;
@@ -387,30 +310,22 @@
         .trip-card::after {
             content: ''; position: absolute; left: -32px; top: 25px;
             width: 18px; height: 18px; border-radius: 50%;
-            background: var(--color-accent-solid); border: var(--border-width) solid var(--text-main); z-index: 1;
+            background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1;
         }
-        /* *** 關鍵：照片保持 100% 不透明，不套用濾鏡 *** */
-        .card-img-top { 
-            width: 100%; height: 200px; object-fit: cover; display: block; 
-            border-bottom: var(--border-width) solid var(--text-main);
-            opacity: 1; /* 確保不透明 */
-        }
+        .card-img-top { width: 100%; height: 200px; object-fit: cover; display: block; border-bottom: var(--border-width) solid var(--text-main); }
         .card-content { padding: 25px; }
-        .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent-solid); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); }
+        .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); }
         .t-title { font-family: var(--font-serif); font-size: 24px; font-weight: 900; margin-bottom: 15px; line-height: 1.3; }
         .t-kr-name { display: block; font-size: 16px; font-weight: 700; margin-top: 6px; font-family: -apple-system, sans-serif; }
         .info-block { display: flex; gap: 12px; margin-bottom: 10px; font-size: 16px; }
-        .i-icon { color: var(--color-accent-solid); width: 24px; text-align: center; font-size: 20px; }
+        .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; }
         .i-text { flex: 1; line-height: 1.5; font-weight: 700; }
         .pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; background: var(--text-main); color: #FFF; font-weight: 800; }
-        
-        /* NAVER 連結按鈕玻璃化 */
         .naver-link {
             display: flex; align-items: center; justify-content: center;
-            background: var(--text-main); /* 保持實色以強調 */
-            color: #FFF; text-decoration: none;
+            background: var(--text-main); color: #FFF; text-decoration: none;
             padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; 
-            border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent-solid); transition: 0.2s;
+            border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s;
         }
         .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
