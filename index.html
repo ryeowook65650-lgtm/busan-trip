@@ -31,10 +31,7 @@
             margin: 0; padding: 0; 
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-main);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%);
-            background-size: 14px 14px;
-            background-position: 0 0, 7px 7px;
+            /* 已移除背景點點圖案 */
             color: var(--text-main);
             padding-bottom: 60px;
         }
@@ -43,10 +40,7 @@
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-main);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%);
-            background-size: 14px 14px;
-            background-position: 0 0, 7px 7px;
+            /* 已移除背景點點圖案 */
             border-bottom: var(--border-width) solid var(--text-main);
             box-shadow: 0 2px 5px rgba(50, 103, 117, 0.05);
             padding-top: env(safe-area-inset-top);
@@ -126,10 +120,7 @@
         /* --- 卡片樣式 --- */
         .retro-card {
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%);
-            background-size: 10px 10px;
-            background-position: 0 0, 5px 5px;
+            /* 已移除背景點點圖案 */
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
@@ -139,10 +130,7 @@
         .flight-ticket {
             @extend .retro-card;
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%);
-            background-size: 10px 10px;
-            background-position: 0 0, 5px 5px;
+            /* 已移除背景點點圖案 */
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
@@ -155,9 +143,7 @@
             content: ''; position: absolute; top: 135px; 
             width: 12px; height: 24px; 
             background-color: var(--bg-main); 
-            background-image: radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.06) 15%, transparent 15%);
-            background-size: 14px 14px;
+            /* 已移除背景點點圖案 */
             z-index: 2;
             border: var(--border-width) solid var(--text-main);
             box-sizing: border-box;
@@ -207,9 +193,7 @@
         /* --- 資產卡片 --- */
         .balance-card {
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%);
-            background-size: 10px 10px; background-position: 0 0, 5px 5px;
+            /* 已移除背景點點圖案 */
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative;
@@ -240,9 +224,7 @@
         /* --- 輸入區 --- */
         .input-area {
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%);
-            background-size: 10px 10px; background-position: 0 0, 5px 5px;
+            /* 已移除背景點點圖案 */
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; padding: 25px; margin-bottom: 25px;
@@ -329,9 +311,7 @@
         }
         .trip-card {
             background-color: var(--bg-card);
-            background-image: radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%),
-                              radial-gradient(rgba(50, 103, 117, 0.04) 15%, transparent 15%);
-            background-size: 10px 10px; background-position: 0 0, 5px 5px;
+            /* 已移除背景點點圖案 */
             border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft); color: var(--text-main);
             overflow: hidden; margin-bottom: 35px; position: relative;
@@ -586,7 +566,7 @@
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 中區 中央大路 2 , 1樓</div></div>
                         <div class="info-block"><div class="i-icon">🍓</div><div class="i-text">逛街、去超市買草莓</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從烤肉店約 6 分鐘</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
