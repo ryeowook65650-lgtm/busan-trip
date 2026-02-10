@@ -203,7 +203,10 @@
             border: var(--border-width) solid var(--text-main);
         }
         .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
-        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); }
+        .balance-amount { 
+            font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; 
+            color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); 
+        }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
         .rate-tag { 
@@ -838,6 +841,13 @@
         const BUSAN_LAT = 35.1028;
         const BUSAN_LON = 129.0331;
 
+        // --- 監聽滾動，隨時記住位置 ---
+        window.addEventListener('scroll', () => {
+            if (localStorage.getItem('active_tab') === 'itinerary') {
+                localStorage.setItem('saved_scroll_y', window.scrollY);
+            }
+        });
+
         function refreshAllDynamicData() {
             fetchBusanWeather();
             fetchExchangeRate();
@@ -848,8 +858,15 @@
             
             if(savedTab === 'itinerary') {
                 const savedDay = localStorage.getItem('active_day') || 'day1';
-                switchView('itinerary', savedDay);
+                // --- 載入時告訴 switchView 這是「自動載入」(true)，不要亂跳 ---
+                switchView('itinerary', savedDay, true);
                 document.getElementById('day-selector').value = savedDay;
+                
+                // --- 恢復上次的滾動位置 ---
+                const savedScrollY = localStorage.getItem('saved_scroll_y');
+                if (savedScrollY) {
+                    setTimeout(() => window.scrollTo(0, parseInt(savedScrollY)), 0);
+                }
             } else {
                 switchView(savedTab);
             }
@@ -897,7 +914,8 @@
             return '🌥️';
         }
 
-        function switchView(target, dayId) {
+        // --- switchView 增加 isAutoLoad 參數 ---
+        function switchView(target, dayId, isAutoLoad = false) {
             localStorage.setItem('active_tab', target);
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.getElementById('btn-accounting').classList.remove('active');
@@ -909,13 +927,13 @@
                 document.getElementById('view-accounting').classList.add('active');
                 document.getElementById('btn-accounting').classList.add('active');
                 document.getElementById('day-selector').value = "";
-                window.scrollTo(0,0);
+                if(!isAutoLoad) window.scrollTo(0,0);
             } 
             else if (target === 'flight') {
                 document.getElementById('view-flight').classList.add('active');
                 document.getElementById('btn-flight').classList.add('active');
                 document.getElementById('day-selector').value = "";
-                window.scrollTo(0,0);
+                if(!isAutoLoad) window.scrollTo(0,0);
             }
             else if (target === 'itinerary') {
                 if (!dayId) dayId = 'day1';
@@ -926,23 +944,25 @@
                 document.getElementById('wrapper-itinerary').classList.add('active');
                 localStorage.setItem('active_day', dayId);
                 
-                // 這裡修改：切換日期時，只滾動到該日期頂部，不強制跳到頁面最上方
-                const dayEl = document.getElementById(dayId + '-content');
-                if(dayEl) {
-                    setTimeout(() => {
-                        const offset = 80; 
-                        const bodyRect = document.body.getBoundingClientRect().top;
-                        const elementRect = dayEl.getBoundingClientRect().top;
-                        const elementPosition = elementRect - bodyRect;
-                        const offsetPosition = elementPosition - offset;
+                // --- 只有在「手動點擊」時才自動滾動到日期標題 ---
+                if (!isAutoLoad) {
+                    const dayEl = document.getElementById(dayId + '-content');
+                    if(dayEl) {
+                        setTimeout(() => {
+                            const offset = 80; 
+                            const bodyRect = document.body.getBoundingClientRect().top;
+                            const elementRect = dayEl.getBoundingClientRect().top;
+                            const elementPosition = elementRect - bodyRect;
+                            const offsetPosition = elementPosition - offset;
 
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                    }, 10);
-                } else {
-                    window.scrollTo(0,0);
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }, 10);
+                    } else {
+                        window.scrollTo(0,0);
+                    }
                 }
             }
         }
