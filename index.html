@@ -331,8 +331,34 @@
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
         
-        .choice-divider { text-align:center; font-weight:900; margin: 15px 0; opacity:0.6; font-size:14px; display:flex; align-items:center; gap:10px; color:var(--color-accent); }
-        .choice-divider::before, .choice-divider::after { content:''; height:2px; background:var(--color-accent); flex:1; opacity:0.3; }
+        /* 二擇一樣式優化 */
+        .choice-wrapper {
+            border: 2px dashed var(--color-accent);
+            background: rgba(84, 106, 136, 0.05); /* 淡淡的藍色底 */
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .choice-option { margin-bottom: 10px; }
+        .choice-label {
+            font-size: 13px; background: var(--color-accent); color: #fff;
+            padding: 4px 8px; border-radius: 4px; font-weight: 800;
+            display: inline-block; margin-bottom: 5px;
+        }
+        .choice-or {
+            text-align: center; margin: 15px 0; position: relative; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .choice-or::before {
+            content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
+            background: var(--color-accent); opacity: 0.3;
+        }
+        .choice-or span {
+            background: #FFFFFF; padding: 5px 10px; color: var(--color-accent);
+            font-weight: 900; font-family: var(--font-serif); font-size: 14px;
+            border: 2px solid var(--color-accent); border-radius: 20px;
+            position: relative; z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -538,18 +564,22 @@
                         <div class="t-time">15:00 - 16:30</div>
                         <div class="t-title">景點二擇一<span class="t-kr-name">선택 관광</span></div>
                         
-                        <div style="margin-top:15px;">
-                            <strong>Option 1: 白淺灘文化村</strong> <span style="font-size:13px; color:var(--text-main);">흰여울문화마을</span>
-                            <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 영도구 영선동4가 605-3</div></div>
-                            <div class="info-block"><div class="i-icon">🚕</div><div class="i-text" style="font-size:14px;"><span class="pill">計程車</span> ₩6,500 x 2 (15分)</div></div>
-                        </div>
+                        <div class="choice-wrapper">
+                            <div class="choice-option">
+                                <span class="choice-label">Plan A</span>
+                                <strong>白淺灘文化村</strong> <span style="font-size:13px; color:var(--text-main);">흰여울문화마을</span>
+                                <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 영도구 영선동4가 605-3</div></div>
+                                <div class="info-block"><div class="i-icon">🚕</div><div class="i-text" style="font-size:14px;"><span class="pill">計程車</span> ₩6,500 x 2 (15分)</div></div>
+                            </div>
 
-                        <div class="choice-divider">OR</div>
+                            <div class="choice-or"><span>OR</span></div>
 
-                        <div>
-                            <strong>Option 2: BIFF 廣場</strong> <span style="font-size:13px; color:var(--text-main);">부산BIFF거리</span>
-                            <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 중구 구덕로 44</div></div>
-                            <div class="info-block"><div class="i-icon">🚶</div><div class="i-text" style="font-size:14px;"><span class="pill">步行</span> 5 分鐘</div></div>
+                            <div class="choice-option">
+                                <span class="choice-label">Plan B</span>
+                                <strong>BIFF 廣場</strong> <span style="font-size:13px; color:var(--text-main);">부산BIFF거리</span>
+                                <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 중구 구덕로 44</div></div>
+                                <div class="info-block"><div class="i-icon">🚶</div><div class="i-text" style="font-size:14px;"><span class="pill">步行</span> 5 分鐘</div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
