@@ -18,10 +18,10 @@
     <style>
         :root {
             /* --- 昭和復古配色 (實色高解析版) --- */
-            --bg-main: #DCD3CC;      /* 淺米色 */
-            --bg-card: #FFFFFF;      /* 白色 */
-            --text-main: #326775;    /* 深青色 */
-            --color-accent: #546A88; /* 柔和藍 */
+            --bg-main: #DCD3CC;
+            --bg-card: #FFFFFF;
+            --text-main: #326775;
+            --color-accent: #546A88;
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -52,15 +52,12 @@
             padding: 20px 20px 10px; 
             display: flex; justify-content: space-between; align-items: center;
         }
-        
-        /* --- 修正處：縮小陰影距離 --- */
         .app-title { 
             font-family: var(--font-serif);
             font-size: 28px; 
             font-weight: 900; 
             letter-spacing: 1px; 
             color: var(--color-accent); 
-            /* 修改這裡：改成 1px 1px 讓陰影更緊實 */
             text-shadow: 1px 1px 0px var(--text-main); 
         }
         
@@ -206,19 +203,7 @@
             border: var(--border-width) solid var(--text-main);
         }
         .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
-        
-        /* --- 修正處：縮小金額陰影與描邊 --- */
-        .balance-amount { 
-            font-family: var(--font-serif); 
-            font-size: 42px; 
-            margin: 10px 0; 
-            font-weight: 900; 
-            color: var(--bg-input); 
-            -webkit-text-stroke: 1.5px var(--text-main); 
-            /* 修改這裡：改成 2px 2px，讓它不要分太開 */
-            text-shadow: 2px 2px 0 var(--text-main); 
-        }
-        
+        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
         .rate-tag { 
@@ -646,7 +631,7 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -746,7 +731,7 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -802,7 +787,7 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -924,11 +909,13 @@
                 document.getElementById('view-accounting').classList.add('active');
                 document.getElementById('btn-accounting').classList.add('active');
                 document.getElementById('day-selector').value = "";
+                window.scrollTo(0,0);
             } 
             else if (target === 'flight') {
                 document.getElementById('view-flight').classList.add('active');
                 document.getElementById('btn-flight').classList.add('active');
                 document.getElementById('day-selector').value = "";
+                window.scrollTo(0,0);
             }
             else if (target === 'itinerary') {
                 if (!dayId) dayId = 'day1';
@@ -939,10 +926,23 @@
                 document.getElementById('wrapper-itinerary').classList.add('active');
                 localStorage.setItem('active_day', dayId);
                 
-                // 切換日期時自動滾動到該日期頂端 (UX優化)
+                // 這裡修改：切換日期時，只滾動到該日期頂部，不強制跳到頁面最上方
                 const dayEl = document.getElementById(dayId + '-content');
                 if(dayEl) {
-                    window.scrollTo({ top: dayEl.offsetTop - 80, behavior: 'smooth' });
+                    setTimeout(() => {
+                        const offset = 80; 
+                        const bodyRect = document.body.getBoundingClientRect().top;
+                        const elementRect = dayEl.getBoundingClientRect().top;
+                        const elementPosition = elementRect - bodyRect;
+                        const offsetPosition = elementPosition - offset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 10);
+                } else {
+                    window.scrollTo(0,0);
                 }
             }
         }
