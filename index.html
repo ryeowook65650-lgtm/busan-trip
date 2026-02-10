@@ -13,7 +13,7 @@
 
     <style>
         :root {
-            /* --- 昭和復古配色 (實色版) --- */
+            /* --- 昭和復古配色 (實色高解析版) --- */
             --bg-main: #DCD3CC;      /* 淺米色 */
             --bg-card: #FFFFFF;      /* 白色 */
             --text-main: #326775;    /* 深青色 */
@@ -181,7 +181,7 @@
         .airline-logo { 
             display:flex; align-items:center; gap:8px; 
             font-weight: 900;
-            color: #568c71; /* 綠色 */
+            color: #568c71; /* Sage Green */
         }
 
         /* --- 資產卡片 --- */
@@ -330,6 +330,9 @@
         .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
+        
+        .choice-divider { text-align:center; font-weight:900; margin: 15px 0; opacity:0.6; font-size:14px; display:flex; align-items:center; gap:10px; color:var(--color-accent); }
+        .choice-divider::before, .choice-divider::after { content:''; height:2px; background:var(--color-accent); flex:1; opacity:0.3; }
     </style>
 </head>
 <body>
@@ -460,6 +463,7 @@
                         <div class="t-time">18:40 - 19:40</div>
                         <div class="t-title">Check in: 東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">💡</div><div class="i-text">飯店附近有很多吃的</div></div>
                         <div class="info-block"><div class="i-icon">🚗</div><div class="i-text"><span class="pill">包車</span> 約 40 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -469,7 +473,6 @@
                     <div class="card-content">
                         <div class="t-time">19:40 - 22:00</div>
                         <div class="t-title">飯店附近晚餐<span class="t-kr-name">호텔 근처 저녁 식사</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 附近</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 5 分鐘</div></div>
                     </div>
                 </div>
@@ -485,18 +488,20 @@
                         <div class="t-time">09:00 - 11:00</div>
                         <div class="t-title">甘川洞文化村<span class="t-kr-name">감천문화마을</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,600)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B0%90%EB%82%B42%EB%A1%9C%20203" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <div class="info-block"><div class="i-icon">☕</div><div class="i-text">附近有咖啡廳可坐</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,600 x 2 (約15分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EA%B0%90%EC%B2%9C%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84%EC%95%88%EB%82%B4%EC%84%BC%ED%84%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
                     <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80,w=800" class="card-img-top" alt="豬肉湯飯">
                     <div class="card-content">
                         <div class="t-time">11:00 - 12:00</div>
-                        <div class="t-title">密陽家豬肉湯飯<span class="t-kr-name">밀양순대돼지국밥</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 中區 中區路47番街 35</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 8 分鐘 (₩5,200)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EA%B5%AC%EB%A1%9C47%EB%B2%88%EA%B8%B8%2035" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <div class="t-title">密陽家豬肉湯飯<span class="t-kr-name">밀양집</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중구로47번길 35</div></div>
+                        <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價4.25🌟 推薦豬肉湯飯</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩5,200 x 2 (約8分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%B0%80%EC%96%91%EC%A7%91" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
@@ -511,17 +516,14 @@
                             </div>
                             <div>
                                 <strong>2. 國際市場</strong> <span style="font-size:13px; color:var(--text-main);">국제시장</span>
-                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 (買棉被)</span>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 (很多人買棉被)</span>
                             </div>
                             <div>
                                 <strong>3. 阿里郎街</strong> <span style="font-size:13px; color:var(--text-main);">아리랑거리</span>
                                 <br><span style="font-size:13px; opacity:0.8;">부산 중구 광복로35번길 11</span>
                             </div>
                         </div>
-                        <div class="info-block">
-                            <div class="i-icon">🚶</div>
-                            <div class="i-text"><span class="pill">步行</span> 市場間距離皆約 1 分鐘</div>
-                        </div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 市場間距離皆約 1 分鐘</div></div>
                         <div class="multi-btn-row">
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
@@ -529,44 +531,66 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="trip-card">
-                    <img src="https://tong.visitkorea.or.kr/cms/resource/93/3343193_image2_1.jpg" class="card-img-top" alt="白淺灘">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/93/3343193_image2_1.jpg" class="card-img-top" alt="Choice">
                     <div class="card-content">
-                        <div class="t-time">15:00 - 16:00</div>
-                        <div class="t-title">白淺灘文化村<span class="t-kr-name">흰여울문화마을</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 영도구 영선동4가 605-3</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 15 分鐘 (₩6,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%98%81%EB%8F%84%EA%B5%AC%20%EC%98%81%EC%84%A0%EB%8F%994%EA%B0%80%20605-3" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <div class="t-time">15:00 - 16:30</div>
+                        <div class="t-title">景點二擇一<span class="t-kr-name">선택 관광</span></div>
+                        
+                        <div style="margin-top:15px;">
+                            <strong>Option 1: 白淺灘文化村</strong> <span style="font-size:13px; color:var(--text-main);">흰여울문화마을</span>
+                            <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 영도구 영선동4가 605-3</div></div>
+                            <div class="info-block"><div class="i-icon">🚕</div><div class="i-text" style="font-size:14px;"><span class="pill">計程車</span> ₩6,500 x 2 (15分)</div></div>
+                        </div>
+
+                        <div class="choice-divider">OR</div>
+
+                        <div>
+                            <strong>Option 2: BIFF 廣場</strong> <span style="font-size:13px; color:var(--text-main);">부산BIFF거리</span>
+                            <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 중구 구덕로 44</div></div>
+                            <div class="info-block"><div class="i-icon">🚶</div><div class="i-text" style="font-size:14px;"><span class="pill">步行</span> 5 分鐘</div></div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="trip-card">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK8Q5NDWocFJevYKts9v4wlq7OYSwn0VwnCA&s" class="card-img-top" alt="烤肉">
                     <div class="card-content">
-                        <div class="t-time">16:00 - 18:00</div>
-                        <div class="t-title">晚餐：南浦排骨烤肉<span class="t-kr-name">부산숯불갈비</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 中區 南浦街 40-2 1樓</div></div>
-                        <div class="info-block"><div class="i-icon">🚌</div><div class="i-text"><span class="pill">公車</span> 6號/9號 約 25 分鐘 (₩1,500)</div></div>
-                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%82%A8%ED%8F%AC%EA%B8%B8%2040-2" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <div class="t-time">16:30 - 18:30</div>
+                        <div class="t-title">晚餐：南浦排骨烤肉<span class="t-kr-name">남포돈갈비</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층</div></div>
+                        <div class="info-block" style="flex-direction:column; gap:8px;">
+                            <div style="display:flex; gap:10px;">
+                                <div class="i-icon">🚌</div>
+                                <div class="i-text"><strong>從白淺灘：</strong>搭6或9號公車 (₩1,500, 15分)</div>
+                            </div>
+                            <div style="display:flex; gap:10px;">
+                                <div class="i-icon">🚶</div>
+                                <div class="i-text"><strong>從BIFF：</strong>步行約 9 分鐘</div>
+                            </div>
+                        </div>
+                        <a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%88%EA%B0%88%EB%B9%84" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
                     <img src="image_c3d567.jpg" class="card-img-top" alt="樂天百貨" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'">
                     <div class="card-content">
-                        <div class="t-time">18:00 - 20:00</div>
+                        <div class="t-time">18:30 - 20:00</div>
                         <div class="t-title">樂天百貨光復店<span class="t-kr-name">롯데백화점 광복점</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 中區 中央大路 2 , 1樓</div></div>
-                        <div class="info-block"><div class="i-icon">🍓</div><div class="i-text">逛街、去超市買草莓</div></div>
-                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從烤肉店約 6 分鐘</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층</div></div>
+                        <div class="info-block"><div class="i-icon">🍓</div><div class="i-text">逛街、買草莓</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 6 分鐘</div></div>
                         <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
                 <div class="trip-card">
-                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top" alt="夜景">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top" alt="Hotel">
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 中區 中央大路 125</div></div>
-                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從樂天百貨約 15 分鐘</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -583,8 +607,8 @@
                         <div class="t-time">10:00 - 12:00</div>
                         <div class="t-title">田浦咖啡街<span class="t-kr-name">전포카페거리</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 동천로 92</div></div>
-                        <div class="info-block"><div class="i-icon">☕</div><div class="i-text">很多咖啡廳、文青小店</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 25 分鐘 (₩11,000)</div></div>
+                        <div class="info-block"><div class="i-icon">☕</div><div class="i-text">很多咖啡廳、小店</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (25分)</div></div>
                         <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EB%8F%99%EC%B2%9C%EB%A1%9C%2092" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -595,8 +619,8 @@
                         <div class="t-time">12:00 - 13:00</div>
                         <div class="t-title">松亭3代豬肉湯飯<span class="t-kr-name">송정3대국밥</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로68번길 33</div></div>
-                        <div class="info-block"><div class="i-icon">❤️</div><div class="i-text">媽媽指定要吃！</div></div>
-                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從咖啡街約 10 分鐘</div></div>
+                        <div class="info-block"><div class="i-icon">❤️</div><div class="i-text">媽媽指定要吃</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
                         <a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%953%EB%8C%80%EA%B5%AD%EB%B0%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -607,7 +631,7 @@
                         <div class="t-time">13:00 - 14:30</div>
                         <div class="t-title">西面市場<span class="t-kr-name">서면시장</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로 56</div></div>
-                        <div class="info-block"><div class="i-icon">💰</div><div class="i-text">老奶奶換匯所在這</div></div>
+                        <div class="info-block"><div class="i-icon">💰</div><div class="i-text">老奶奶那英換匯所</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 1 分鐘</div></div>
                         <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EC%84%9C%EB%A9%B4%EB%A1%9C%2056" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -621,14 +645,14 @@
                         <div class="info-block" style="flex-direction:column; gap:15px; margin-top:10px; margin-bottom:15px;">
                             <div>
                                 <strong>1. 西面青春街</strong> <span style="font-size:13px; color:var(--text-main);">서면젊음의거리</span>
-                                <br><span style="font-size:13px; opacity:0.8;">拍貼、飾品、大型衣著賣場</span>
+                                <br><span style="font-size:13px; opacity:0.8;">拍貼、飾品、美髮、大型衣著賣場</span>
                             </div>
                             <div>
                                 <strong>2. 西面地下街</strong> <span style="font-size:13px; color:var(--text-main);">서면몰</span>
-                                <br><span style="font-size:13px; opacity:0.8;">便宜衣服、睡衣 (中央大路 717)</span>
+                                <br><span style="font-size:13px; opacity:0.8;">便宜衣服、睡衣 (可逛可不逛)</span>
                             </div>
                         </div>
-                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 從市場走過去約 4-6 分鐘</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 4-6 分鐘</div></div>
                         <div class="multi-btn-row">
                             <a href="https://map.naver.com/p/search/%EC%84%9C%EB%A9%B4%EC%A0%8A%EC%9D%8C%EC%9D%98%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">青春街</a>
                             <a href="https://map.naver.com/p/search/%EB%8C%80%ED%98%84%ED%94%84%EB%A6%AC%EB%AA%B0%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">地下街</a>
@@ -642,7 +666,7 @@
                         <div class="t-time">17:00 - 18:30</div>
                         <div class="t-title">味贊王鹽烤肉 西面店<span class="t-kr-name">맛찬들왕소금구이 서면점</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 중앙대로691번가길 24-3</div></div>
-                        <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價不錯的烤肉店</div></div>
+                        <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價不錯</div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
                         <a href="https://map.naver.com/p/search/%EB%A7%9B%EC%B0%AC%EB%93%A4%EC%99%95%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4%20%EC%84%9C%EB%A9%B4%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -666,15 +690,94 @@
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> 約 20 分鐘 (₩11,000)</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="day4-content" class="day-schedule"><div style="text-align:center;color:var(--text-main);padding:50px;opacity:0.6; font-weight:800;">Day 4 尚無行程</div></div>
-        <div id="day5-content" class="day-schedule"><div style="text-align:center;color:var(--text-main);padding:50px;opacity:0.6; font-weight:800;">Day 5 尚無行程</div></div>
+        <div id="day4-content" class="day-schedule">
+            <div class="day-header">Day 4 • 3/8 (日)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1616149562385-1d84e79478bb?q=80,w=800" class="card-img-top" alt="海東龍宮寺" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/66/2361666_image2_1.jpg'">
+                    <div class="card-content">
+                        <div class="t-time">09:00 - 11:00</div>
+                        <div class="t-title">海東龍宮寺<span class="t-kr-name">해동용궁사</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86</div></div>
+                        <div class="info-block"><div class="i-icon">🌊</div><div class="i-text">韓國最美海景寺廟</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (40分)</div></div>
+                        <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1636257322967-4299b66f272d?q=80,w=800" class="card-img-top" alt="海雲台市場" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6_JgJ-QJ_XJ_XJ_XJ&s'">
+                    <div class="card-content">
+                        <div class="t-time">11:00 - 12:30</div>
+                        <div class="t-title">海雲台傳統市場 (午餐)<span class="t-kr-name">해운대 전통시장</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 해운대구 중동1로 42-16</div></div>
+                        <div class="info-block"><div class="i-icon">🍢</div><div class="i-text">糖餅、海鮮煎餅、年糕魚板、炸雞、OPS烘焙屋</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩13,000 x 2 (20分)</div></div>
+                        <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%20%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/03/2676003_image2_1.jpg" class="card-img-top" alt="藍線公園">
+                    <div class="card-content">
+                        <div class="t-time">12:30 - 13:30</div>
+                        <div class="t-title">海雲台藍線公園 尾浦站<span class="t-kr-name">블루라인파크 미포정거장</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 해운대구 달맞이길62번길 13</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%EB%B8%94%EB%A3%A8%EB%9D%BC%EC%9D%B8%ED%8C%8C%ED%81%AC%20%EB%AF%B8%ED%8F%AC%EC%A0%95%EA%B1%B0%EC%9E%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1548115184-bc6544d06a58?q=80,w=800" class="card-img-top" alt="Free Time">
+                    <div class="card-content">
+                        <div class="t-time">13:30 - 20:00</div>
+                        <div class="t-title">彈性自由時間<span class="t-kr-name">자유 시간</span></div>
+                        <div class="info-block"><div class="i-icon">✨</div><div class="i-text">重要景點皆已去過，可重訪喜歡的地方或休息</div></div>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top" alt="Hotel">
+                    <div class="card-content">
+                        <div class="t-time">20:00 -</div>
+                        <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day5-content" class="day-schedule">
+            <div class="day-header">Day 5 • 3/9 (一)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/22/2656722_image2_1.jpg" class="card-img-top" alt="40階梯">
+                    <div class="card-content">
+                        <div class="t-time">11:00 - 14:00</div>
+                        <div class="t-title">Check out & 午餐：40階梯文化街<span class="t-kr-name">40계단거리</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙동4가</div></div>
+                        <div class="info-block"><div class="i-icon">🧳</div><div class="i-text">行李先寄放在飯店</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/40%EA%B3%84%EB%8B%A8%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80,w=800" class="card-img-top" alt="機場">
+                    <div class="card-content">
+                        <div class="t-time">14:00 -</div>
+                        <div class="t-title">前往金海國際機場<span class="t-kr-name">김해국제공항</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 강서구 공항진입로 108</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩20,200 x 2 (30分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
