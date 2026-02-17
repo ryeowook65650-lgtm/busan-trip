@@ -18,10 +18,10 @@
     <style>
         :root {
             /* --- 昭和復古配色 (實色高解析版) --- */
-            --bg-main: #DCD3CC;
-            --bg-card: #FFFFFF;
-            --text-main: #326775;
-            --color-accent: #546A88;
+            --bg-main: #DCD3CC;      /* 淺米色 */
+            --bg-card: #FFFFFF;      /* 白色 */
+            --text-main: #326775;    /* 深青色 */
+            --color-accent: #546A88; /* 柔和藍 */
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -115,7 +115,6 @@
 
         .nav-select-wrapper.active::after { color: #FFF; }
 
-
         .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -203,10 +202,7 @@
             border: var(--border-width) solid var(--text-main);
         }
         .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
-        .balance-amount { 
-            font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; 
-            color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); 
-        }
+        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
         .rate-tag { 
@@ -557,7 +553,7 @@
                             </div>
                             <div>
                                 <strong>2. 國際市場</strong> <span style="font-size:13px; color:var(--text-main);">국제시장</span>
-                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 (買棉被) <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span>
                             </div>
                             <div>
                                 <strong>3. 阿里郎街</strong> <span style="font-size:13px; color:var(--text-main);">아리랑거리</span>
@@ -750,41 +746,34 @@
                     <div class="card-content">
                         <div class="t-time">09:00 - 11:00</div>
                         <div class="t-title">海東龍宮寺<span class="t-kr-name">해동용궁사</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 해동용궁사 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86 해동용궁사')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🌊</div><div class="i-text">韓國最美海景寺廟</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (40分)</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (約40分)</div></div>
                         <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
+                
                 <div class="trip-card">
-                    <img src="https://www.visitbusan.net/uploadImgs/files/cntnts/20191226105015669_oen" loading="lazy" class="card-img-top" alt="海雲台市場" onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6_JgJ-QJ_XJ_XJ_XJ&s'">
+                    <img src="https://images.unsplash.com/photo-1555529771-835f59fc5efe?q=80&w=800" loading="lazy" class="card-img-top" alt="Lotte Outlet">
                     <div class="card-content">
-                        <div class="t-time">11:00 - 12:30</div>
-                        <div class="t-title">海雲台傳統市場 (午餐)<span class="t-kr-name">해운대 전통시장</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 해운대구 중동1로 42-16 <button class="copy-btn" onclick="copyToClipboard('부산 해운대구 중동1로 42-16')">📋</button></div></div>
-                        <div class="info-block"><div class="i-icon">🍢</div><div class="i-text">糖餅、海鮮煎餅、年糕魚板、炸雞、OPS烘焙屋</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩13,000 x 2 (20分)</div></div>
-                        <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%20%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <div class="t-time">11:00 - 17:00</div>
+                        <div class="t-title">Lotte Premium Outlets 東釜山店<span class="t-kr-name">롯데몰 메종 동부산</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 시랑리 358-17 , 1층 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 시랑리 358-17')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🛍️</div><div class="i-text">午餐、逛街</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,000 x 2 (約5分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EC%95%84%EC%9A%B8%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
-                <div class="trip-card">
-                    <img src="https://media.triple.guide/triple-cms/c_limit,f_auto,h_1024,w_1024/c1df1d40-6470-409c-bc55-decc5209947b.jpeg" loading="lazy" class="card-img-top" alt="藍線公園">
-                    <div class="card-content">
-                        <div class="t-time">12:30 - 13:30</div>
-                        <div class="t-title">海雲台藍線公園 尾浦站<span class="t-kr-name">블루라인파크 미포정거장</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 해운대구 달맞이길62번길 13 <button class="copy-btn" onclick="copyToClipboard('부산 해운대구 달맞이길62번길 13')">📋</button></div></div>
-                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
-                        <a href="https://map.naver.com/p/search/%ED%95%B4%EC%9A%B4%EB%8C%80%EB%B8%94%EB%A3%A8%EB%9D%BC%EC%9D%B8%ED%8C%8C%ED%81%AC%20%EB%AF%B8%ED%8F%AC%EC%A0%95%EA%B1%B0%EC%9E%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
-                    </div>
-                </div>
+
                 <div class="trip-card">
                     <img src="https://media.cnn.com/api/v1/images/stellar/prod/01-gettyimages-1746790723v2.jpg?c=original" loading="lazy" class="card-img-top" alt="Free Time">
                     <div class="card-content">
-                        <div class="t-time">13:30 - 20:00</div>
+                        <div class="t-time">17:00 - 20:00</div>
                         <div class="t-title">彈性自由時間<span class="t-kr-name">자유 시간</span></div>
-                        <div class="info-block"><div class="i-icon">✨</div><div class="i-text">重要景點皆已去過，可重訪喜歡的地方或休息</div></div>
+                        <div class="info-block"><div class="i-icon">✨</div><div class="i-text">重要景點皆已去過，看有沒有哪裡想再去一次或是沒排到要去的</div></div>
                     </div>
                 </div>
+                
                 <div class="trip-card">
                     <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
                     <div class="card-content">
@@ -841,13 +830,6 @@
         const BUSAN_LAT = 35.1028;
         const BUSAN_LON = 129.0331;
 
-        // --- 監聽滾動，隨時記住位置 ---
-        window.addEventListener('scroll', () => {
-            if (localStorage.getItem('active_tab') === 'itinerary') {
-                localStorage.setItem('saved_scroll_y', window.scrollY);
-            }
-        });
-
         function refreshAllDynamicData() {
             fetchBusanWeather();
             fetchExchangeRate();
@@ -858,15 +840,8 @@
             
             if(savedTab === 'itinerary') {
                 const savedDay = localStorage.getItem('active_day') || 'day1';
-                // --- 載入時告訴 switchView 這是「自動載入」(true)，不要亂跳 ---
-                switchView('itinerary', savedDay, true);
+                switchView('itinerary', savedDay);
                 document.getElementById('day-selector').value = savedDay;
-                
-                // --- 恢復上次的滾動位置 ---
-                const savedScrollY = localStorage.getItem('saved_scroll_y');
-                if (savedScrollY) {
-                    setTimeout(() => window.scrollTo(0, parseInt(savedScrollY)), 0);
-                }
             } else {
                 switchView(savedTab);
             }
@@ -914,8 +889,7 @@
             return '🌥️';
         }
 
-        // --- switchView 增加 isAutoLoad 參數 ---
-        function switchView(target, dayId, isAutoLoad = false) {
+        function switchView(target, dayId) {
             localStorage.setItem('active_tab', target);
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.getElementById('btn-accounting').classList.remove('active');
@@ -927,13 +901,11 @@
                 document.getElementById('view-accounting').classList.add('active');
                 document.getElementById('btn-accounting').classList.add('active');
                 document.getElementById('day-selector').value = "";
-                if(!isAutoLoad) window.scrollTo(0,0);
             } 
             else if (target === 'flight') {
                 document.getElementById('view-flight').classList.add('active');
                 document.getElementById('btn-flight').classList.add('active');
                 document.getElementById('day-selector').value = "";
-                if(!isAutoLoad) window.scrollTo(0,0);
             }
             else if (target === 'itinerary') {
                 if (!dayId) dayId = 'day1';
@@ -944,25 +916,10 @@
                 document.getElementById('wrapper-itinerary').classList.add('active');
                 localStorage.setItem('active_day', dayId);
                 
-                // --- 只有在「手動點擊」時才自動滾動到日期標題 ---
-                if (!isAutoLoad) {
-                    const dayEl = document.getElementById(dayId + '-content');
-                    if(dayEl) {
-                        setTimeout(() => {
-                            const offset = 80; 
-                            const bodyRect = document.body.getBoundingClientRect().top;
-                            const elementRect = dayEl.getBoundingClientRect().top;
-                            const elementPosition = elementRect - bodyRect;
-                            const offsetPosition = elementPosition - offset;
-
-                            window.scrollTo({
-                                top: offsetPosition,
-                                behavior: 'smooth'
-                            });
-                        }, 10);
-                    } else {
-                        window.scrollTo(0,0);
-                    }
+                // 切換日期時自動滾動到該日期頂端 (UX優化)
+                const dayEl = document.getElementById(dayId + '-content');
+                if(dayEl) {
+                    window.scrollTo({ top: dayEl.offsetTop - 80, behavior: 'smooth' });
                 }
             }
         }
