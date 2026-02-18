@@ -454,7 +454,7 @@
                     </div>
                 </div>
                 <div class="trip-card">
-                    <img src="image_c3d567.jpg" loading="lazy" class="card-img-top" alt="樂天百貨" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'">
+                    <img src="image_c3d567.jpg" class="card-img-top" loading="lazy" alt="樂天百貨" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'">
                     <div class="card-content">
                         <div class="t-time">18:30 - 20:00</div>
                         <div class="t-title">樂天百貨光復店<span class="t-kr-name">롯데백화점 광복점</span></div>
@@ -569,9 +569,9 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
-                        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%20125" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
             </div>
@@ -654,7 +654,15 @@
     </div>
 
     <script>
-        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').then(req => { console.log('Service Worker Registered'); }); }); }
+        // 強制註銷 Service Worker 以確保手機讀取最新版
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                    console.log("Service Worker Unregistered to force update");
+                }
+            });
+        }
 
         // 您的專屬 Google Apps Script 網址 (已更新)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzqxrEtyGvqY1pagncoPvIHKhT2xf6RanERbimucepBkHvrzfYwY573iLu_DCMVw8bK/exec';
