@@ -17,11 +17,11 @@
 
     <style>
         :root {
-            /* --- 昭和復古配色 (實色高解析版) --- */
-            --bg-main: #DCD3CC;      /* 淺米色 */
-            --bg-card: #FFFFFF;      /* 白色 */
-            --text-main: #326775;    /* 深青色 */
-            --color-accent: #546A88; /* 柔和藍 */
+            /* --- 昭和復古配色 --- */
+            --bg-main: #DCD3CC;      
+            --bg-card: #FFFFFF;      
+            --text-main: #326775;    
+            --color-accent: #546A88; 
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -71,11 +71,8 @@
         }
         .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
-        /* --- 導覽列 --- */
-        .nav-bar-row { 
-            display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
-        }
-
+        /* 導覽列 */
+        .nav-bar-row { display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; }
         .nav-btn, .nav-select {
             display: block; width: 100%;
             text-align: center; padding: 12px 0;
@@ -88,288 +85,137 @@
             appearance: none; -webkit-appearance: none; outline: none;
             font-family: var(--font-serif);
         }
-        
         .nav-btn { flex: 1; white-space: nowrap; }
         .nav-select-wrapper { flex: 1.3; position: relative; }
-        
         .nav-select-wrapper::after {
-            content: '▼'; 
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
             font-size: 10px; color: var(--text-main); pointer-events: none; transition: 0.2s;
         }
         .nav-select { padding: 12px 15px; text-align: left; }
-
-        .nav-btn.active, 
-        .nav-select-wrapper.active .nav-select {
-            background: var(--color-accent); 
-            color: #FFF;                     
-            box-shadow: 2px 2px 0 var(--text-main); 
-            transform: translate(2px, 2px);  
+        .nav-btn.active, .nav-select-wrapper.active .nav-select {
+            background: var(--color-accent); color: #FFF;                     
+            box-shadow: 2px 2px 0 var(--text-main); transform: translate(2px, 2px);  
             border-color: var(--text-main);
         }
-
-        .nav-btn:active, .nav-select:active {
-            transform: translate(3px, 3px);
-            box-shadow: 1px 1px 0 var(--text-main);
-        }
-
+        .nav-btn:active, .nav-select:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--text-main); }
         .nav-select-wrapper.active::after { color: #FFF; }
 
         .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 卡片樣式 --- */
-        .retro-card {
+        /* 卡片與元件樣式 */
+        .retro-card, .flight-ticket, .balance-card, .input-area, .trip-card {
             background-color: var(--bg-card);
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
-        }
-
-        .flight-ticket {
-            @extend .retro-card;
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius);
-            border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft);
-            color: var(--text-main);
-            margin-bottom: 30px; 
-            position: relative;
         }
         
+        /* 機票樣式 */
+        .flight-ticket { margin-bottom: 30px; position: relative; }
         .flight-ticket::before, .flight-ticket::after {
-            content: ''; position: absolute; top: 135px; 
-            width: 12px; height: 24px; 
-            background-color: var(--bg-main); 
-            z-index: 2;
-            border: var(--border-width) solid var(--text-main);
-            box-sizing: border-box;
+            content: ''; position: absolute; top: 135px; width: 12px; height: 24px; 
+            background-color: var(--bg-main); z-index: 2;
+            border: var(--border-width) solid var(--text-main); box-sizing: border-box;
         }
         .flight-ticket::before { left: -3px; border-radius: 0 12px 12px 0; border-left: none; }
         .flight-ticket::after { right: -3px; border-radius: 12px 0 0 12px; border-right: none; }
-
-        .ticket-header {
-            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0;
-        }
+        .ticket-header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0; }
         .ticket-header.outbound { background: rgba(84, 106, 136, 0.1); }
         .ticket-header.inbound { background: rgba(50, 103, 117, 0.1); }
-        
         .ticket-label { font-family: var(--font-serif); font-size: 18px; font-weight: 900; color: var(--color-accent); }
         .ticket-date { font-weight: 800; font-size: 15px; }
         .ticket-body { padding: 25px; position: relative; border-radius: 0 0 13px 13px; }
-        
         .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; color: var(--text-main); }
         .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.7; }
-        
-        .flight-icon { 
-            font-size: 28px; 
-            color: var(--color-accent); 
-            transform: none; 
-        }
-
+        .flight-icon { font-size: 28px; color: var(--color-accent); transform: none; }
         .time-row { display: flex; justify-content: space-between; border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px; }
         .time-col { flex: 1; }
         .time-val { font-size: 24px; font-weight: 900; }
         .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.6;}
-        
-        .flight-info-row {
-            margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px;
-            display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
-            border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft);
-        }
-        
-        .airline-logo { 
-            display:flex; align-items:center; gap:8px; 
-            font-weight: 900;
-            color: #568c71; /* Sage Green */
-        }
+        .flight-info-row { margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft); }
+        .airline-logo { display:flex; align-items:center; gap:8px; font-weight: 900; color: #568c71; }
 
-        /* --- 資產卡片 --- */
-        .balance-card {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft); color: var(--text-main);
-            overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative;
-        }
-        .balance-card::before {
-            content: ''; position: absolute; right: -30px; top: -30px;
-            width: 140px; height: 140px; background: var(--color-accent);
-            border-radius: 50%; opacity: 0.3; pointer-events: none;
-            border: var(--border-width) solid var(--text-main);
-        }
+        /* 資產卡片 */
+        .balance-card { overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative; }
+        .balance-card::before { content: ''; position: absolute; right: -30px; top: -30px; width: 140px; height: 140px; background: var(--color-accent); border-radius: 50%; opacity: 0.3; pointer-events: none; border: var(--border-width) solid var(--text-main); }
         .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
         .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); }
         .balance-sub { font-size: 16px; font-weight: 800; }
-        
-        .rate-tag { 
-            position: absolute; top: 25px; right: 25px; 
-            font-size: 13px; background: var(--text-main); color: #FFF;
-            padding: 6px 10px; border-radius: 8px; font-weight: 800;
-            border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent);
-        }
-
+        .rate-tag { position: absolute; top: 25px; right: 25px; font-size: 13px; background: var(--text-main); color: #FFF; padding: 6px 10px; border-radius: 8px; font-weight: 800; border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent); }
         .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.4; }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-col { text-align: center; flex: 1; }
         .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2)); }
         .stat-val-small { font-size: 15px; font-weight: 800; }
 
-        /* --- 輸入區 --- */
-        .input-area {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft); color: var(--text-main);
-            overflow: hidden; padding: 25px; margin-bottom: 25px;
-        }
+        /* 輸入區 */
+        .input-area { overflow: hidden; padding: 25px; margin-bottom: 25px; }
         .input-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--color-accent); margin-bottom: 15px; display:block; }
         .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        
-        .modern-input {
-            width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
-            border-radius: 12px; background: var(--bg-input); outline: none;
-            font-size: 16px; color: var(--text-main); transition: 0.3s;
-            font-weight: 700; box-shadow: var(--box-shadow-soft);
-        }
+        .modern-input { width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main); border-radius: 12px; background: var(--bg-input); outline: none; font-size: 16px; color: var(--text-main); transition: 0.3s; font-weight: 700; box-shadow: var(--box-shadow-soft); }
         .modern-input::placeholder { color: rgba(50, 103, 117, 0.4); }
         .modern-input:focus { border-color: var(--color-accent); box-shadow: 2px 2px 0 var(--color-accent); }
-        
-        .add-btn {
-            width: 100%; background: var(--color-accent); color: #FFF;
-            padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
-            font-size: 18px; font-weight: 800; cursor: pointer;
-            box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px;
-        }
+        .add-btn { width: 100%; background: var(--color-accent); color: #FFF; padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main); font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px; }
         .add-btn:active { transform: translate(3px, 3px); box-shadow: none; }
+        .add-btn:disabled { background: #ccc; border-color: #999; box-shadow: none; cursor: not-allowed; }
 
+        /* 歷史紀錄 */
         .history-list { margin-top: 15px; padding-bottom: 20px; }
-        .date-divider {
-            font-family: var(--font-serif); font-size: 22px; color: var(--color-accent);
-            font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2);
-        }
-        .history-item {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #FFFFFF; padding: 18px; border-radius: 14px;
-            margin-bottom: 12px; border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft);
-        }
+        .date-divider { font-family: var(--font-serif); font-size: 22px; color: var(--color-accent); font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2); }
+        .history-item { display: flex; justify-content: space-between; align-items: center; background: #FFFFFF; padding: 18px; border-radius: 14px; margin-bottom: 12px; border: var(--border-width) solid var(--text-main); box-shadow: var(--box-shadow-soft); }
         .h-name { font-weight: 800; font-size: 16px; }
         .h-cat { font-size: 13px; opacity: 0.7; font-weight: 700; margin-top: 4px;}
         .h-price { font-weight: 900; font-size: 18px; }
         .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
         .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; opacity: 0.5;}
+        
+        .loading-text { text-align: center; padding: 20px; font-weight: 800; opacity: 0.6; }
 
         .date-scroll-container { overflow-x: auto; white-space: nowrap; padding: 5px 5px 20px; scrollbar-width: none; }
-        .date-chip {
-            display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main);
-            padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800;
-            color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
-        }
+        .date-chip { display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main); padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800; color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft); }
         .date-chip.active { background: var(--color-accent); color: #FFF; box-shadow: var(--box-shadow-soft); transform: translate(-2px, -2px); }
 
         .cat-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
-        .cat-btn {
-            flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px;
-            background: #FFFFFF; border: var(--border-width) solid var(--text-main);
-            font-size: 14px; font-weight: 800; color: var(--text-main);
-            cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
-        }
+        .cat-btn { flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px; background: #FFFFFF; border: var(--border-width) solid var(--text-main); font-size: 14px; font-weight: 800; color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft); }
         .cat-btn.active { background: var(--text-main); color: #FFF; box-shadow: 2px 2px 0 var(--color-accent); transform: translate(-2px, -2px); }
         .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2));}
 
-        .data-mgr-section { border-top: var(--border-width) dashed var(--text-main); padding-top: 25px; margin-top: 30px; }
-        .data-mgr-title { font-family: var(--font-serif); font-size: 18px; color: var(--text-main); margin-bottom: 15px; }
-        .btn-row { display: flex; gap: 12px; }
-        .export-btn, .backup-btn, .restore-btn {
-            padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: 0.2s; border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft);
-        }
-        .backup-btn, .restore-btn { flex: 1; background: #FFFFFF; }
-        .export-btn { width: 100%; margin-top: 15px; background: #FFFFFF; border-style: dashed; color: var(--color-accent); }
-        .export-btn:active, .backup-btn:active, .restore-btn:active { transform: translate(3px, 3px); box-shadow: none; }
-
+        /* 行程卡片 */
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
         .day-schedule.active { display: block; }
         .timeline { position: relative; padding-left: 25px; padding-top: 15px; }
-        .timeline::before {
-            content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 4px; 
-            background: var(--text-main); border-radius: 4px; opacity: 0.3;
-        }
-        .day-header {
-            font-family: var(--font-serif); font-size: 26px; color: var(--color-accent);
-            margin-bottom: 25px; padding-left: 15px; font-weight: 900;
-            text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2);
-        }
-        .trip-card {
-            background-color: var(--bg-card);
-            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
-            box-shadow: var(--box-shadow-soft); color: var(--text-main);
-            overflow: hidden; margin-bottom: 35px; position: relative;
-        }
-        .trip-card::after {
-            content: ''; position: absolute; left: -32px; top: 25px;
-            width: 18px; height: 18px; border-radius: 50%;
-            background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1;
-        }
+        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 4px; background: var(--text-main); border-radius: 4px; opacity: 0.3; }
+        .day-header { font-family: var(--font-serif); font-size: 26px; color: var(--color-accent); margin-bottom: 25px; padding-left: 15px; font-weight: 900; text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2); }
+        
+        .trip-card { overflow: hidden; margin-bottom: 35px; position: relative; }
+        .trip-card::after { content: ''; position: absolute; left: -32px; top: 25px; width: 18px; height: 18px; border-radius: 50%; background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1; }
         .card-img-top { width: 100%; height: 200px; object-fit: cover; display: block; border-bottom: var(--border-width) solid var(--text-main); }
         .card-content { padding: 25px; }
-        .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; /* 時間保持數字字體 */ }
+        .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
         .t-title { font-family: var(--font-serif); font-size: 24px; font-weight: 900; margin-bottom: 15px; line-height: 1.3; }
-        .t-kr-name { display: block; font-size: 16px; font-weight: 700; margin-top: 6px; font-family: "Nanum Myeongjo", serif; /* 韓文專用字體 */ opacity: 0.9; }
+        .t-kr-name { display: block; font-size: 16px; font-weight: 700; margin-top: 6px; font-family: "Nanum Myeongjo", serif; opacity: 0.9; }
         .info-block { display: flex; gap: 12px; margin-bottom: 10px; font-size: 16px; }
         .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; }
         .i-text { flex: 1; line-height: 1.5; font-weight: 700; font-family: var(--font-serif); }
         .pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; background: var(--text-main); color: #FFF; font-weight: 800; font-family: -apple-system, sans-serif;}
-        .naver-link {
-            display: flex; align-items: center; justify-content: center;
-            background: var(--text-main); color: #FFF; text-decoration: none;
-            padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; 
-            border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s;
-        }
+        .naver-link { display: flex; align-items: center; justify-content: center; background: var(--text-main); color: #FFF; text-decoration: none; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s; }
         .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
         
-        /* 複製地址按鈕 */
-        .copy-btn {
-            background: none; border: none; cursor: pointer; font-size: 16px; 
-            margin-left: 5px; color: var(--color-accent); padding: 0;
-            transition: 0.2s;
-        }
+        .copy-btn { background: none; border: none; cursor: pointer; font-size: 16px; margin-left: 5px; color: var(--color-accent); padding: 0; transition: 0.2s; }
         .copy-btn:active { transform: scale(0.9); }
         
-        .choice-wrapper {
-            border: 2px dashed var(--color-accent);
-            background: rgba(84, 106, 136, 0.05); /* 淡淡的藍色底 */
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 10px;
-        }
+        .choice-wrapper { border: 2px dashed var(--color-accent); background: rgba(84, 106, 136, 0.05); border-radius: 12px; padding: 15px; margin-top: 10px; }
         .choice-option { margin-bottom: 10px; }
-        .choice-label {
-            font-size: 13px; background: var(--color-accent); color: #fff;
-            padding: 4px 8px; border-radius: 4px; font-weight: 800;
-            display: inline-block; margin-bottom: 5px;
-        }
-        .choice-or {
-            text-align: center; margin: 15px 0; position: relative; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .choice-or::before {
-            content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
-            background: var(--color-accent); opacity: 0.3;
-        }
-        .choice-or span {
-            background: #FFFFFF; padding: 5px 10px; color: var(--color-accent);
-            font-weight: 900; font-family: var(--font-serif); font-size: 14px;
-            border: 2px solid var(--color-accent); border-radius: 20px;
-            position: relative; z-index: 1;
-        }
+        .choice-label { font-size: 13px; background: var(--color-accent); color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: 800; display: inline-block; margin-bottom: 5px; }
+        .choice-or { text-align: center; margin: 15px 0; position: relative; height: 30px; display: flex; align-items: center; justify-content: center; }
+        .choice-or::before { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px; background: var(--color-accent); opacity: 0.3; }
+        .choice-or span { background: #FFFFFF; padding: 5px 10px; color: var(--color-accent); font-weight: 900; font-family: var(--font-serif); font-size: 14px; border: 2px solid var(--color-accent); border-radius: 20px; position: relative; z-index: 1; }
     </style>
 </head>
 <body>
@@ -430,17 +276,10 @@
             </div>
             <div class="input-row"><input type="text" id="item-name" class="modern-input" placeholder="細項 (空白則自動填入分類)"></div>
             <div class="input-row"><input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)"></div>
-            <button onclick="addExpense()" class="add-btn">確認新增 (至 <span id="btn-date-label">3/5</span>)</button>
+            <button onclick="addExpense()" id="btn-add" class="add-btn">確認新增 (至 <span id="btn-date-label">3/5</span>)</button>
         </div>
-        <div class="history-list" id="expense-list"></div>
-        <div class="data-mgr-section">
-            <div class="data-mgr-title">資料管理 (防遺失)</div>
-            <div class="btn-row">
-                <button onclick="backupData()" class="backup-btn">💾 下載備份</button>
-                <button onclick="document.getElementById('import-file').click()" class="restore-btn">📥 匯入資料</button>
-            </div>
-            <button onclick="exportToCSV()" class="export-btn">📤 匯出 Excel (CSV)</button>
-            <input type="file" id="import-file" style="display:none" onchange="importData(this)">
+        <div class="history-list" id="expense-list">
+            <div class="loading-text">🔄 正在同步全家人的帳本...</div>
         </div>
     </div>
 
@@ -564,7 +403,7 @@
                         <div class="multi-btn-row">
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
-                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a>
+                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">阿里郎</a>
                         </div>
                     </div>
                 </div>
@@ -730,7 +569,7 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -748,7 +587,7 @@
                         <div class="t-title">海東龍宮寺<span class="t-kr-name">해동용궁사</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 해동용궁사 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86 해동용궁사')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🌊</div><div class="i-text">韓國最美海景寺廟</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (約40分)</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (40分)</div></div>
                         <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -821,8 +660,11 @@
             });
         }
 
+        // 您的 Google Apps Script 部署網址
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4OXcUIpIDG4fXUKC6ntX7ByMaMxfpHjzEAHLPnPvjX4n4unIJn4T_dwogznBsFpMw/exec';
+
         let currentRate = 0.024; 
-        let expenses = JSON.parse(localStorage.getItem('busan_trip_all_expenses')) || [];
+        let expenses = []; // 改為空陣列，等待從雲端載入
         let selectedInputDate = '3/5'; 
         let selectedCategory = '交通';
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9'];
@@ -854,13 +696,93 @@
             
             refreshAllDynamicData();
             selectDate('3/5'); 
-            renderExpenses(); 
+            
+            // 啟動雲端同步
+            fetchExpenses();
         });
+
+        // 雲端同步功能
+        async function fetchExpenses() {
+            const listEl = document.getElementById('expense-list');
+            listEl.innerHTML = '<div class="loading-text">🔄 正在同步全家人的帳本...</div>';
+            
+            try {
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                expenses = data; // 更新本地資料
+                renderExpenses();
+            } catch (err) {
+                console.error(err);
+                listEl.innerHTML = '<div class="loading-text" style="color:red">⚠️ 同步失敗，請檢查網路</div>';
+            }
+        }
+
+        async function addExpense() {
+            const nameInput = document.getElementById('item-name');
+            const priceInput = document.getElementById('item-price');
+            const btn = document.getElementById('btn-add');
+            
+            const finalName = nameInput.value.trim() || selectedCategory;
+            const price = parseInt(priceInput.value);
+            
+            if (isNaN(price)) { alert('請輸入金額！'); return; }
+            
+            const newItem = { 
+                id: Date.now(), 
+                date: selectedInputDate, 
+                name: finalName, 
+                price: price, 
+                cat: selectedCategory 
+            };
+
+            // UI 鎖定
+            btn.disabled = true;
+            btn.innerText = '⏳ 儲存中...';
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'add', data: newItem })
+                });
+                
+                // 清空輸入並重新整理
+                nameInput.value = '';
+                priceInput.value = '';
+                await fetchExpenses(); // 重新拉取最新資料
+                
+            } catch (err) {
+                alert('新增失敗，請檢查網路！');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = `確認新增 (至 ${selectedInputDate})`;
+            }
+        }
+
+        async function deleteExpense(id) {
+            if(!confirm('確定刪除此筆紀錄？(會同步刪除大家的紀錄)')) return;
+            
+            // 暫時在 UI 上移除，提升體驗
+            document.getElementById('expense-list').innerHTML = '<div class="loading-text">🗑️ 正在刪除...</div>';
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'delete', id: id })
+                });
+                await fetchExpenses();
+            } catch (err) {
+                alert('刪除失敗！');
+                await fetchExpenses(); // 失敗的話把資料拉回來
+            }
+        }
 
         setInterval(refreshAllDynamicData, 30 * 60 * 1000);
 
         document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') { refreshAllDynamicData(); }
+            if (document.visibilityState === 'visible') { 
+                refreshAllDynamicData();
+                fetchExpenses(); // 回到頁面時自動同步
+            }
         });
 
         async function fetchBusanWeather() {
@@ -901,6 +823,7 @@
                 document.getElementById('view-accounting').classList.add('active');
                 document.getElementById('btn-accounting').classList.add('active');
                 document.getElementById('day-selector').value = "";
+                fetchExpenses(); // 切換到記帳頁面時自動同步
             } 
             else if (target === 'flight') {
                 document.getElementById('view-flight').classList.add('active');
@@ -916,7 +839,6 @@
                 document.getElementById('wrapper-itinerary').classList.add('active');
                 localStorage.setItem('active_day', dayId);
                 
-                // 切換日期時自動滾動到該日期頂端 (UX優化)
                 const dayEl = document.getElementById(dayId + '-content');
                 if(dayEl) {
                     window.scrollTo({ top: dayEl.offsetTop - 80, behavior: 'smooth' });
@@ -955,33 +877,19 @@
             } catch (error) { console.log("離線模式"); }
         }
 
-        function addExpense() {
-            const nameInput = document.getElementById('item-name');
-            const priceInput = document.getElementById('item-price');
-            const finalName = nameInput.value.trim() || selectedCategory;
-            const price = parseInt(priceInput.value);
-            if (isNaN(price)) { alert('請輸入金額！'); return; }
-            expenses.push({ id: Date.now(), date: selectedInputDate, name: finalName, price, cat: selectedCategory });
-            saveAndRender();
-            nameInput.value = '';
-            priceInput.value = '';
-        }
-
-        function deleteExpense(id) {
-            if(confirm('刪除此筆紀錄？')) {
-                expenses = expenses.filter(item => item.id !== id);
-                saveAndRender();
-            }
-        }
-        function saveAndRender() {
-            localStorage.setItem('busan_trip_all_expenses', JSON.stringify(expenses));
-            renderExpenses();
-        }
         function renderExpenses() {
             const listEl = document.getElementById('expense-list');
             listEl.innerHTML = '';
             let grandTotal = 0;
             let stats = { '交通':0, '食物':0, '購物':0, '其他':0 };
+            
+            // 如果沒有資料
+            if (!expenses || expenses.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; color:var(--text-main); padding:30px; opacity:0.6; font-weight:800;">目前沒有記帳資料<br>嘗試新增一筆吧！</div>';
+                updateStats(0, stats);
+                return;
+            }
+
             tripDates.forEach(date => {
                 const dailyItems = expenses.filter(item => item.date === date);
                 if (dailyItems.length > 0) {
@@ -989,9 +897,9 @@
                     divider.className = 'date-divider'; divider.innerHTML = `${date}`;
                     listEl.appendChild(divider);
                     dailyItems.forEach(item => {
-                        grandTotal += item.price;
-                        if(stats[item.cat] !== undefined) stats[item.cat] += item.price;
-                        else stats['其他'] += item.price;
+                        grandTotal += parseInt(item.price);
+                        if(stats[item.cat] !== undefined) stats[item.cat] += parseInt(item.price);
+                        else stats['其他'] += parseInt(item.price);
                         const twd = Math.round(item.price * currentRate);
                         const div = document.createElement('div');
                         div.className = 'history-item';
@@ -1000,16 +908,21 @@
                     });
                 }
             });
-            if (expenses.length === 0) listEl.innerHTML = '<div style="text-align:center; color:var(--text-main); padding:30px; opacity:0.6; font-weight:800;">尚無記帳資料</div>';
-            document.getElementById('total-krw').textContent = `₩${grandTotal.toLocaleString()}`;
-            document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(grandTotal * currentRate).toLocaleString()}`;
+            updateStats(grandTotal, stats);
+        }
+
+        function updateStats(total, stats) {
+            document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
+            document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(total * currentRate).toLocaleString()}`;
             document.getElementById('stat-transport').textContent = `₩${stats['交通'].toLocaleString()}`;
             document.getElementById('stat-food').textContent = `₩${stats['食物'].toLocaleString()}`;
             document.getElementById('stat-shopping').textContent = `₩${stats['購物'].toLocaleString()}`;
             document.getElementById('stat-other').textContent = `₩${stats['其他'].toLocaleString()}`;
         }
+
         function getCatEmoji(cat) { return (cat==='交通'?'🚕':(cat==='食物'?'🍔':(cat==='購物'?'🛍️':'✨'))); }
 
+        // 舊有的備份功能保留，但改為匯出 CSV (因為現在資料在雲端，不需要匯入匯出了)
         function backupData() {
             if (expenses.length === 0) { alert('沒有資料可以備份！'); return; }
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expenses));
@@ -1022,23 +935,8 @@
         }
 
         function importData(input) {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const loadedExpenses = JSON.parse(e.target.result);
-                    if (Array.isArray(loadedExpenses)) {
-                        if(confirm(`確定匯入 ${loadedExpenses.length} 筆資料？(將覆蓋現有資料)`)) {
-                            expenses = loadedExpenses;
-                            saveAndRender();
-                            alert('匯入成功！');
-                        }
-                    } else { alert('檔案格式錯誤'); }
-                } catch (err) { alert('無法讀取檔案'); }
-            };
-            reader.readAsText(file);
-            input.value = '';
+            alert('現在使用雲端同步模式，不需要匯入舊資料囉！所有的資料都會自動儲存在 Google 試算表中。');
+            input.value = ''; // 清空選擇
         }
 
         function exportToCSV() {
@@ -1060,7 +958,6 @@
             document.body.removeChild(link);
         }
         
-        // 複製功能
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert('已複製地址：' + text);
