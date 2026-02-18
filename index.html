@@ -17,11 +17,11 @@
 
     <style>
         :root {
-            /* --- 昭和復古配色 --- */
-            --bg-main: #DCD3CC;      
-            --bg-card: #FFFFFF;      
-            --text-main: #326775;    
-            --color-accent: #546A88; 
+            /* --- 昭和復古配色 (實色高解析版) --- */
+            --bg-main: #DCD3CC;      /* 淺米色 */
+            --bg-card: #FFFFFF;      /* 白色 */
+            --text-main: #326775;    /* 深青色 */
+            --color-accent: #546A88; /* 柔和藍 */
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -392,7 +392,7 @@
                             </div>
                             <div>
                                 <strong>2. 國際市場</strong> <span style="font-size:13px; color:var(--text-main);">국제시장</span>
-                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 (買棉被) <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span>
                             </div>
                             <div>
                                 <strong>3. 阿里郎街</strong> <span style="font-size:13px; color:var(--text-main);">아리랑거리</span>
@@ -403,7 +403,7 @@
                         <div class="multi-btn-row">
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
                             <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
-                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">阿里郎</a>
+                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a>
                         </div>
                     </div>
                 </div>
@@ -469,7 +469,7 @@
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
                         <div class="t-title">回飯店：東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
-                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125</div></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
                         <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
@@ -587,7 +587,7 @@
                         <div class="t-title">海東龍宮寺<span class="t-kr-name">해동용궁사</span></div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 해동용궁사 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86 해동용궁사')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🌊</div><div class="i-text">韓國最美海景寺廟</div></div>
-                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (40分)</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (約40分)</div></div>
                         <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
@@ -661,7 +661,7 @@
         }
 
         // 您的 Google Apps Script 部署網址
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4OXcUIpIDG4fXUKC6ntX7ByMaMxfpHjzEAHLPnPvjX4n4unIJn4T_dwogznBsFpMw/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwwKYo8ohzCpL3ln5Ir15J_3sjgepKiMtNfXJlqK1vwUku8nksIzVTa8nfFPfuGEX0k/exec';
 
         let currentRate = 0.024; 
         let expenses = []; // 改為空陣列，等待從雲端載入
@@ -742,6 +742,7 @@
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ action: 'add', data: newItem })
                 });
                 
@@ -767,6 +768,7 @@
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ action: 'delete', id: id })
                 });
                 await fetchExpenses();
@@ -883,7 +885,6 @@
             let grandTotal = 0;
             let stats = { '交通':0, '食物':0, '購物':0, '其他':0 };
             
-            // 如果沒有資料
             if (!expenses || expenses.length === 0) {
                 listEl.innerHTML = '<div style="text-align:center; color:var(--text-main); padding:30px; opacity:0.6; font-weight:800;">目前沒有記帳資料<br>嘗試新增一筆吧！</div>';
                 updateStats(0, stats);
@@ -903,7 +904,7 @@
                         const twd = Math.round(item.price * currentRate);
                         const div = document.createElement('div');
                         div.className = 'history-item';
-                        div.innerHTML = `<div><div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div><div class="h-cat">${item.cat}</div></div><div style="display:flex; align-items:center;"><div><div class="h-price">₩${item.price.toLocaleString()}</div><span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span></div><button class="del-btn" onclick="deleteExpense(${item.id})">×</button></div>`;
+                        div.innerHTML = `<div><div class="h-name">${getCatEmoji(item.cat)} ${item.name}</div><div class="h-cat">${item.cat}</div></div><div style="display:flex; align-items:center;"><div><div class="h-price">₩${parseInt(item.price).toLocaleString()}</div><span class="h-twd">≈ NT$ ${twd.toLocaleString()}</span></div><button class="del-btn" onclick="deleteExpense(${item.id})">×</button></div>`;
                         listEl.appendChild(div);
                     });
                 }
@@ -958,6 +959,7 @@
             document.body.removeChild(link);
         }
         
+        // 複製功能
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 alert('已複製地址：' + text);
