@@ -17,12 +17,12 @@
 
     <style>
         :root {
-            /* --- 昭和復古配色 --- */
-            --bg-main: #DCD3CC;      
-            --bg-card: #FFFFFF;      
-            --text-main: #326775;    
-            --color-accent: #546A88; 
-            --color-danger: #D24D4D;
+            /* --- 昭和復古配色 (實色高解析版) --- */
+            --bg-main: #DCD3CC;      /* 淺米色 */
+            --bg-card: #FFFFFF;      /* 白色 */
+            --text-main: #326775;    /* 深青色 */
+            --color-accent: #546A88; /* 柔和藍 */
+            --color-danger: #C05B5B; /* 復古紅 (超支警告) */
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -72,8 +72,11 @@
         }
         .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
-        /* 導覽列 */
-        .nav-bar-row { display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; }
+        /* --- 導覽列 --- */
+        .nav-bar-row { 
+            display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
+        }
+
         .nav-btn, .nav-select {
             display: block; width: 100%;
             text-align: center; padding: 12px 0;
@@ -86,105 +89,173 @@
             appearance: none; -webkit-appearance: none; outline: none;
             font-family: var(--font-serif);
         }
+        
         .nav-btn { flex: 1; white-space: nowrap; }
         .nav-select-wrapper { flex: 1.3; position: relative; }
+        
         .nav-select-wrapper::after {
-            content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
             font-size: 10px; color: var(--text-main); pointer-events: none; transition: 0.2s;
         }
         .nav-select { padding: 12px 15px; text-align: left; }
-        .nav-btn.active, .nav-select-wrapper.active .nav-select {
-            background: var(--color-accent); color: #FFF;                     
-            box-shadow: 2px 2px 0 var(--text-main); transform: translate(2px, 2px);  
+
+        .nav-btn.active, 
+        .nav-select-wrapper.active .nav-select {
+            background: var(--color-accent); 
+            color: #FFF;                     
+            box-shadow: 2px 2px 0 var(--text-main); 
+            transform: translate(2px, 2px);  
             border-color: var(--text-main);
         }
-        .nav-btn:active, .nav-select:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--text-main); }
+
+        .nav-btn:active, .nav-select:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 var(--text-main);
+        }
+
         .nav-select-wrapper.active::after { color: #FFF; }
 
         .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
         .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 卡片與元件樣式 */
-        .retro-card, .flight-ticket, .balance-card, .input-area, .trip-card {
+        /* --- 卡片樣式 --- */
+        .retro-card {
             background-color: var(--bg-card);
             border-radius: var(--border-radius);
             border: var(--border-width) solid var(--text-main);
             box-shadow: var(--box-shadow-soft);
             color: var(--text-main);
         }
+
+        .flight-ticket {
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+            color: var(--text-main);
+            margin-bottom: 30px; 
+            position: relative;
+        }
         
-        /* 機票樣式 */
-        .flight-ticket { margin-bottom: 30px; position: relative; }
         .flight-ticket::before, .flight-ticket::after {
-            content: ''; position: absolute; top: 135px; width: 12px; height: 24px; 
-            background-color: var(--bg-main); z-index: 2;
-            border: var(--border-width) solid var(--text-main); box-sizing: border-box;
+            content: ''; position: absolute; top: 135px; 
+            width: 12px; height: 24px; 
+            background-color: var(--bg-main); 
+            z-index: 2;
+            border: var(--border-width) solid var(--text-main);
+            box-sizing: border-box;
         }
         .flight-ticket::before { left: -3px; border-radius: 0 12px 12px 0; border-left: none; }
         .flight-ticket::after { right: -3px; border-radius: 12px 0 0 12px; border-right: none; }
-        .ticket-header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0; }
+
+        .ticket-header {
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0;
+        }
         .ticket-header.outbound { background: rgba(84, 106, 136, 0.1); }
         .ticket-header.inbound { background: rgba(50, 103, 117, 0.1); }
+        
         .ticket-label { font-family: var(--font-serif); font-size: 18px; font-weight: 900; color: var(--color-accent); }
         .ticket-date { font-weight: 800; font-size: 15px; }
         .ticket-body { padding: 25px; position: relative; border-radius: 0 0 13px 13px; }
+        
         .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; color: var(--text-main); }
         .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.7; }
+        
         .flight-icon { font-size: 28px; color: var(--color-accent); transform: none; }
         .time-row { display: flex; justify-content: space-between; border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px; }
         .time-col { flex: 1; }
         .time-val { font-size: 24px; font-weight: 900; }
         .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.6;}
-        .flight-info-row { margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft); }
+        
+        .flight-info-row {
+            margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px;
+            display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
+            border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft);
+        }
         .airline-logo { display:flex; align-items:center; gap:8px; font-weight: 900; color: #568c71; }
 
-        /* 資產卡片 */
-        .balance-card { overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative; }
-        .balance-card::before { content: ''; position: absolute; right: -30px; top: -30px; width: 140px; height: 140px; background: var(--color-accent); border-radius: 50%; opacity: 0.3; pointer-events: none; border: var(--border-width) solid var(--text-main); }
+        /* --- 資產卡片 --- */
+        .balance-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative;
+        }
+        .balance-card::before {
+            content: ''; position: absolute; right: -30px; top: -30px;
+            width: 140px; height: 140px; background: var(--color-accent);
+            border-radius: 50%; opacity: 0.3; pointer-events: none;
+            border: var(--border-width) solid var(--text-main);
+        }
         .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
-        .balance-amount { font-family: var(--font-serif); font-size: 42px; margin: 10px 0; font-weight: 900; color: var(--bg-input); -webkit-text-stroke: 1.5px var(--text-main); text-shadow: 2px 2px 0 var(--text-main); }
+        .balance-amount { 
+            font-family: var(--font-serif); font-size: 42px; margin: 10px 0; 
+            font-weight: 900; color: var(--bg-input); 
+            -webkit-text-stroke: 1.5px var(--text-main); 
+            text-shadow: 2px 2px 0 var(--text-main); 
+        }
         .balance-sub { font-size: 16px; font-weight: 800; }
-        .rate-tag { position: absolute; top: 25px; right: 25px; font-size: 13px; background: var(--text-main); color: #FFF; padding: 6px 10px; border-radius: 8px; font-weight: 800; border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent); }
         
-        /* 預算儀表板 (復古設計) */
-        .budget-meter-container {
-            margin-top: 25px;
-            padding: 15px 0 5px;
-            border-top: 2px dashed rgba(50, 103, 117, 0.4);
+        /* 匯率標籤：純文字固定 */
+        .rate-tag { 
+            position: absolute; top: 25px; right: 25px; 
+            font-size: 13px; background: var(--text-main); color: #FFF;
+            padding: 6px 10px; border-radius: 8px; font-weight: 800;
+            border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent);
+        }
+
+        /* --- 新版預算儀表板 --- */
+        .budget-container {
+            margin-top: 25px; padding: 15px 18px;
+            background: rgba(84, 106, 136, 0.05); /* 淡淡的底色 */
+            border: 2px dashed rgba(50, 103, 117, 0.3);
+            border-radius: 12px;
             position: relative; z-index: 2;
         }
         .budget-header {
-            display: flex; justify-content: space-between; font-size: 13px; 
-            font-weight: 800; color: var(--color-accent); margin-bottom: 8px;
-            font-family: var(--font-serif);
+            display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;
         }
-        .budget-bar-track {
-            height: 18px; width: 100%; background: #F0F0F0;
-            border: 2px solid var(--text-main); border-radius: 9px;
-            overflow: hidden; position: relative;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        .budget-title {
+            font-family: var(--font-serif); font-size: 14px; font-weight: 800; letter-spacing: 1px;
+            background: var(--text-main); color: #FFF; padding: 4px 8px; border-radius: 6px;
         }
-        /* 復古斜紋質感 */
-        .budget-bar-fill {
-            height: 100%; width: 50%;
-            background: repeating-linear-gradient(
-                45deg,
-                var(--color-accent),
-                var(--color-accent) 10px,
-                #6B829E 10px,
-                #6B829E 20px
+        .budget-rem-val {
+            font-size: 18px; font-weight: 900; font-family: -apple-system, sans-serif;
+            color: var(--text-main); transition: 0.3s;
+        }
+        /* 進度條外框 */
+        .budget-track {
+            height: 14px; width: 100%; 
+            border: 2px solid var(--text-main); border-radius: 8px; 
+            background: #FFF; overflow: hidden;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
+        }
+        /* 進度條填充 (帶有復古斜紋) */
+        .budget-fill {
+            height: 100%; width: 0%;
+            background-color: var(--color-accent);
+            background-image: repeating-linear-gradient(
+                45deg, 
+                transparent, 
+                transparent 10px, 
+                rgba(255,255,255,0.2) 10px, 
+                rgba(255,255,255,0.2) 20px
             );
-            transition: width 0.5s ease-out;
-            border-right: 2px solid var(--text-main);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
         }
-        /* 剩餘金額強調 */
+        /* 底部總預算小字 */
         .budget-footer {
-            display: flex; justify-content: space-between; align-items: center; margin-top: 10px;
+            text-align: right; font-size: 12px; font-weight: 700; 
+            opacity: 0.6; margin-top: 6px; font-family: var(--font-serif);
         }
-        .budget-remain-label { font-size: 14px; font-weight: 800; opacity: 0.8; }
-        .budget-remain-val { font-size: 20px; font-weight: 900; color: var(--text-main); font-family: -apple-system, sans-serif; }
+        /* 警告狀態 (文字與條的變色) */
+        .danger-text { color: var(--color-danger) !important; }
+        .danger-bg { background-color: var(--color-danger) !important; }
 
         .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.4; }
         .stats-row { display: flex; justify-content: space-between; }
@@ -192,35 +263,68 @@
         .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2)); }
         .stat-val-small { font-size: 15px; font-weight: 800; }
 
-        /* 輸入區 */
-        .input-area { overflow: hidden; padding: 25px; margin-bottom: 25px; }
+        /* --- 輸入區 --- */
+        .input-area {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; padding: 25px; margin-bottom: 25px;
+        }
         .input-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--color-accent); margin-bottom: 15px; display:block; }
         .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .modern-input { width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main); border-radius: 12px; background: var(--bg-input); outline: none; font-size: 16px; color: var(--text-main); transition: 0.3s; font-weight: 700; box-shadow: var(--box-shadow-soft); }
+        
+        .modern-input {
+            width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
+            border-radius: 12px; background: var(--bg-input); outline: none;
+            font-size: 16px; color: var(--text-main); transition: 0.3s;
+            font-weight: 700; box-shadow: var(--box-shadow-soft);
+        }
         .modern-input::placeholder { color: rgba(50, 103, 117, 0.4); }
         .modern-input:focus { border-color: var(--color-accent); box-shadow: 2px 2px 0 var(--color-accent); }
-        .add-btn { width: 100%; background: var(--color-accent); color: #FFF; padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main); font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px; }
+        
+        .add-btn {
+            width: 100%; background: var(--color-accent); color: #FFF;
+            padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
+            font-size: 18px; font-weight: 800; cursor: pointer;
+            box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px;
+        }
         .add-btn:active { transform: translate(3px, 3px); box-shadow: none; }
         .add-btn:disabled { background: #ccc; border-color: #999; box-shadow: none; cursor: not-allowed; }
 
-        /* 歷史紀錄 */
         .history-list { margin-top: 15px; padding-bottom: 20px; }
-        .date-divider { font-family: var(--font-serif); font-size: 22px; color: var(--color-accent); font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2); }
-        .history-item { display: flex; justify-content: space-between; align-items: center; background: #FFFFFF; padding: 18px; border-radius: 14px; margin-bottom: 12px; border: var(--border-width) solid var(--text-main); box-shadow: var(--box-shadow-soft); }
+        .date-divider {
+            font-family: var(--font-serif); font-size: 22px; color: var(--color-accent);
+            font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2);
+        }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #FFFFFF; padding: 18px; border-radius: 14px;
+            margin-bottom: 12px; border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+        }
         .h-name { font-weight: 800; font-size: 16px; }
         .h-cat { font-size: 13px; opacity: 0.7; font-weight: 700; margin-top: 4px;}
         .h-price { font-weight: 900; font-size: 18px; }
         .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
         .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; opacity: 0.5;}
-        
+
         .loading-text { text-align: center; padding: 20px; font-weight: 800; opacity: 0.6; }
 
         .date-scroll-container { overflow-x: auto; white-space: nowrap; padding: 5px 5px 20px; scrollbar-width: none; }
-        .date-chip { display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main); padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800; color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft); }
+        .date-chip {
+            display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main);
+            padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800;
+            color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
+        }
         .date-chip.active { background: var(--color-accent); color: #FFF; box-shadow: var(--box-shadow-soft); transform: translate(-2px, -2px); }
 
         .cat-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
-        .cat-btn { flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px; background: #FFFFFF; border: var(--border-width) solid var(--text-main); font-size: 14px; font-weight: 800; color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft); }
+        .cat-btn {
+            flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px;
+            background: #FFFFFF; border: var(--border-width) solid var(--text-main);
+            font-size: 14px; font-weight: 800; color: var(--text-main);
+            cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
+        }
         .cat-btn.active { background: var(--text-main); color: #FFF; box-shadow: 2px 2px 0 var(--color-accent); transform: translate(-2px, -2px); }
         .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2));}
 
@@ -238,11 +342,26 @@
         .day-schedule { display: none; animation: fadeIn 0.3s ease; }
         .day-schedule.active { display: block; }
         .timeline { position: relative; padding-left: 25px; padding-top: 15px; }
-        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 4px; background: var(--text-main); border-radius: 4px; opacity: 0.3; }
-        .day-header { font-family: var(--font-serif); font-size: 26px; color: var(--color-accent); margin-bottom: 25px; padding-left: 15px; font-weight: 900; text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2); }
-        
-        .trip-card { overflow: hidden; margin-bottom: 35px; position: relative; }
-        .trip-card::after { content: ''; position: absolute; left: -32px; top: 25px; width: 18px; height: 18px; border-radius: 50%; background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 4px; 
+            background: var(--text-main); border-radius: 4px; opacity: 0.3;
+        }
+        .day-header {
+            font-family: var(--font-serif); font-size: 26px; color: var(--color-accent);
+            margin-bottom: 25px; padding-left: 15px; font-weight: 900;
+            text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2);
+        }
+        .trip-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; margin-bottom: 35px; position: relative;
+        }
+        .trip-card::after {
+            content: ''; position: absolute; left: -32px; top: 25px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1;
+        }
         .card-img-top { width: 100%; height: 200px; object-fit: cover; display: block; border-bottom: var(--border-width) solid var(--text-main); }
         .card-content { padding: 25px; }
         .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
@@ -252,20 +371,48 @@
         .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; }
         .i-text { flex: 1; line-height: 1.5; font-weight: 700; font-family: var(--font-serif); }
         .pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; background: var(--text-main); color: #FFF; font-weight: 800; font-family: -apple-system, sans-serif;}
-        .naver-link { display: flex; align-items: center; justify-content: center; background: var(--text-main); color: #FFF; text-decoration: none; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s; }
+        .naver-link {
+            display: flex; align-items: center; justify-content: center;
+            background: var(--text-main); color: #FFF; text-decoration: none;
+            padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; 
+            border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s;
+        }
         .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
         .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
         .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
         
-        .copy-btn { background: none; border: none; cursor: pointer; font-size: 16px; margin-left: 5px; color: var(--color-accent); padding: 0; transition: 0.2s; }
+        .copy-btn {
+            background: none; border: none; cursor: pointer; font-size: 16px; 
+            margin-left: 5px; color: var(--color-accent); padding: 0;
+            transition: 0.2s;
+        }
         .copy-btn:active { transform: scale(0.9); }
         
-        .choice-wrapper { border: 2px dashed var(--color-accent); background: rgba(84, 106, 136, 0.05); border-radius: 12px; padding: 15px; margin-top: 10px; }
+        .choice-wrapper {
+            border: 2px dashed var(--color-accent);
+            background: rgba(84, 106, 136, 0.05);
+            border-radius: 12px; padding: 15px; margin-top: 10px;
+        }
         .choice-option { margin-bottom: 10px; }
-        .choice-label { font-size: 13px; background: var(--color-accent); color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: 800; display: inline-block; margin-bottom: 5px; }
-        .choice-or { text-align: center; margin: 15px 0; position: relative; height: 30px; display: flex; align-items: center; justify-content: center; }
-        .choice-or::before { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px; background: var(--color-accent); opacity: 0.3; }
-        .choice-or span { background: #FFFFFF; padding: 5px 10px; color: var(--color-accent); font-weight: 900; font-family: var(--font-serif); font-size: 14px; border: 2px solid var(--color-accent); border-radius: 20px; position: relative; z-index: 1; }
+        .choice-label {
+            font-size: 13px; background: var(--color-accent); color: #fff;
+            padding: 4px 8px; border-radius: 4px; font-weight: 800;
+            display: inline-block; margin-bottom: 5px;
+        }
+        .choice-or {
+            text-align: center; margin: 15px 0; position: relative; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .choice-or::before {
+            content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
+            background: var(--color-accent); opacity: 0.3;
+        }
+        .choice-or span {
+            background: #FFFFFF; padding: 5px 10px; color: var(--color-accent);
+            font-weight: 900; font-family: var(--font-serif); font-size: 14px;
+            border: 2px solid var(--color-accent); border-radius: 20px;
+            position: relative; z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -277,6 +424,7 @@
                 🇰🇷 釜山天氣載入中...
             </div>
         </div>
+        
         <div class="nav-bar-row">
             <button class="nav-btn" id="btn-flight" onclick="switchView('flight')">航班資訊</button>
             <button class="nav-btn active" id="btn-accounting" onclick="switchView('accounting')">支出紀錄</button>
@@ -295,23 +443,20 @@
 
     <div id="view-accounting" class="view-container active">
         <div class="balance-card">
-            <div class="rate-tag" id="rate-display">固定匯率: 0.024</div>
+            <div class="rate-tag">固定匯率: 0.024</div>
             <div class="balance-label">Trip Total</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
             
-            <div class="budget-meter-container">
+            <div class="budget-container">
                 <div class="budget-header">
-                    <span>總預算 NT$ 20,000</span>
-                    <span id="budget-percent">0%</span>
+                    <span class="budget-title">預算餘額</span>
+                    <span class="budget-rem-val" id="budget-val">NT$ 20,000</span>
                 </div>
-                <div class="budget-bar-track">
-                    <div class="budget-bar-fill" id="budget-bar-fill"></div>
+                <div class="budget-track">
+                    <div class="budget-fill" id="budget-fill"></div>
                 </div>
-                <div class="budget-footer">
-                    <span class="budget-remain-label">還剩下</span>
-                    <span class="budget-remain-val" id="budget-remain-val">NT$ 20,000</span>
-                </div>
+                <div class="budget-footer">總預算 NT$ 20,000</div>
             </div>
 
             <div class="stats-divider"></div>
@@ -629,7 +774,7 @@
                         <div class="t-title">回飯店：東橫INN 釜山中央站</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
-                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%20125" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
             </div>
@@ -890,35 +1035,35 @@
             document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${totalTWD.toLocaleString()}`;
             
-            // 預算儀表板邏輯
+            // --- 預算儀表板計算 ---
             const TOTAL_BUDGET = 20000;
             let remaining = TOTAL_BUDGET - totalTWD;
-            let percentage = Math.max(0, (remaining / TOTAL_BUDGET) * 100);
+            // 計算已花費的百分比 (最高 100%)
+            let spentPercent = Math.min(100, Math.max(0, (totalTWD / TOTAL_BUDGET) * 100));
             
-            const budgetVal = document.getElementById('budget-remain-val');
-            const budgetFill = document.getElementById('budget-bar-fill');
-            const budgetPercent = document.getElementById('budget-percent');
+            const budgetVal = document.getElementById('budget-val');
+            const budgetFill = document.getElementById('budget-fill');
             
+            // 判斷是否超支
             if (remaining < 0) {
                 budgetVal.textContent = `超支 NT$ ${Math.abs(remaining).toLocaleString()}`;
-                budgetVal.style.color = 'var(--color-danger)';
-                budgetFill.style.width = '0%';
-                budgetPercent.textContent = '0%';
-                budgetPercent.style.color = 'var(--color-danger)';
+                budgetVal.classList.add('danger-text');
+                budgetFill.classList.add('danger-bg');
             } else {
-                budgetVal.textContent = `NT$ ${remaining.toLocaleString()}`;
-                budgetVal.style.color = 'var(--text-main)';
-                budgetFill.style.width = `${percentage}%`;
-                budgetPercent.textContent = `${Math.round(percentage)}%`;
-                budgetPercent.style.color = 'var(--color-accent)';
+                budgetVal.textContent = `剩餘 NT$ ${remaining.toLocaleString()}`;
+                budgetVal.classList.remove('danger-text');
+                
+                // 剩餘不到 20% (也就是花了 80% 以上) 變紅警告
+                if (spentPercent >= 80) {
+                    budgetFill.classList.add('danger-bg');
+                    budgetVal.classList.add('danger-text');
+                } else {
+                    budgetFill.classList.remove('danger-bg');
+                }
             }
             
-            // 預算低於 20% 變紅色
-            if (percentage <= 20) {
-                budgetFill.style.background = 'repeating-linear-gradient(45deg, var(--color-danger), var(--color-danger) 10px, #E5E5E5 10px, #E5E5E5 20px)';
-            } else {
-                budgetFill.style.background = 'repeating-linear-gradient(45deg, var(--color-accent), var(--color-accent) 10px, #E5E5E5 10px, #E5E5E5 20px)';
-            }
+            // 更新進度條長度
+            budgetFill.style.width = `${spentPercent}%`;
 
             document.getElementById('stat-transport').textContent = `₩${stats['交通'].toLocaleString()}`;
             document.getElementById('stat-food').textContent = `₩${stats['食物'].toLocaleString()}`;
