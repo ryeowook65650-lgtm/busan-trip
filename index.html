@@ -22,6 +22,7 @@
             --bg-card: #FFFFFF;      /* 白色 */
             --text-main: #326775;    /* 深青色 */
             --color-accent: #546A88; /* 柔和藍 */
+            --color-danger: #D24D4D; /* 復古紅 (血量警告) */
             --bg-input: #FFFFFF;
             
             --border-radius: 16px; 
@@ -200,12 +201,42 @@
         }
         .balance-sub { font-size: 16px; font-weight: 800; }
         
-        /* 匯率標籤：拿掉按鈕效果，顯示純文字固定 */
+        /* 匯率標籤：純文字固定 */
         .rate-tag { 
             position: absolute; top: 25px; right: 25px; 
             font-size: 13px; background: var(--text-main); color: #FFF;
             padding: 6px 10px; border-radius: 8px; font-weight: 800;
             border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent);
+        }
+
+        /* 預算血量條 (HP Bar) */
+        .budget-wrapper { 
+            margin-top: 25px; padding-top: 15px; 
+            border-top: 2px dashed rgba(50, 103, 117, 0.3); 
+            position: relative; z-index: 2;
+        }
+        .budget-info { 
+            display: flex; justify-content: space-between; align-items: flex-end; 
+            margin-bottom: 10px; 
+        }
+        .budget-lbl { 
+            font-family: var(--font-serif); font-size: 14px; font-weight: 900; color: var(--color-accent); 
+        }
+        .budget-val { 
+            font-family: -apple-system, sans-serif; font-size: 16px; font-weight: 900; 
+        }
+        .budget-bar { 
+            height: 20px; width: 100%; 
+            background: var(--bg-input); 
+            border: var(--border-width) solid var(--text-main); 
+            border-radius: 10px; overflow: hidden; 
+            box-shadow: inset 2px 2px 0 rgba(50, 103, 117, 0.15); 
+        }
+        .budget-fill { 
+            height: 100%; width: 100%; 
+            background: var(--color-accent); 
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease; 
+            border-right: 2px solid var(--text-main); /* 復古血條邊界 */
         }
 
         .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.4; }
@@ -398,6 +429,17 @@
             <div class="balance-label">Trip Total</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
+            
+            <div class="budget-wrapper">
+                <div class="budget-info">
+                    <span class="budget-lbl">預算血量 (2萬)</span>
+                    <span class="budget-val" id="budget-val">剩餘 NT$ 20,000</span>
+                </div>
+                <div class="budget-bar">
+                    <div class="budget-fill" id="budget-fill"></div>
+                </div>
+            </div>
+
             <div class="stats-divider"></div>
             <div class="stats-row">
                 <div class="stat-col"><span class="stat-icon-small">🚕</span><span class="stat-val-small" id="stat-transport">0</span></div>
@@ -710,10 +752,10 @@
                     <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
                     <div class="card-content">
                         <div class="t-time">20:00 -</div>
-                        <div class="t-title">回飯店：東橫INN</div>
+                        <div class="t-title">回飯店：東橫INN 釜山中央站</div>
                         <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
                         <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
-                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%20125" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
                     </div>
                 </div>
             </div>
@@ -803,7 +845,7 @@
             });
         }
 
-        // 您的專屬 Google Apps Script 網址 (維持最新版)
+        // 您的專屬 Google Apps Script 網址
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzqxrEtyGvqY1pagncoPvIHKhT2xf6RanERbimucepBkHvrzfYwY573iLu_DCMVw8bK/exec';
         
         // 永久固定匯率 0.024
@@ -823,9 +865,6 @@
                 switchView('itinerary', savedDay);
                 document.getElementById('day-selector').value = savedDay;
             } else { switchView(savedTab); }
-            
-            // 直接顯示固定匯率
-            document.getElementById('rate-display').textContent = `固定匯率: ${currentRate}`;
             
             fetchBusanWeather(); selectDate('3/5'); fetchExpenses();
         });
@@ -972,8 +1011,38 @@
         }
 
         function updateStats(total, stats) {
+            let totalTWD = Math.round(total * currentRate);
+            
             document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
-            document.getElementById('total-twd').textContent = `≈ NT$ ${Math.round(total * currentRate).toLocaleString()}`;
+            document.getElementById('total-twd').textContent = `≈ NT$ ${totalTWD.toLocaleString()}`;
+            
+            // 預算血量計算
+            const TOTAL_BUDGET = 20000;
+            let remaining = TOTAL_BUDGET - totalTWD;
+            let percentage = Math.max(0, (remaining / TOTAL_BUDGET) * 100);
+            
+            const budgetVal = document.getElementById('budget-val');
+            const budgetFill = document.getElementById('budget-fill');
+            
+            if (remaining < 0) {
+                budgetVal.textContent = `超支 NT$ ${Math.abs(remaining).toLocaleString()}`;
+                budgetVal.style.color = 'var(--color-danger)';
+                budgetFill.style.width = '0%';
+                budgetFill.style.borderRight = 'none';
+            } else {
+                budgetVal.textContent = `剩餘 NT$ ${remaining.toLocaleString()}`;
+                budgetVal.style.color = 'var(--text-main)';
+                budgetFill.style.width = `${percentage}%`;
+                budgetFill.style.borderRight = percentage > 0 ? '2px solid var(--text-main)' : 'none';
+            }
+            
+            // 血量低於 20% 變紅色警告
+            if (percentage <= 20) {
+                budgetFill.style.background = 'var(--color-danger)'; 
+            } else {
+                budgetFill.style.background = 'var(--color-accent)'; 
+            }
+
             document.getElementById('stat-transport').textContent = `₩${stats['交通'].toLocaleString()}`;
             document.getElementById('stat-food').textContent = `₩${stats['食物'].toLocaleString()}`;
             document.getElementById('stat-shopping').textContent = `₩${stats['購物'].toLocaleString()}`;
