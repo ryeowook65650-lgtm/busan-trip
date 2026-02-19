@@ -54,7 +54,6 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        /* 標題與更新按鈕對齊優化 */
         .app-title { 
             font-family: var(--font-serif);
             font-size: 28px; 
@@ -62,19 +61,18 @@
             letter-spacing: 1px; 
             color: var(--color-accent); 
             text-shadow: 1px 1px 0px var(--text-main); 
-            display: flex; align-items: center; gap: 8px; /* 使用 gap 代替 margin，確保置中 */
-            line-height: 1; /* 修正基準線誤差 */
+            display: flex; align-items: center; 
+            line-height: 1; 
         }
         
+        /* 更新按鈕：移除外框，純 emoji，完美對齊 */
         .refresh-btn {
-            font-size: 14px; cursor: pointer;
-            background: var(--bg-card); border: 2px solid var(--text-main);
-            border-radius: 50%; width: 26px; height: 26px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 1px 1px 0 var(--color-accent); transition: 0.2s;
-            text-shadow: none; margin-top: -2px; /* 微調高度完美對齊文字中心 */
+            font-size: 20px; cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-left: 8px; display: inline-block;
+            text-shadow: none; /* 移除繼承自標題的陰影 */
         }
-        .refresh-btn:active { transform: rotate(180deg); box-shadow: none; }
+        .refresh-btn:active { transform: rotate(180deg); }
         
         .weather-badge {
             font-size: 14px; font-weight: 800; color: #FFF;
@@ -157,26 +155,27 @@
         .balance-sub { font-size: 16px; font-weight: 800; }
         .rate-tag { position: absolute; top: 25px; right: 25px; font-size: 13px; background: var(--text-main); color: #FFF; padding: 6px 10px; border-radius: 8px; font-weight: 800; border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent); }
 
-        /* --- 完美版預算儀表板 --- */
+        /* --- 完美對齊版預算儀表板 --- */
         .budget-container {
             margin-top: 25px; padding: 18px 20px;
             background: rgba(84, 106, 136, 0.06); 
             border: 2px dashed rgba(50, 103, 117, 0.4);
             border-radius: 12px; position: relative; z-index: 2;
-        }
-        .budget-header {
-            display: flex; justify-content: space-between; align-items: baseline; 
-            margin-bottom: 10px; padding: 0 2px; /* 為了跟下方進度條邊緣切齊 */
-        }
-        .budget-rem-lbl { 
-            font-family: var(--font-serif); font-size: 16px; font-weight: 900; 
-            color: var(--text-main); 
-        }
-        .budget-rem-val { 
-            font-size: 24px; font-weight: 900; font-family: -apple-system, sans-serif; 
-            color: var(--text-main); transition: 0.3s; 
+            display: flex; flex-direction: column; gap: 10px; /* 元素之間的間距 */
         }
         
+        /* 上排 - 大字體，強制一致尺寸與字型 */
+        .budget-rem-row {
+            text-align: left;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1;
+            transition: 0.3s;
+        }
+
+        /* 進度條 */
         .budget-track {
             height: 16px; width: 100%; border: 2px solid var(--text-main); border-radius: 8px; 
             background: #FFF; overflow: hidden; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
@@ -186,13 +185,16 @@
             background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.2) 10px, rgba(255,255,255,0.2) 20px);
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
         }
-        
-        .budget-footer {
-            text-align: right; margin-top: 8px; padding: 0 2px;
-        }
-        .budget-total-text {
-            font-family: var(--font-serif); font-size: 13px; font-weight: 800; 
-            opacity: 0.6; color: var(--text-main);
+
+        /* 下排 - 小字體，強制一致尺寸與字型 */
+        .budget-tot-row {
+            text-align: left;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+            opacity: 0.7;
+            line-height: 1;
         }
 
         /* 警告顏色 */
@@ -279,7 +281,7 @@
 
     <div class="top-bar">
         <div class="header-info">
-            <div class="app-title">Busan Trip <div class="refresh-btn" onclick="forceAppUpdate()">🔄</div></div>
+            <div class="app-title">Busan Trip <span class="refresh-btn" onclick="forceAppUpdate()">🔄</span></div>
             <div id="weather-badge" class="weather-badge" onclick="fetchBusanWeather()">
                 🇰🇷 釜山天氣載入中...
             </div>
@@ -309,16 +311,13 @@
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
             
             <div class="budget-container">
-                <div class="budget-header">
-                    <span class="budget-rem-lbl" id="budget-lbl">剩餘</span>
-                    <span class="budget-rem-val" id="budget-val">NT$ 20,000</span>
-                </div>
+                <div class="budget-rem-row" id="budget-rem-row">剩餘：NT$ 20,000</div>
+                
                 <div class="budget-track">
                     <div class="budget-fill" id="budget-fill"></div>
                 </div>
-                <div class="budget-footer">
-                    <span class="budget-total-text">總預算 NT$ 20,000</span>
-                </div>
+                
+                <div class="budget-tot-row">總預算：NT$ 20,000</div>
             </div>
 
             <div class="stats-divider"></div>
@@ -720,7 +719,6 @@
 
     <script>
         // --- 專屬：首頁 App 強制更新機制 ---
-        // 點擊 🔄 按鈕時，強制清除快取並重新載入網頁
         function forceAppUpdate() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -740,10 +738,7 @@
             });
         }
 
-        // 您的專屬 Google Apps Script 網址
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzqxrEtyGvqY1pagncoPvIHKhT2xf6RanERbimucepBkHvrzfYwY573iLu_DCMVw8bK/exec';
-        
-        // 永久固定匯率 0.024
         const currentRate = 0.024; 
         
         let expenses = []; 
@@ -812,7 +807,6 @@
             formData.append('action', 'delete'); 
             formData.append('id', id);
             
-            // 樂觀更新
             const originalExpenses = [...expenses]; 
             expenses = expenses.filter(item => item.id != id); 
             renderExpenses();
@@ -911,32 +905,25 @@
             document.getElementById('total-krw').textContent = `₩${total.toLocaleString()}`;
             document.getElementById('total-twd').textContent = `≈ NT$ ${totalTWD.toLocaleString()}`;
             
-            // --- 完美版：預算儀表板計算 ---
+            // --- 預算儀表板計算與更新 ---
             const TOTAL_BUDGET = 20000;
             let remaining = TOTAL_BUDGET - totalTWD;
             let spentPercent = Math.min(100, Math.max(0, (totalTWD / TOTAL_BUDGET) * 100));
             
-            const budgetLbl = document.getElementById('budget-lbl');
-            const budgetVal = document.getElementById('budget-val');
+            const budgetRemRow = document.getElementById('budget-rem-row');
             const budgetFill = document.getElementById('budget-fill');
             
             if (remaining < 0) {
-                budgetLbl.textContent = '超支';
-                budgetLbl.classList.add('danger-text');
-                budgetVal.textContent = `NT$ ${Math.abs(remaining).toLocaleString()}`;
-                budgetVal.classList.add('danger-text');
+                budgetRemRow.textContent = `超支：NT$ ${Math.abs(remaining).toLocaleString()}`;
+                budgetRemRow.classList.add('danger-text');
                 budgetFill.classList.add('danger-bg');
             } else {
-                budgetLbl.textContent = '剩餘';
-                budgetLbl.classList.remove('danger-text');
-                budgetVal.textContent = `NT$ ${remaining.toLocaleString()}`;
-                budgetVal.classList.remove('danger-text');
+                budgetRemRow.textContent = `剩餘：NT$ ${remaining.toLocaleString()}`;
+                budgetRemRow.classList.remove('danger-text');
                 
-                // 剩餘不到 20% 變紅警告
                 if (spentPercent >= 80) {
                     budgetFill.classList.add('danger-bg');
-                    budgetVal.classList.add('danger-text');
-                    budgetLbl.classList.add('danger-text');
+                    budgetRemRow.classList.add('danger-text');
                 } else {
                     budgetFill.classList.remove('danger-bg');
                 }
