@@ -3,281 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>BUSAN TRIP - Grand Deep Sea Edition</title>
+    <title>BUSAN TRIP</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#2A4B7C">
+    <meta name="theme-color" content="#DCD3CC">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:wght@400;700;900&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* --- 深海大飯店復古配色 --- */
-            --bg-main: #2A4B7C;      /* 深海藍 */
-            --bg-card: #F2E8DC;      /* 復古奶油紙色 */
-            --text-main: #3E204F;    /* 深靛青 (內文深色) */
-            --text-light: #F2E8DC;   /* 奶油色 (深底文字) */
-            --color-accent: #E05A47; /* 珊瑚紅 (強調/郵戳) */
-            --color-gold: #D9B44A;   /* 古董金 (邊框/裝飾) */
-            --border-dark: #3E204F;  /* 深色邊框線 */
+            /* --- 昭和復古配色 (實色高解析版) --- */
+            --bg-main: #DCD3CC;      /* 淺米色 */
+            --bg-card: #FFFFFF;      /* 白色 */
+            --text-main: #326775;    /* 深青色 */
+            --color-accent: #546A88; /* 柔和藍 */
+            --bg-input: #FFFFFF;
             
-            --border-radius: 12px; 
-            --font-display: "Abril Fatface", cursive; /* 用於大標題的華麗字體 */
-            --font-serif: "Merriweather", "Noto Serif TC", serif; /* 用於內文的穩重字體 */
+            --border-radius: 16px; 
+            --font-serif: "Noto Serif TC", "Nanum Myeongjo", "Georgia", serif;
             --border-width: 3px; 
-            /* 復古網點紋理 */
-            --texture-overlay: radial-gradient(circle, var(--text-main) 10%, transparent 10.5%) 0 0 / 10px 10px;
+            --box-shadow-soft: 4px 4px 0px rgba(50, 103, 117, 0.15);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; padding: 0; 
-            font-family: var(--font-serif);
-            /* 背景加入深海漸層與網點紋理 */
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
             background-color: var(--bg-main);
-            background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%), var(--texture-overlay);
-            background-blend-mode: soft-light;
             color: var(--text-main);
             padding-bottom: 60px;
         }
 
-        /* 頂部固定區 - 像一個厚重的銅牌 */
+        /* 頂部固定區 */
         .top-bar {
             position: sticky; top: 0; z-index: 999;
             background: var(--bg-main);
-            border-bottom: 4px solid var(--color-gold);
-            box-shadow: 0 4px 0 var(--border-dark);
+            border-bottom: var(--border-width) solid var(--text-main);
+            box-shadow: 0 2px 5px rgba(50, 103, 117, 0.05);
             padding-top: env(safe-area-inset-top);
         }
 
         .header-info {
-            padding: 15px 20px; 
+            padding: 20px 20px 10px; 
             display: flex; justify-content: space-between; align-items: center;
         }
         .app-title { 
-            font-family: var(--font-display);
-            font-size: 32px; 
-            letter-spacing: 2px; 
-            color: var(--color-gold); 
-            /* 華麗的復古多重陰影 */
-            text-shadow: 2px 2px 0 var(--color-accent), 4px 4px 0 var(--border-dark);
-            text-transform: uppercase;
+            font-family: var(--font-serif);
+            font-size: 28px; 
+            font-weight: 900; 
+            letter-spacing: 1px; 
+            color: var(--color-accent); 
+            text-shadow: 1px 1px 0px var(--text-main); 
         }
         
-        /* 天氣與匯率標籤 - 珊瑚紅郵戳風格 */
-        .weather-badge, .rate-tag {
-            font-size: 13px; font-weight: 900; color: var(--text-light);
-            background: var(--color-accent); padding: 6px 12px; border-radius: 6px;
-            text-decoration: none; 
-            border: 2px solid var(--color-gold);
-            box-shadow: 3px 3px 0 var(--border-dark);
-            cursor: pointer; transition: 0.2s;
+        .weather-badge {
+            font-size: 14px; font-weight: 800; color: #FFF;
+            background: var(--text-main); padding: 8px 14px; border-radius: 30px;
+            text-decoration: none; border: var(--border-width) solid var(--text-main);
+            cursor: pointer; transition: 0.3s;
             display: flex; align-items: center; gap: 5px;
-            font-family: var(--font-serif);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            box-shadow: 2px 2px 0 var(--color-accent);
         }
-        .weather-badge:active, .rate-tag:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--border-dark); }
-        .rate-tag { position: absolute; top: 20px; right: 20px; z-index: 10;}
+        .weather-badge:active { transform: translate(2px, 2px); box-shadow: none; }
 
-        /* 導覽列 - 深色厚重按鈕 */
-        .nav-bar-row { display: flex; align-items: center; padding: 10px 15px 25px; gap: 12px; }
+        /* --- 導覽列 --- */
+        .nav-bar-row { 
+            display: flex; align-items: center; padding: 10px 15px 20px; gap: 10px; 
+        }
+
         .nav-btn, .nav-select {
             display: block; width: 100%;
             text-align: center; padding: 12px 0;
-            font-size: 16px; font-weight: 700; 
-            color: var(--color-gold);
-            background: var(--border-dark); /* 深底色 */
-            border: 3px solid var(--color-gold);
-            border-radius: 8px; 
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+            font-size: 15px; font-weight: 800; color: var(--text-main);
             cursor: pointer; position: relative; transition: 0.2s;
-            font-family: var(--font-display);
-            letter-spacing: 1px;
+            background: var(--bg-input); 
+            border: var(--border-width) solid var(--text-main);
+            border-radius: 12px; 
+            box-shadow: var(--box-shadow-soft);
             appearance: none; -webkit-appearance: none; outline: none;
-        }
-        .nav-btn { flex: 1; white-space: nowrap; }
-        .nav-select-wrapper { flex: 1.3; position: relative; }
-        .nav-select-wrapper::after {
-            content: '▼'; position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            font-size: 12px; color: var(--color-gold); pointer-events: none;
-        }
-        .nav-select { padding: 12px 15px; text-align: left; }
-        /* 選中狀態 - 變為珊瑚紅 */
-        .nav-btn.active, .nav-select-wrapper.active .nav-select {
-            background: var(--color-accent); 
-            color: var(--text-light);                     
-            border-color: var(--border-dark);
-            box-shadow: 2px 2px 0 var(--border-dark); 
-            transform: translate(2px, 2px);  
-        }
-        .nav-select-wrapper.active::after { color: var(--text-light); }
-
-        .view-container { display: none; padding: 30px 20px; max-width: 600px; margin: 0 auto; }
-        .view-container.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- 卡片核心樣式 (豪華雙重邊框) --- */
-        .retro-card, .flight-ticket, .balance-card, .input-area, .trip-card, .history-item {
-            background-color: var(--bg-card);
-            /* 雙重邊框效果：內金外深 */
-            border: 4px solid var(--border-dark);
-            box-shadow: 0 0 0 2px var(--color-gold), 6px 6px 0 rgba(0,0,0,0.4);
-            border-radius: 16px;
-            color: var(--text-main);
-            overflow: hidden;
-            /* 卡片內部加入細微的舊紙張紋理 */
-            background-image: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0));
-        }
-        
-        /* Emoji 復古濾鏡 - 讓它們看起來像舊版畫 */
-        .cat-emoji, .stat-icon-small, .i-icon, .flight-icon {
-            filter: sepia(0.8) hue-rotate(-20deg) contrast(1.1) drop-shadow(2px 2px 0 rgba(62, 32, 79, 0.3));
-        }
-
-        /* 機票樣式 */
-        .flight-ticket { margin-bottom: 35px; position: relative; }
-        /* 機票缺口 */
-        .flight-ticket::before, .flight-ticket::after {
-            content: ''; position: absolute; top: 145px; width: 15px; height: 30px; 
-            background-color: var(--bg-main); z-index: 2;
-            border: 4px solid var(--border-dark); box-sizing: border-box;
-            box-shadow: inset 0 0 0 2px var(--color-gold);
-        }
-        .flight-ticket::before { left: -4px; border-radius: 0 15px 15px 0; border-left: none; }
-        .flight-ticket::after { right: -4px; border-radius: 15px 0 0 15px; border-right: none; }
-
-        .ticket-header { 
-            padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; 
-            /* 使用 SVG 波浪線作為分隔 */
-            border-bottom: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6c10 0 10-4 20-4s10 4 20 4 10-4 20-4 10 4 20 4' stroke='%23D9B44A' stroke-width='3' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
-            background-repeat: repeat-x; background-position: center bottom;
-            background-color: rgba(217, 180, 74, 0.15); /* 淡淡的金色背景 */
-        }
-        .ticket-label { font-family: var(--font-display); font-size: 20px; letter-spacing:1px; color: var(--border-dark); text-transform: uppercase; }
-        .ticket-date { font-weight: 700; font-size: 16px; color: var(--color-accent); }
-        .ticket-body { padding: 30px 25px; }
-        .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .airport-code { font-size: 42px; font-family: var(--font-display); color: var(--border-dark); text-shadow: 2px 2px 0 var(--color-gold);}
-        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 5px; opacity: 0.8; }
-        .flight-icon { font-size: 32px; }
-        .time-row { display: flex; justify-content: space-between; border-top: 3px dotted var(--color-gold); padding-top: 20px; margin-top: 15px; }
-        .time-val { font-size: 28px; font-family: var(--font-display); color: var(--border-dark); }
-        .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; color: var(--color-accent); text-transform: uppercase;}
-        .flight-info-row { margin-top: 25px; background: #FFF; padding: 12px 15px; border-radius: 8px; display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; border: 2px solid var(--border-dark); box-shadow: 3px 3px 0 rgba(0,0,0,0.2); }
-        .airline-logo { display:flex; align-items:center; gap:8px; font-weight: 900; color: var(--border-dark); }
-
-        /* 資產卡片 - 豪華版 */
-        .balance-card { padding: 30px 30px 25px; margin-bottom: 35px; position: relative; }
-        .balance-label { font-family: var(--font-display); font-size: 22px; color: var(--border-dark); letter-spacing: 1px; text-transform: uppercase;}
-        /* 巨大的復古金額顯示 */
-        .balance-amount { 
-            font-family: var(--font-display); font-size: 56px; margin: 15px 0 5px; 
-            color: var(--color-accent);
-            text-shadow: 3px 3px 0 var(--border-dark);
-        }
-        .balance-sub { font-size: 18px; font-weight: 700; color: var(--border-dark); opacity: 0.8;}
-        /* 波浪分隔線 */
-        .stats-divider { 
-            border: none; height: 15px; margin: 25px 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6c10 0 10-4 20-4s10 4 20 4 10-4 20-4 10 4 20 4' stroke='%23D9B44A' stroke-width='3' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
-            background-repeat: repeat-x; background-position: center; opacity: 0.8;
-        }
-        .stats-row { display: flex; justify-content: space-between; padding: 0 10px; }
-        .stat-col { text-align: center; flex: 1; }
-        .stat-icon-small { font-size: 24px; margin-bottom: 8px; }
-        .stat-val-small { font-size: 16px; font-weight: 900; color: var(--border-dark); }
-
-        /* 輸入區 */
-        .input-area { padding: 30px; margin-bottom: 30px; }
-        .input-title { font-family: var(--font-display); font-size: 20px; color: var(--border-dark); margin-bottom: 20px; display:block; }
-        .input-row { display: flex; gap: 12px; margin-bottom: 18px; }
-        .modern-input { 
-            width: 100%; padding: 16px; 
-            border: 3px solid var(--border-dark); border-radius: 10px; 
-            background: #FFF; font-size: 18px; color: var(--border-dark); font-weight: 700; 
-            box-shadow: inset 3px 3px 0 rgba(0,0,0,0.1);
             font-family: var(--font-serif);
         }
-        .modern-input:focus { border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(224, 90, 71, 0.3); }
-        /* 新增按鈕 - 珊瑚紅 */
-        .add-btn { 
-            width: 100%; background: var(--color-accent); color: var(--text-light); 
-            padding: 18px; border-radius: 10px; 
-            border: 3px solid var(--border-dark);
-            font-family: var(--font-display); font-size: 20px; letter-spacing: 1px;
-            cursor: pointer; box-shadow: 4px 4px 0 var(--border-dark); transition: 0.2s; margin-top: 15px; 
+        
+        .nav-btn { flex: 1; white-space: nowrap; }
+        .nav-select-wrapper { flex: 1.3; position: relative; }
+        
+        .nav-select-wrapper::after {
+            content: '▼'; 
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 10px; color: var(--text-main); pointer-events: none; transition: 0.2s;
         }
-        .add-btn:active { transform: translate(4px, 4px); box-shadow: none; }
+        .nav-select { padding: 12px 15px; text-align: left; }
 
-        /* 歷史紀錄 */
-        .history-list { margin-top: 20px; padding-bottom: 20px; }
-        .date-divider { 
-            font-family: var(--font-display); font-size: 26px; color: var(--color-gold); 
-            text-shadow: 2px 2px 0 var(--border-dark);
-            margin: 40px 0 20px 10px; padding-bottom: 10px;
-            border-bottom: 3px dotted var(--color-gold);
+        .nav-btn.active, 
+        .nav-select-wrapper.active .nav-select {
+            background: var(--color-accent); 
+            color: #FFF;                     
+            box-shadow: 2px 2px 0 var(--text-main); 
+            transform: translate(2px, 2px);  
+            border-color: var(--text-main);
         }
-        .history-item { 
-            padding: 20px; margin-bottom: 15px; border-radius: 12px;
-            box-shadow: 3px 3px 0 rgba(0,0,0,0.2); border-width: 3px;
-        }
-        .h-name { font-weight: 900; font-size: 17px; color: var(--border-dark);}
-        .h-cat { font-size: 14px; opacity: 0.8; font-weight: 700; margin-top: 5px; color: var(--color-accent);}
-        .h-price { font-family: var(--font-display); font-weight: 400; font-size: 22px; color: var(--border-dark); }
-        .h-twd { font-size: 14px; color: var(--color-accent); font-weight: 700; }
-        .del-btn { color: var(--border-dark); font-size: 28px; padding-left: 20px; opacity: 0.6; transition: 0.2s;}
-        .del-btn:active { color: var(--color-accent); opacity: 1; transform: scale(1.2);}
 
-        /* 選項按鈕 (日期/分類) */
-        .date-scroll-container, .cat-row { padding: 5px 5px 25px; }
-        .date-chip, .cat-btn { 
-            background: var(--bg-card); border: 3px solid var(--border-dark); 
-            font-family: var(--font-display); font-size: 16px; color: var(--border-dark);
-            box-shadow: 4px 4px 0 rgba(0,0,0,0.3); border-radius: 8px;
+        .nav-btn:active, .nav-select:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 var(--text-main);
         }
-        .date-chip { padding: 12px 20px; margin-right: 12px; border-radius: 30px;} .cat-btn { padding: 15px 10px; }
-        /* 選中狀態 - 深色底金色字 */
-        .date-chip.active, .cat-btn.active { 
-            background: var(--border-dark); color: var(--color-gold); 
-            box-shadow: 2px 2px 0 var(--color-gold); border-color: var(--color-gold);
+
+        .nav-select-wrapper.active::after { color: #FFF; }
+
+        .view-container { display: none; padding: 25px 20px; max-width: 600px; margin: 0 auto; }
+        .view-container.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 卡片樣式 --- */
+        .retro-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+            color: var(--text-main);
         }
+
+        .flight-ticket {
+            @extend .retro-card;
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+            color: var(--text-main);
+            margin-bottom: 30px; 
+            position: relative;
+        }
+        
+        .flight-ticket::before, .flight-ticket::after {
+            content: ''; position: absolute; top: 135px; 
+            width: 12px; height: 24px; 
+            background-color: var(--bg-main); 
+            z-index: 2;
+            border: var(--border-width) solid var(--text-main);
+            box-sizing: border-box;
+        }
+        .flight-ticket::before { left: -3px; border-radius: 0 12px 12px 0; border-left: none; }
+        .flight-ticket::after { right: -3px; border-radius: 12px 0 0 12px; border-right: none; }
+
+        .ticket-header {
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: var(--border-width) dashed var(--text-main); border-radius: 13px 13px 0 0;
+        }
+        .ticket-header.outbound { background: rgba(84, 106, 136, 0.1); }
+        .ticket-header.inbound { background: rgba(50, 103, 117, 0.1); }
+        
+        .ticket-label { font-family: var(--font-serif); font-size: 18px; font-weight: 900; color: var(--color-accent); }
+        .ticket-date { font-weight: 800; font-size: 15px; }
+        .ticket-body { padding: 25px; position: relative; border-radius: 0 0 13px 13px; }
+        
+        .route-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .airport-code { font-size: 36px; font-weight: 900; font-family: var(--font-serif); line-height: 1; color: var(--text-main); }
+        .airport-name { font-size: 14px; font-weight: 700; display: block; margin-top: 8px; opacity: 0.7; }
+        
+        .flight-icon { font-size: 28px; color: var(--color-accent); transform: none; }
+        .time-row { display: flex; justify-content: space-between; border-top: var(--border-width) solid var(--text-main); padding-top: 20px; margin-top: 15px; }
+        .time-col { flex: 1; }
+        .time-val { font-size: 24px; font-weight: 900; }
+        .time-lbl { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: block; opacity: 0.6;}
+        
+        .flight-info-row {
+            margin-top: 20px; background: #FFFFFF; padding: 12px 15px; border-radius: 10px;
+            display: flex; justify-content: space-between; font-size: 14px; font-weight: 700;
+            border: 2px solid var(--text-main); box-shadow: var(--box-shadow-soft);
+        }
+        .airline-logo { display:flex; align-items:center; gap:8px; font-weight: 900; color: #568c71; }
+
+        /* --- 資產卡片 --- */
+        .balance-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; padding: 25px 30px 20px; margin-bottom: 30px; position: relative;
+        }
+        .balance-card::before {
+            content: ''; position: absolute; right: -30px; top: -30px;
+            width: 140px; height: 140px; background: var(--color-accent);
+            border-radius: 50%; opacity: 0.3; pointer-events: none;
+            border: var(--border-width) solid var(--text-main);
+        }
+        .balance-label { font-family: var(--font-serif); font-size: 16px; font-weight: 900; color: var(--color-accent); }
+        .balance-amount { 
+            font-family: var(--font-serif); font-size: 42px; margin: 10px 0; 
+            font-weight: 900; color: var(--bg-input); 
+            -webkit-text-stroke: 1.5px var(--text-main); 
+            text-shadow: 2px 2px 0 var(--text-main); 
+        }
+        .balance-sub { font-size: 16px; font-weight: 800; }
+        
+        /* 匯率標籤：拿掉按鈕效果，顯示純文字固定 */
+        .rate-tag { 
+            position: absolute; top: 25px; right: 25px; 
+            font-size: 13px; background: var(--text-main); color: #FFF;
+            padding: 6px 10px; border-radius: 8px; font-weight: 800;
+            border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent);
+        }
+
+        .stats-divider { border-top: var(--border-width) dashed var(--text-main); margin: 20px 0 15px; opacity: 0.4; }
+        .stats-row { display: flex; justify-content: space-between; }
+        .stat-col { text-align: center; flex: 1; }
+        .stat-icon-small { font-size: 20px; display: block; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2)); }
+        .stat-val-small { font-size: 15px; font-weight: 800; }
+
+        /* --- 輸入區 --- */
+        .input-area {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; padding: 25px; margin-bottom: 25px;
+        }
+        .input-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--color-accent); margin-bottom: 15px; display:block; }
+        .input-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        
+        .modern-input {
+            width: 100%; padding: 14px; border: var(--border-width) solid var(--text-main);
+            border-radius: 12px; background: var(--bg-input); outline: none;
+            font-size: 16px; color: var(--text-main); transition: 0.3s;
+            font-weight: 700; box-shadow: var(--box-shadow-soft);
+        }
+        .modern-input::placeholder { color: rgba(50, 103, 117, 0.4); }
+        .modern-input:focus { border-color: var(--color-accent); box-shadow: 2px 2px 0 var(--color-accent); }
+        
+        .add-btn {
+            width: 100%; background: var(--color-accent); color: #FFF;
+            padding: 16px; border-radius: 12px; border: var(--border-width) solid var(--text-main);
+            font-size: 18px; font-weight: 800; cursor: pointer;
+            box-shadow: var(--box-shadow-soft); transition: 0.2s; margin-top: 10px;
+        }
+        .add-btn:active { transform: translate(3px, 3px); box-shadow: none; }
+        .add-btn:disabled { background: #ccc; border-color: #999; box-shadow: none; cursor: not-allowed; }
+
+        .history-list { margin-top: 15px; padding-bottom: 20px; }
+        .date-divider {
+            font-family: var(--font-serif); font-size: 22px; color: var(--color-accent);
+            font-weight: 900; margin: 35px 0 15px 10px; text-shadow: 1px 1px 0 rgba(50, 103, 117, 0.2);
+        }
+        .history-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #FFFFFF; padding: 18px; border-radius: 14px;
+            margin-bottom: 12px; border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+        }
+        .h-name { font-weight: 800; font-size: 16px; }
+        .h-cat { font-size: 13px; opacity: 0.7; font-weight: 700; margin-top: 4px;}
+        .h-price { font-weight: 900; font-size: 18px; }
+        .h-twd { font-size: 13px; color: var(--color-accent); display: block; font-weight: 700; }
+        .del-btn { color: var(--text-main); font-weight:900; background: none; border: none; font-size: 24px; padding-left: 15px; opacity: 0.5;}
+
+        .loading-text { text-align: center; padding: 20px; font-weight: 800; opacity: 0.6; }
+
+        .date-scroll-container { overflow-x: auto; white-space: nowrap; padding: 5px 5px 20px; scrollbar-width: none; }
+        .date-chip {
+            display: inline-block; background: #FFFFFF; border: var(--border-width) solid var(--text-main);
+            padding: 10px 18px; border-radius: 25px; margin-right: 10px; font-size: 15px; font-weight: 800;
+            color: var(--text-main); cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
+        }
+        .date-chip.active { background: var(--color-accent); color: #FFF; box-shadow: var(--box-shadow-soft); transform: translate(-2px, -2px); }
+
+        .cat-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .cat-btn {
+            flex: 1; min-width: 75px; text-align: center; padding: 12px 5px; border-radius: 12px;
+            background: #FFFFFF; border: var(--border-width) solid var(--text-main);
+            font-size: 14px; font-weight: 800; color: var(--text-main);
+            cursor: pointer; transition: 0.2s; box-shadow: var(--box-shadow-soft);
+        }
+        .cat-btn.active { background: var(--text-main); color: #FFF; box-shadow: 2px 2px 0 var(--color-accent); transform: translate(-2px, -2px); }
+        .cat-emoji { font-size: 22px; display: block; margin-bottom: 6px; filter: drop-shadow(1px 1px 0 rgba(50, 103, 117, 0.2));}
+
+        .data-mgr-section { border-top: var(--border-width) dashed var(--text-main); padding-top: 25px; margin-top: 30px; }
+        .export-btn {
+            width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: 0.2s; border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft);
+            background: #FFFFFF; border-style: dashed; color: var(--color-accent);
+        }
+        .export-btn:active { transform: translate(3px, 3px); box-shadow: none; }
 
         /* 行程卡片 */
-        .timeline { position: relative; padding-left: 30px; padding-top: 15px; }
-        .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 6px; background: var(--color-gold); border-radius: 6px; opacity: 0.5; border: 2px solid var(--border-dark);}
-        .day-header { font-family: var(--font-display); font-size: 32px; color: var(--color-gold); margin-bottom: 30px; padding-left: 15px; text-shadow: 3px 3px 0 var(--border-dark); }
+        .day-schedule { display: none; animation: fadeIn 0.3s ease; }
+        .day-schedule.active { display: block; }
+        .timeline { position: relative; padding-left: 25px; padding-top: 15px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 4px; 
+            background: var(--text-main); border-radius: 4px; opacity: 0.3;
+        }
+        .day-header {
+            font-family: var(--font-serif); font-size: 26px; color: var(--color-accent);
+            margin-bottom: 25px; padding-left: 15px; font-weight: 900;
+            text-shadow: 2px 2px 0 rgba(50, 103, 117, 0.2);
+        }
+        .trip-card {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius); border: var(--border-width) solid var(--text-main);
+            box-shadow: var(--box-shadow-soft); color: var(--text-main);
+            overflow: hidden; margin-bottom: 35px; position: relative;
+        }
+        .trip-card::after {
+            content: ''; position: absolute; left: -32px; top: 25px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--color-accent); border: var(--border-width) solid var(--text-main); z-index: 1;
+        }
+        .card-img-top { width: 100%; height: 200px; object-fit: cover; display: block; border-bottom: var(--border-width) solid var(--text-main); }
+        .card-content { padding: 25px; }
+        .t-time { font-size: 16px; font-weight: 900; color: var(--color-accent); margin-bottom: 8px; display: inline-block; border-bottom: 3px solid rgba(50, 103, 117, 0.2); font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
+        .t-title { font-family: var(--font-serif); font-size: 24px; font-weight: 900; margin-bottom: 15px; line-height: 1.3; }
+        .t-kr-name { display: block; font-size: 16px; font-weight: 700; margin-top: 6px; font-family: "Nanum Myeongjo", serif; opacity: 0.9; }
+        .info-block { display: flex; gap: 12px; margin-bottom: 10px; font-size: 16px; }
+        .i-icon { color: var(--color-accent); width: 24px; text-align: center; font-size: 20px; }
+        .i-text { flex: 1; line-height: 1.5; font-weight: 700; font-family: var(--font-serif); }
+        .pill { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 13px; background: var(--text-main); color: #FFF; font-weight: 800; font-family: -apple-system, sans-serif;}
+        .naver-link {
+            display: flex; align-items: center; justify-content: center;
+            background: var(--text-main); color: #FFF; text-decoration: none;
+            padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 16px; font-weight: 800; gap: 8px; 
+            border: var(--border-width) solid var(--text-main); box-shadow: 2px 2px 0 var(--color-accent); transition: 0.2s;
+        }
+        .naver-link:active { transform: translate(2px, 2px); box-shadow: none; }
+        .multi-btn-row { display: flex; gap: 12px; margin-top: 15px; }
+        .multi-btn-row .naver-link { margin-top: 0; flex: 1; font-size: 14px; padding: 12px; }
         
-        .trip-card { margin-bottom: 40px; } 
-        .trip-card::after { content: ''; position: absolute; left: -39px; top: 30px; width: 24px; height: 24px; border-radius: 50%; background: var(--color-accent); border: 3px solid var(--border-dark); z-index: 1; box-shadow: 2px 2px 0 var(--color-gold);}
-        .card-img-top { height: 220px; border-bottom: 4px solid var(--border-dark); filter: sepia(0.3) contrast(1.1); } 
-        .card-content { padding: 30px; }
-        .t-time { font-family: var(--font-display); font-size: 20px; color: var(--color-accent); margin-bottom: 10px; border-bottom: 3px solid var(--color-gold); }
-        .t-title { font-family: var(--font-display); font-size: 28px; margin-bottom: 15px; line-height: 1.2; color: var(--border-dark); }
-        .i-icon { color: var(--color-accent); } .i-text { font-size: 17px; }
+        .copy-btn {
+            background: none; border: none; cursor: pointer; font-size: 16px; 
+            margin-left: 5px; color: var(--color-accent); padding: 0;
+            transition: 0.2s;
+        }
+        .copy-btn:active { transform: scale(0.9); }
         
-        .pill { background: var(--border-dark); color: var(--color-gold); border: 2px solid var(--color-gold); font-family: var(--font-serif);}
-        .naver-link { background: var(--border-dark); color: var(--color-gold); border: 3px solid var(--color-gold); box-shadow: 4px 4px 0 rgba(0,0,0,0.4); font-family: var(--font-display); letter-spacing: 1px;}
-        .naver-link:active { transform: translate(4px, 4px); box-shadow: none; background: var(--color-accent); color: var(--text-light); border-color: var(--border-dark);}
-        
-        .choice-wrapper { border: 3px dashed var(--color-gold); background: rgba(217, 180, 74, 0.1); }
-        .choice-label { background: var(--color-accent); color: var(--text-light); border: 2px solid var(--border-dark); font-family: var(--font-display); letter-spacing: 1px;}
-        .choice-or::before { background: var(--color-gold); height: 3px; opacity: 0.6; } 
-        .choice-or span { background: var(--bg-card); color: var(--color-gold); border: 3px solid var(--color-gold); font-family: var(--font-display);}
+        .choice-wrapper {
+            border: 2px dashed var(--color-accent);
+            background: rgba(84, 106, 136, 0.05);
+            border-radius: 12px; padding: 15px; margin-top: 10px;
+        }
+        .choice-option { margin-bottom: 10px; }
+        .choice-label {
+            font-size: 13px; background: var(--color-accent); color: #fff;
+            padding: 4px 8px; border-radius: 4px; font-weight: 800;
+            display: inline-block; margin-bottom: 5px;
+        }
+        .choice-or {
+            text-align: center; margin: 15px 0; position: relative; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .choice-or::before {
+            content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 2px;
+            background: var(--color-accent); opacity: 0.3;
+        }
+        .choice-or span {
+            background: #FFFFFF; padding: 5px 10px; color: var(--color-accent);
+            font-weight: 900; font-family: var(--font-serif); font-size: 14px;
+            border: 2px solid var(--color-accent); border-radius: 20px;
+            position: relative; z-index: 1;
+        }
     </style>
 </head>
 <body>
+
     <div class="top-bar">
         <div class="header-info">
             <div class="app-title">Busan Trip</div>
-            <div id="weather-badge" class="weather-badge" onclick="fetchBusanWeather()">🇰🇷 釜山天氣載入中...</div>
+            <div id="weather-badge" class="weather-badge" onclick="fetchBusanWeather()">
+                🇰🇷 釜山天氣載入中...
+            </div>
         </div>
+        
         <div class="nav-bar-row">
             <button class="nav-btn" id="btn-flight" onclick="switchView('flight')">航班資訊</button>
             <button class="nav-btn active" id="btn-accounting" onclick="switchView('accounting')">支出紀錄</button>
@@ -328,51 +426,373 @@
             <div class="input-row"><input type="number" id="item-price" class="modern-input" placeholder="金額 (KRW)"></div>
             <button onclick="addExpense()" id="btn-add" class="add-btn">確認新增 (至 <span id="btn-date-label">3/5</span>)</button>
         </div>
-        <div class="history-list" id="expense-list"><div class="loading-text">🔄 正在同步全家人的帳本...</div></div>
+        
+        <div class="history-list" id="expense-list">
+            <div class="loading-text">🔄 正在同步全家人的帳本...</div>
+        </div>
+
+        <div class="data-mgr-section">
+            <button onclick="exportToCSV()" class="export-btn">📤 匯出 Excel (CSV報表)</button>
+        </div>
     </div>
 
     <div id="view-flight" class="view-container">
-        <div class="flight-ticket"><div class="ticket-header outbound"><div class="ticket-label">Outbound 去程</div><div class="ticket-date">2025/3/5 (四)</div></div><div class="ticket-body"><div class="route-row"><div><span class="airport-code">TPE</span><span class="airport-name">台北桃園 T2</span></div><div class="flight-icon">✈</div><div style="text-align:right;"><span class="airport-code">PUS</span><span class="airport-name">釜山金海 I</span></div></div><div class="time-row"><div class="time-col"><span class="time-lbl">DEPARTURE</span><span class="time-val">14:25</span></div><div class="time-col" style="text-align:right;"><span class="time-lbl">ARRIVAL</span><span class="time-val">17:40</span></div></div><div class="flight-info-row"><div class="airline-logo">EVA AIR BR164</div><div>2h 15m • A321</div></div></div></div>
-        <div class="flight-ticket"><div class="ticket-header inbound"><div class="ticket-label">Inbound 回程</div><div class="ticket-date">2025/3/9 (一)</div></div><div class="ticket-body"><div class="route-row"><div><span class="airport-code">PUS</span><span class="airport-name">釜山金海 I</span></div><div class="flight-icon">✈</div><div style="text-align:right;"><span class="airport-code">TPE</span><span class="airport-name">台北桃園 T2</span></div></div><div class="time-row"><div class="time-col"><span class="time-lbl">DEPARTURE</span><span class="time-val">18:55</span></div><div class="time-col" style="text-align:right;"><span class="time-lbl">ARRIVAL</span><span class="time-val">20:25</span></div></div><div class="flight-info-row"><div class="airline-logo">EVA AIR BR163</div><div>2h 30m • A321</div></div></div></div>
+        <div class="flight-ticket">
+            <div class="ticket-header outbound">
+                <div class="ticket-label">Outbound 去程</div>
+                <div class="ticket-date">2025/3/5 (四)</div>
+            </div>
+            <div class="ticket-body">
+                <div class="route-row">
+                    <div><span class="airport-code">TPE</span><span class="airport-name">台北桃園 T2</span></div>
+                    <div class="flight-icon">✈</div>
+                    <div style="text-align:right;"><span class="airport-code">PUS</span><span class="airport-name">釜山金海 I</span></div>
+                </div>
+                <div class="time-row">
+                    <div class="time-col"><span class="time-lbl">DEPARTURE</span><span class="time-val">14:25</span></div>
+                    <div class="time-col" style="text-align:right;"><span class="time-lbl">ARRIVAL</span><span class="time-val">17:40</span></div>
+                </div>
+                <div class="flight-info-row">
+                    <div class="airline-logo">EVA AIR BR164</div>
+                    <div>2h 15m • A321</div>
+                </div>
+            </div>
+        </div>
+        <div class="flight-ticket">
+            <div class="ticket-header inbound">
+                <div class="ticket-label">Inbound 回程</div>
+                <div class="ticket-date">2025/3/9 (一)</div>
+            </div>
+            <div class="ticket-body">
+                <div class="route-row">
+                    <div><span class="airport-code">PUS</span><span class="airport-name">釜山金海 I</span></div>
+                    <div class="flight-icon">✈</div>
+                    <div style="text-align:right;"><span class="airport-code">TPE</span><span class="airport-name">台北桃園 T2</span></div>
+                </div>
+                <div class="time-row">
+                    <div class="time-col"><span class="time-lbl">DEPARTURE</span><span class="time-val">18:55</span></div>
+                    <div class="time-col" style="text-align:right;"><span class="time-lbl">ARRIVAL</span><span class="time-val">20:25</span></div>
+                </div>
+                <div class="flight-info-row">
+                    <div class="airline-logo">EVA AIR BR163</div>
+                    <div>2h 30m • A321</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="view-itinerary" class="view-container">
-        <div id="day1-content" class="day-schedule"><div class="day-header">Day 1 • 3/5 (四)</div><div class="timeline">
-            <div class="trip-card"><img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top"><div class="card-content"><div class="t-time">18:40 - 19:40</div><div class="t-title">Check in: 東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div><div class="info-block"><div class="i-icon">🚗</div><div class="i-text"><span class="pill">包車</span> 約 40 分鐘</div></div><a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240624_9%2F1719216423913A9KDN_JPEG%2F04_%25C8%25AD%25BE%25E7%25B9%25DD.jpg" class="card-img-top"><div class="card-content"><div class="t-time">19:40 - 22:00</div><div class="t-title">飯店附近晚餐<span class="t-kr-name">호텔 근처 저녁 식사</span></div><div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 5 分鐘</div></div></div></div>
-        </div></div>
-        
-        <div id="day2-content" class="day-schedule"><div class="day-header">Day 2 • 3/6 (五)</div><div class="timeline">
-            <div class="trip-card"><img src="https://tong.visitkorea.or.kr/cms/resource/92/3365492_image2_1.jpg" class="card-img-top"><div class="card-content"><div class="t-time">09:00 - 11:00</div><div class="t-title">甘川洞文化村<span class="t-kr-name">감천문화마을</span></div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203 <button class="copy-btn" onclick="copyToClipboard('부산 사하구 감내2로 203')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,600 x 2 (15分)</div></div><a href="https://map.naver.com/p/search/%EA%B0%90%EC%B2%9C%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84%EC%95%88%EB%82%B4%EC%84%BC%ED%84%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80,w=800" class="card-img-top"><div class="card-content"><div class="t-time">11:00 - 12:00</div><div class="t-title">密陽家豬肉湯飯<span class="t-kr-name">밀양집</span></div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중구로47번길 35 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중구로47번길 35')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩5,200 x 2 (8分)</div></div><a href="https://map.naver.com/p/search/%EB%B0%80%EC%96%91%EC%A7%91" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://twobunny.tw/wp-content/uploads/2024/04/2024-0131-bupyeong-market.jpg" class="card-img-top"><div class="card-content"><div class="t-time">12:00 - 15:00</div><div class="t-title">市場巡禮<span class="t-kr-name">시장 투어</span></div><div class="info-block" style="flex-direction:column;gap:15px;margin:10px 0 15px;"><div><strong>1. 富平罐頭市場</strong><br><span style="font-size:13px;opacity:0.8;">부산 중구 부평1길 48 <button class="copy-btn" onclick="copyToClipboard('부산 중구 부평1길 48')">📋</button></span></div><div><strong>2. 國際市場</strong><br><span style="font-size:13px;opacity:0.8;">부산 중구 신창동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span></div><div><strong>3. 阿里郎街</strong><br><span style="font-size:13px;opacity:0.8;">부산 중구 광복로35번길 11 <button class="copy-btn" onclick="copyToClipboard('부산 중구 광복로35번길 11')">📋</button></span></div></div><div class="multi-btn-row"><a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a><a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a><a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a></div></div></div>
-            <div class="trip-card"><img src="https://tong.visitkorea.or.kr/cms/resource/93/3343193_image2_1.jpg" class="card-img-top"><div class="card-content"><div class="t-time">15:00 - 16:30</div><div class="t-title">景點二擇一<span class="t-kr-name">선택 관광</span></div><div class="choice-wrapper"><div class="choice-option"><span class="choice-label">Plan A</span> <strong>白淺灘文化村</strong><div class="info-block" style="margin:5px 0;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 영도구 영선동4가 605-3 <button class="copy-btn" onclick="copyToClipboard('부산 영도구 영선동4가 605-3')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text" style="font-size:14px;"><span class="pill">計程車</span> ₩6,500 x 2</div></div></div><div class="choice-or"><span>OR</span></div><div class="choice-option"><span class="choice-label">Plan B</span> <strong>BIFF 廣場</strong><div class="info-block" style="margin:5px 0;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 중구 구덕로 44 <button class="copy-btn" onclick="copyToClipboard('부산 중구 구덕로 44')">📋</button></div></div></div></div></div></div>
-            <div class="trip-card"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK8Q5NDWocFJevYKts9v4wlq7OYSwn0VwnCA&s" class="card-img-top"><div class="card-content"><div class="t-time">16:30 - 18:30</div><div class="t-title">晚餐：南浦排骨烤肉</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층 <button class="copy-btn" onclick="copyToClipboard('부산 중구 남포길 40-2 1층')">📋</button></div></div><a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%88%EA%B0%88%EB%B9%84" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="image_c3d567.jpg" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'" class="card-img-top"><div class="card-content"><div class="t-time">18:30 - 20:00</div><div class="t-title">樂天百貨光復店</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 2')">📋</button></div></div><a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top"><div class="card-content"><div class="t-time">20:00 -</div><div class="t-title">回飯店：東橫INN</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div><a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-        </div></div>
+        <div id="day1-content" class="day-schedule">
+            <div class="day-header">Day 1 • 3/5 (四)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
+                    <div class="card-content">
+                        <div class="t-time">18:40 - 19:40</div>
+                        <div class="t-title">Check in: 東橫INN 釜山中央站<span class="t-kr-name">토요코인 부산중앙역</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">💡</div><div class="i-text">飯店附近有很多吃的</div></div>
+                        <div class="info-block"><div class="i-icon">🚗</div><div class="i-text"><span class="pill">包車</span> 約 40 分鐘</div></div>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240624_9%2F1719216423913A9KDN_JPEG%2F04_%25C8%25AD%25BE%25E7%25B9%25DD.jpg" loading="lazy" class="card-img-top" alt="Dinner">
+                    <div class="card-content">
+                        <div class="t-time">19:40 - 22:00</div>
+                        <div class="t-title">飯店附近晚餐<span class="t-kr-name">호텔 근처 저녁 식사</span></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 5 分鐘</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="day3-content" class="day-schedule"><div class="day-header">Day 3 • 3/7 (六)</div><div class="timeline">
-            <div class="trip-card"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80" class="card-img-top"><div class="card-content"><div class="t-time">10:00 - 12:00</div><div class="t-title">田浦咖啡街</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 동천로 92 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 동천로 92')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2</div></div><a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EB%8F%99%EC%B2%9C%EB%A1%9C%2092" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://mimigo.tw/wp-content/uploads/20180501200925_69.jpg" class="card-img-top"><div class="card-content"><div class="t-time">12:00 - 13:00</div><div class="t-title">松亭3代豬肉湯飯</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로68번길 33 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 서면로68번길 33')">📋</button></div></div><a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%953%EB%8C%80%EA%B5%AD%EB%B0%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://www.visitbusan.net/uploadImgs/files/cntnts/20191227114045978_erhte" class="card-img-top"><div class="card-content"><div class="t-time">13:00 - 14:30</div><div class="t-title">西面市場 (換匯)</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로 56 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 서면로 56')">📋</button></div></div><a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EC%84%9C%EB%A9%B4%EB%A1%9C%2056" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://debbiechien.com/wp-content/uploads/2025/03/IMG_1670-2_11zon-1024x768.jpg" class="card-img-top"><div class="card-content"><div class="t-time">14:30 - 17:00</div><div class="t-title">西面大逛街</div><div class="info-block" style="flex-direction:column;gap:15px;margin:10px 0 15px;"><div><strong>1. 西面青春街</strong><br><span style="font-size:13px;opacity:0.8;">부산 부산진구 부전동 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 부전동')">📋</button></span></div><div><strong>2. 西面地下街</strong><br><span style="font-size:13px;opacity:0.8;">부산 부산진구 중앙대로 717 대현프리몰부산 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 중앙대로 717 대현프리몰부산')">📋</button></span></div></div><div class="multi-btn-row"><a href="https://map.naver.com/p/search/%EC%84%9C%EB%A9%B4%EC%A0%8A%EC%9D%8C%EC%9D%98%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">青春街</a><a href="https://map.naver.com/p/search/%EB%8C%80%ED%98%84%ED%94%84%EB%A6%AC%EB%AA%B0%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">地下街</a></div></div></div>
-            <div class="trip-card"><img src="https://alinalife.tw/webp/wp-content/uploads/2024/11/DSCF5082.jpg.webp" class="card-img-top"><div class="card-content"><div class="t-time">17:00 - 18:30</div><div class="t-title">味贊王鹽烤肉 西面店</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 중앙대로691번가길 24-3 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 중앙대로691번가길 24-3')">📋</button></div></div><a href="https://map.naver.com/p/search/%EB%A7%9B%EC%B0%AC%EB%93%A4%EC%99%95%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4%20%EC%84%9C%EB%A9%B4%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://tong.visitkorea.or.kr/cms/resource/56/2997956_image2_1.jpg" class="card-img-top"><div class="card-content"><div class="t-time">18:30 - 20:00</div><div class="t-title">樂天百貨釜山本店</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 가야대로 772 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 가야대로 772')">📋</button></div></div><a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EB%B0%B1%ED%99%94%EC%A0%90%20%EB%B6%80%EC%82%B0%EB%B3%B8%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top"><div class="card-content"><div class="t-time">20:00 -</div><div class="t-title">回飯店：東橫INN</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2</div></div><a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-        </div></div>
+        <div id="day2-content" class="day-schedule">
+            <div class="day-header">Day 2 • 3/6 (五)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/92/3365492_image2_1.jpg" loading="lazy" class="card-img-top" alt="甘川洞">
+                    <div class="card-content">
+                        <div class="t-time">09:00 - 11:00</div>
+                        <div class="t-title">甘川洞文化村<span class="t-kr-name">감천문화마을</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 사하구 감내2로 203 <button class="copy-btn" onclick="copyToClipboard('부산 사하구 감내2로 203')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">☕</div><div class="i-text">附近有咖啡廳可坐</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,600 x 2 (約15分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EA%B0%90%EC%B2%9C%EB%AC%B8%ED%99%94%EB%A7%88%EC%9D%84%EC%95%88%EB%82%B4%EC%84%BC%ED%84%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://images.unsplash.com/photo-1580651315530-69c8e0026377?q=80,w=800" loading="lazy" class="card-img-top" alt="豬肉湯飯">
+                    <div class="card-content">
+                        <div class="t-time">11:00 - 12:00</div>
+                        <div class="t-title">密陽家豬肉湯飯<span class="t-kr-name">밀양집</span></div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중구로47번길 35 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중구로47번길 35')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價4.25🌟 推薦豬肉湯飯</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩5,200 x 2 (約8分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%B0%80%EC%96%91%EC%A7%91" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://twobunny.tw/wp-content/uploads/2024/04/2024-0131-bupyeong-market.jpg" loading="lazy" class="card-img-top" alt="市場">
+                    <div class="card-content">
+                        <div class="t-time">12:00 - 15:00</div>
+                        <div class="t-title">市場巡禮<span class="t-kr-name">시장 투어</span></div>
+                        <div class="info-block" style="flex-direction:column; gap:15px; margin-top:10px; margin-bottom:15px;">
+                            <div>
+                                <strong>1. 富平罐頭市場</strong>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 부평1길 48 <button class="copy-btn" onclick="copyToClipboard('부산 중구 부평1길 48')">📋</button></span>
+                            </div>
+                            <div>
+                                <strong>2. 國際市場</strong>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 신창동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 신창동4가')">📋</button></span>
+                            </div>
+                            <div>
+                                <strong>3. 阿里郎街</strong>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 중구 광복로35번길 11 <button class="copy-btn" onclick="copyToClipboard('부산 중구 광복로35번길 11')">📋</button></span>
+                            </div>
+                        </div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 市場間距離皆約 1 分鐘</div></div>
+                        <div class="multi-btn-row">
+                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EB%B6%80%ED%8F%891%EA%B8%B8%2048" target="_blank" class="naver-link">富平</a>
+                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%8B%A0%EC%B0%BD%EB%8F%994%EA%B0%80" target="_blank" class="naver-link">國際</a>
+                            <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EA%B4%91%EB%B3%B5%EB%A1%9C35%EB%B2%88%EA%B8%B8%2011" target="_blank" class="naver-link">阿里郎</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/93/3343193_image2_1.jpg" loading="lazy" class="card-img-top" alt="Choice">
+                    <div class="card-content">
+                        <div class="t-time">15:00 - 16:30</div>
+                        <div class="t-title">景點二擇一<span class="t-kr-name">선택 관광</span></div>
+                        
+                        <div class="choice-wrapper">
+                            <div class="choice-option">
+                                <span class="choice-label">Plan A</span>
+                                <strong>白淺灘文化村</strong>
+                                <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 영도구 영선동4가 605-3 <button class="copy-btn" onclick="copyToClipboard('부산 영도구 영선동4가 605-3')">📋</button></div></div>
+                                <div class="info-block"><div class="i-icon">🚕</div><div class="i-text" style="font-size:14px;"><span class="pill">計程車</span> ₩6,500 x 2 (15分)</div></div>
+                            </div>
+                            <div class="choice-or"><span>OR</span></div>
+                            <div class="choice-option">
+                                <span class="choice-label">Plan B</span>
+                                <strong>BIFF 廣場</strong>
+                                <div class="info-block" style="margin-top:5px; margin-bottom:5px;"><div class="i-icon">📍</div><div class="i-text" style="font-size:14px;">부산 중구 구덕로 44 <button class="copy-btn" onclick="copyToClipboard('부산 중구 구덕로 44')">📋</button></div></div>
+                                <div class="info-block"><div class="i-icon">🚶</div><div class="i-text" style="font-size:14px;"><span class="pill">步行</span> 5 分鐘</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div id="day4-content" class="day-schedule"><div class="day-header">Day 4 • 3/8 (日)</div><div class="timeline">
-            <div class="trip-card"><img src="https://www.ktsketch.co.kr/news/photo/201909/4757_18592_3749.gif" class="card-img-top"><div class="card-content"><div class="t-time">09:00 - 11:00</div><div class="t-title">海東龍宮寺</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 해동용궁사 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86 해동용궁사')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (40分)</div></div><a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://tong.visitkorea.or.kr/cms/resource/60/2997960_image2_1.jpg" class="card-img-top"><div class="card-content"><div class="t-time">11:00 - 17:00</div><div class="t-title">Lotte Premium Outlets 東釜山店</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 시랑리 358-17 , 1층 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 시랑리 358-17')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,000 x 2 (約5分)</div></div><a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EC%95%84%EC%9A%B8%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://media.cnn.com/api/v1/images/stellar/prod/01-gettyimages-1746790723v2.jpg?c=original" class="card-img-top"><div class="card-content"><div class="t-time">17:00 - 20:00</div><div class="t-title">彈性自由時間</div><div class="info-block"><div class="i-icon">✨</div><div class="i-text">重要景點皆已去過，看有沒有哪裡想再去一次或是沒排到要去的</div></div></div></div>
-            <div class="trip-card"><img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" class="card-img-top"><div class="card-content"><div class="t-time">20:00 -</div><div class="t-title">回飯店：東橫INN</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div><a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-        </div></div>
+                <div class="trip-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK8Q5NDWocFJevYKts9v4wlq7OYSwn0VwnCA&s" loading="lazy" class="card-img-top" alt="烤肉">
+                    <div class="card-content">
+                        <div class="t-time">16:30 - 18:30</div>
+                        <div class="t-title">晚餐：南浦排骨烤肉</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 남포길 40-2 1층 <button class="copy-btn" onclick="copyToClipboard('부산 중구 남포길 40-2 1층')">📋</button></div></div>
+                        <div class="info-block" style="flex-direction:column; gap:8px;">
+                            <div style="display:flex; gap:10px;"><div class="i-icon">🚌</div><div class="i-text"><strong>從白淺灘：</strong>搭6或9號公車 (₩1,500, 15分)</div></div>
+                            <div style="display:flex; gap:10px;"><div class="i-icon">🚶</div><div class="i-text"><strong>從BIFF：</strong>步行約 9 分鐘</div></div>
+                        </div>
+                        <a href="https://map.naver.com/p/search/%EB%82%A8%ED%8F%AC%EB%8F%88%EA%B0%88%EB%B9%84" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="image_c3d567.jpg" loading="lazy" class="card-img-top" alt="樂天百貨" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/58/2997958_image2_1.jpg'">
+                    <div class="card-content">
+                        <div class="t-time">18:30 - 20:00</div>
+                        <div class="t-title">樂天百貨光復店</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 2 , 1층 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 2')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🍓</div><div class="i-text">逛街、買草莓</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 6 分鐘</div></div>
+                        <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EC%A4%91%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%202" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
+                    <div class="card-content">
+                        <div class="t-time">20:00 -</div>
+                        <div class="t-title">回飯店：東橫INN 釜山中央站</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 20 分鐘</div></div>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="day5-content" class="day-schedule"><div class="day-header">Day 5 • 3/9 (一)</div><div class="timeline">
-            <div class="trip-card"><img src="https://localsegye.co.kr/news/data/20230317/p1065596236950980_150_thum.JPG" class="card-img-top"><div class="card-content"><div class="t-time">11:00 - 14:00</div><div class="t-title">Check out & 午餐：40階梯文化街</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙동4가')">📋</button></div></div><a href="https://map.naver.com/p/search/40%EA%B3%84%EB%8B%A8%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-            <div class="trip-card"><img src="https://i.namu.wiki/i/PV3f5fDHDbvwBjel_bhWCVoa5NCSGguYDXp0rA78OugM-nKn7LPc7ryF-Of1ACgbyKSlJd7OYhGQWh3VfqOg3Q.webp" class="card-img-top"><div class="card-content"><div class="t-time">14:00 -</div><div class="t-title">前往金海國際機場</div><div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 강서구 공항진입로 108 <button class="copy-btn" onclick="copyToClipboard('부산 강서구 공항진입로 108')">📋</button></div></div><div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩20,200 x 2 (30分)</div></div><a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a></div></div>
-        </div></div>
+        <div id="day3-content" class="day-schedule">
+            <div class="day-header">Day 3 • 3/7 (六)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweoa_KYzGH-pGB1kRud3snA8qvTfk25ZY2xznEKSPc4oJWW4beUbxstPK2ulSleWH2B_a8xSpVSF7XUb6puf7JBm2F0ye5nnP6It0zx4a1CbwMRbUTgRiDTNFKCrFSAfzPGXLWjxY8wBgqNj=s1360-w1360-h1020-rw" class="card-img-top" loading="lazy" alt="田浦咖啡街" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80'">
+                    <div class="card-content">
+                        <div class="t-time">10:00 - 12:00</div>
+                        <div class="t-title">田浦咖啡街</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 동천로 92 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 동천로 92')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">☕</div><div class="i-text">很多咖啡廳、小店</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (25分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EB%8F%99%EC%B2%9C%EB%A1%9C%2092" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://mimigo.tw/wp-content/uploads/20180501200925_69.jpg" loading="lazy" class="card-img-top" alt="松亭3代豬肉湯飯">
+                    <div class="card-content">
+                        <div class="t-time">12:00 - 13:00</div>
+                        <div class="t-title">松亭3代豬肉湯飯</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로68번길 33 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 서면로68번길 33')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">❤️</div><div class="i-text">媽媽指定要吃</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/%EC%86%A1%EC%A0%953%EB%8C%80%EA%B5%AD%EB%B0%A5" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://www.visitbusan.net/uploadImgs/files/cntnts/20191227114045978_erhte" loading="lazy" class="card-img-top" alt="西面市場">
+                    <div class="card-content">
+                        <div class="t-time">13:00 - 14:30</div>
+                        <div class="t-title">西面市場 (老奶奶換匯)</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 서면로 56 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 서면로 56')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 1 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%20%EB%B6%80%EC%82%B0%EC%A7%84%EA%B5%AC%20%EC%84%9C%EB%A9%B4%EB%A1%9C%2056" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://debbiechien.com/wp-content/uploads/2025/03/IMG_1670-2_11zon-1024x768.jpg" loading="lazy" class="card-img-top" alt="西面大逛街">
+                    <div class="card-content">
+                        <div class="t-time">14:30 - 17:00</div>
+                        <div class="t-title">西面大逛街</div>
+                        <div class="info-block" style="flex-direction:column; gap:15px; margin-top:10px; margin-bottom:15px;">
+                            <div>
+                                <strong>1. 西面青春街</strong>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 부산진구 부전동 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 부전동')">📋</button></span>
+                            </div>
+                            <div>
+                                <strong>2. 西面地下街</strong>
+                                <br><span style="font-size:13px; opacity:0.8;">부산 부산진구 중앙대로 717 대현프리몰부산 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 중앙대로 717 대현프리몰부산')">📋</button></span>
+                            </div>
+                        </div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 4-6 分鐘</div></div>
+                        <div class="multi-btn-row">
+                            <a href="https://map.naver.com/p/search/%EC%84%9C%EB%A9%B4%EC%A0%8A%EC%9D%8C%EC%9D%98%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">青春街</a>
+                            <a href="https://map.naver.com/p/search/%EB%8C%80%ED%98%84%ED%94%84%EB%A6%AC%EB%AA%B0%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">地下街</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://alinalife.tw/webp/wp-content/uploads/2024/11/DSCF5082.jpg.webp" loading="lazy" class="card-img-top" alt="味贊王鹽烤肉">
+                    <div class="card-content">
+                        <div class="t-time">17:00 - 18:30</div>
+                        <div class="t-title">味贊王鹽烤肉 西面店</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 중앙대로691번가길 24-3 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 중앙대로691번가길 24-3')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">👍</div><div class="i-text">評價不錯</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%A7%9B%EC%B0%AC%EB%93%A4%EC%99%95%EC%86%8C%EA%B8%88%EA%B5%AC%EC%9D%B4%20%EC%84%9C%EB%A9%B4%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/56/2997956_image2_1.jpg" loading="lazy" class="card-img-top" alt="樂天總店">
+                    <div class="card-content">
+                        <div class="t-time">18:30 - 20:00</div>
+                        <div class="t-title">樂天百貨釜山本店</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 부산진구 가야대로 772 <button class="copy-btn" onclick="copyToClipboard('부산 부산진구 가야대로 772')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🍓</div><div class="i-text">逛街、去超市買草莓</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 3 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EB%B0%B1%ED%99%94%EC%A0%90%20%EB%B6%80%EC%82%B0%EB%B3%B8%EC%A0%90" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
+                    <div class="card-content">
+                        <div class="t-time">20:00 -</div>
+                        <div class="t-title">回飯店：東橫INN</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩11,000 x 2 (20分)</div></div>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day4-content" class="day-schedule">
+            <div class="day-header">Day 4 • 3/8 (日)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://www.ktsketch.co.kr/news/photo/201909/4757_18592_3749.gif" loading="lazy" class="card-img-top" alt="海東龍宮寺" onerror="this.src='https://tong.visitkorea.or.kr/cms/resource/66/2361666_image2_1.jpg'">
+                    <div class="card-content">
+                        <div class="t-time">09:00 - 11:00</div>
+                        <div class="t-title">海東龍宮寺</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 용궁길 86 해동용궁사 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 용궁길 86 해동용궁사')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🌊</div><div class="i-text">韓國最美海景寺廟</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩26,000 x 2 (約40分)</div></div>
+                        <a href="https://map.naver.com/p/search/%ED%95%B4%EB%8F%99%EC%9A%A9%EA%B6%81%EC%82%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                
+                <div class="trip-card">
+                    <img src="https://tong.visitkorea.or.kr/cms/resource/60/2997960_image2_1.jpg" loading="lazy" class="card-img-top" alt="Lotte Outlet">
+                    <div class="card-content">
+                        <div class="t-time">11:00 - 17:00</div>
+                        <div class="t-title">Lotte Premium Outlets 東釜山店</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 기장군 기장읍 시랑리 358-17 , 1층 <button class="copy-btn" onclick="copyToClipboard('부산 기장군 기장읍 시랑리 358-17')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🛍️</div><div class="i-text">午餐、逛街</div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩6,000 x 2 (約5分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EB%A1%AF%EB%8D%B0%EC%95%84%EC%9A%B8%EB%A0%9B%20%EB%8F%99%EB%B6%80%EC%82%B0" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+
+                <div class="trip-card">
+                    <img src="https://media.cnn.com/api/v1/images/stellar/prod/01-gettyimages-1746790723v2.jpg?c=original" loading="lazy" class="card-img-top" alt="Free Time">
+                    <div class="card-content">
+                        <div class="t-time">17:00 - 20:00</div>
+                        <div class="t-title">彈性自由時間</div>
+                        <div class="info-block"><div class="i-icon">✨</div><div class="i-text">重要景點皆已去過，看有沒有哪裡想再去一次或是沒排到要去的</div></div>
+                    </div>
+                </div>
+                
+                <div class="trip-card">
+                    <img src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250116_289%2F1737003869730qVEz9_PNG%2Fmain.png" loading="lazy" class="card-img-top" alt="Hotel">
+                    <div class="card-content">
+                        <div class="t-time">20:00 -</div>
+                        <div class="t-title">回飯店：東橫INN 釜山中央站</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙대로 125 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙대로 125')">📋</button></div></div>
+                        <a href="https://naver.me/F2ZbDfjE" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="day5-content" class="day-schedule">
+            <div class="day-header">Day 5 • 3/9 (一)</div>
+            <div class="timeline">
+                <div class="trip-card">
+                    <img src="https://localsegye.co.kr/news/data/20230317/p1065596236950980_150_thum.JPG" loading="lazy" class="card-img-top" alt="40階梯">
+                    <div class="card-content">
+                        <div class="t-time">11:00 - 14:00</div>
+                        <div class="t-title">Check out & 午餐：40階梯文化街</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 중구 중앙동4가 <button class="copy-btn" onclick="copyToClipboard('부산 중구 중앙동4가')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🧳</div><div class="i-text">行李先寄放在飯店</div></div>
+                        <div class="info-block"><div class="i-icon">🚶</div><div class="i-text"><span class="pill">步行</span> 約 10 分鐘</div></div>
+                        <a href="https://map.naver.com/p/search/40%EA%B3%84%EB%8B%A8%EA%B1%B0%EB%A6%AC" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+                <div class="trip-card">
+                    <img src="https://i.namu.wiki/i/PV3f5fDHDbvwBjel_bhWCVoa5NCSGguYDXp0rA78OugM-nKn7LPc7ryF-Of1ACgbyKSlJd7OYhGQWh3VfqOg3Q.webp" loading="lazy" class="card-img-top" alt="機場">
+                    <div class="card-content">
+                        <div class="t-time">14:00 -</div>
+                        <div class="t-title">前往金海國際機場</div>
+                        <div class="info-block"><div class="i-icon">📍</div><div class="i-text">부산 강서구 공항진입로 108 <button class="copy-btn" onclick="copyToClipboard('부산 강서구 공항진입로 108')">📋</button></div></div>
+                        <div class="info-block"><div class="i-icon">🚕</div><div class="i-text"><span class="pill">計程車</span> ₩20,200 x 2 (30分)</div></div>
+                        <a href="https://map.naver.com/p/search/%EA%B9%80%ED%95%B4%EA%B5%AD%EC%A0%9C%EA%B3%B5%ED%95%AD" target="_blank" class="naver-link">開啟 NAVER MAP ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -383,14 +803,18 @@
             });
         }
 
+        // 您的專屬 Google Apps Script 網址 (維持最新版)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzqxrEtyGvqY1pagncoPvIHKhT2xf6RanERbimucepBkHvrzfYwY573iLu_DCMVw8bK/exec';
         
         // 永久固定匯率 0.024
         const currentRate = 0.024; 
         
-        let expenses = []; let selectedInputDate = '3/5'; let selectedCategory = '交通';
+        let expenses = []; 
+        let selectedInputDate = '3/5'; 
+        let selectedCategory = '交通';
         const tripDates = ['3/5', '3/6', '3/7', '3/8', '3/9']; 
-        const BUSAN_LAT = 35.1028; const BUSAN_LON = 129.0331;
+        const BUSAN_LAT = 35.1028; 
+        const BUSAN_LON = 129.0331;
 
         document.addEventListener('DOMContentLoaded', () => {
             const savedTab = localStorage.getItem('active_tab') || 'accounting';
@@ -399,6 +823,9 @@
                 switchView('itinerary', savedDay);
                 document.getElementById('day-selector').value = savedDay;
             } else { switchView(savedTab); }
+            
+            // 直接顯示固定匯率
+            document.getElementById('rate-display').textContent = `固定匯率: ${currentRate}`;
             
             fetchBusanWeather(); selectDate('3/5'); fetchExpenses();
         });
@@ -412,7 +839,8 @@
                 const data = await res.json();
                 expenses = data; renderExpenses();
             } catch (err) {
-                if(expenses.length === 0) listEl.innerHTML = '<div class="loading-text" style="color:var(--text-light)">⚠️ 連線較慢或失敗<br>請檢查網路或稍後重試</div>';
+                console.error(err);
+                if(expenses.length === 0) listEl.innerHTML = '<div class="loading-text" style="color:var(--text-main)">⚠️ 連線較慢或失敗<br>請檢查網路或稍後重試</div>';
             }
         }
 
@@ -425,24 +853,43 @@
             if (isNaN(price)) { alert('請輸入金額！'); return; }
             
             const formData = new URLSearchParams();
-            formData.append('action', 'add'); formData.append('id', Date.now()); formData.append('date', selectedInputDate);
-            formData.append('cat', selectedCategory); formData.append('name', finalName); formData.append('price', price);
+            formData.append('action', 'add'); 
+            formData.append('id', Date.now()); 
+            formData.append('date', selectedInputDate);
+            formData.append('cat', selectedCategory); 
+            formData.append('name', finalName); 
+            formData.append('price', price);
 
             btn.disabled = true; btn.innerText = '⏳ 儲存中...';
 
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', body: formData });
                 nameInput.value = ''; priceInput.value = ''; await fetchExpenses();
-            } catch (err) { alert('新增失敗！請確認網路連線'); } 
-            finally { btn.disabled = false; btn.innerText = `確認新增 (至 ${selectedInputDate})`; }
+            } catch (err) { 
+                alert('新增失敗！請確認網路連線'); 
+            } finally { 
+                btn.disabled = false; btn.innerText = `確認新增 (至 ${selectedInputDate})`; 
+            }
         }
 
         async function deleteExpense(id) {
             if(!confirm('確定刪除此筆紀錄？(會同步刪除大家的紀錄)')) return;
-            const formData = new URLSearchParams(); formData.append('action', 'delete'); formData.append('id', id);
-            const originalExpenses = [...expenses]; expenses = expenses.filter(item => item.id != id); renderExpenses();
-            try { await fetch(SCRIPT_URL, { method: 'POST', body: formData }); fetchExpenses(); } 
-            catch (err) { alert('刪除失敗，資料將還原。'); expenses = originalExpenses; renderExpenses(); }
+            const formData = new URLSearchParams(); 
+            formData.append('action', 'delete'); 
+            formData.append('id', id);
+            
+            // 樂觀更新
+            const originalExpenses = [...expenses]; 
+            expenses = expenses.filter(item => item.id != id); 
+            renderExpenses();
+
+            try { 
+                await fetch(SCRIPT_URL, { method: 'POST', body: formData }); 
+                fetchExpenses(); 
+            } catch (err) { 
+                alert('刪除失敗，資料將還原。'); 
+                expenses = originalExpenses; renderExpenses(); 
+            }
         }
 
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { fetchBusanWeather(); fetchExpenses(); } });
@@ -453,7 +900,9 @@
             try {
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${BUSAN_LAT}&longitude=${BUSAN_LON}&current_weather=true&timezone=Asia%2FSeoul`);
                 const data = await res.json();
-                badge.innerHTML = `🇰🇷 釜山 ${Math.round(data.current_weather.temperature)}°C ${getWeatherEmoji(data.current_weather.weathercode)}`;
+                const temp = Math.round(data.current_weather.temperature);
+                const code = data.current_weather.weathercode;
+                badge.innerHTML = `🇰🇷 釜山 ${temp}°C ${getWeatherEmoji(code)}`;
             } catch (e) { badge.innerHTML = '🇰🇷 天氣載入失敗'; }
         }
 
@@ -496,10 +945,12 @@
 
         function renderExpenses() {
             const listEl = document.getElementById('expense-list');
-            listEl.innerHTML = ''; let grandTotal = 0; let stats = { '交通':0, '食物':0, '購物':0, '其他':0 };
+            listEl.innerHTML = ''; 
+            let grandTotal = 0; 
+            let stats = { '交通':0, '食物':0, '購物':0, '其他':0 };
             
             if (!expenses || expenses.length === 0) {
-                listEl.innerHTML = '<div style="text-align:center; color:var(--text-light); padding:30px; opacity:0.8; font-family:var(--font-display); font-size:20px;">目前沒有記帳資料<br>嘗試新增一筆吧！</div>';
+                listEl.innerHTML = '<div style="text-align:center; color:var(--text-main); padding:30px; opacity:0.6; font-weight:800;">目前沒有記帳資料<br>嘗試新增一筆吧！</div>';
                 updateStats(0, stats); return;
             }
 
@@ -531,6 +982,25 @@
 
         function getCatEmoji(cat) { return (cat==='交通'?'🚕':(cat==='食物'?'🍔':(cat==='購物'?'🛍️':'✨'))); }
         function copyToClipboard(text) { navigator.clipboard.writeText(text).then(() => { alert('已複製地址：' + text); }); }
+        
+        function exportToCSV() {
+            if (expenses.length === 0) { alert('沒有資料可以匯出！'); return; }
+            let csvContent = "\uFEFF日期,分類,項目,金額(KRW),預估(TWD)\n";
+            expenses.forEach(item => {
+                let twd = Math.round(item.price * currentRate);
+                let safeName = item.name ? item.name.replace(/,/g, " ") : "";
+                csvContent += `${item.date},${item.cat},${safeName},${item.price},${twd}\n`;
+            });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "busan_expenses.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>
