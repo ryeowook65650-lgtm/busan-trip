@@ -70,7 +70,7 @@
             font-size: 20px; cursor: pointer;
             transition: transform 0.3s ease;
             margin-left: 8px; display: inline-block;
-            text-shadow: none;
+            text-shadow: none; /* 移除繼承自標題的陰影 */
         }
         .refresh-btn:active { transform: rotate(180deg); }
         
@@ -155,19 +155,13 @@
         .balance-sub { font-size: 16px; font-weight: 800; }
         .rate-tag { position: absolute; top: 25px; right: 25px; font-size: 13px; background: var(--text-main); color: #FFF; padding: 6px 10px; border-radius: 8px; font-weight: 800; border: 2px solid var(--bg-input); box-shadow: 2px 2px 0 var(--color-accent); }
 
-        /* --- ✨ 新版實線面板預算儀表板 --- */
+        /* --- 完美對齊版預算儀表板 --- */
         .budget-container {
-            margin-top: 25px; 
-            padding: 20px;
-            background: rgba(84, 106, 136, 0.08); /* 微微的儀表板底色 */
-            border: 3px solid var(--text-main); /* 粗實線外框 */
-            border-radius: 14px; 
-            position: relative; 
-            z-index: 2;
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; /* 元素之間的間距 */
-            box-shadow: inset 4px 4px 0 rgba(50, 103, 117, 0.1); /* 內陰影，營造面板凹陷質感 */
+            margin-top: 25px; padding: 18px 20px;
+            background: rgba(84, 106, 136, 0.06); 
+            border: 2px dashed rgba(50, 103, 117, 0.4);
+            border-radius: 12px; position: relative; z-index: 2;
+            display: flex; flex-direction: column; gap: 10px; /* 元素之間的間距 */
         }
         
         /* 上排 - 大字體，強制一致尺寸與字型 */
@@ -183,10 +177,8 @@
 
         /* 進度條 */
         .budget-track {
-            height: 16px; width: 100%; 
-            border: 2px solid var(--text-main); border-radius: 8px; 
-            background: #FFF; overflow: hidden; 
-            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
+            height: 16px; width: 100%; border: 2px solid var(--text-main); border-radius: 8px; 
+            background: #FFF; overflow: hidden; box-shadow: inset 2px 2px 0 rgba(0,0,0,0.05);
         }
         .budget-fill {
             height: 100%; width: 0%; background-color: var(--color-accent);
@@ -313,7 +305,7 @@
 
     <div id="view-accounting" class="view-container active">
         <div class="balance-card">
-            <div class="rate-tag" id="rate-display">固定匯率: 0.024</div>
+            <div class="rate-tag" id="rate-display">固定匯率: 0.021</div>
             <div class="balance-label">Trip Total</div>
             <div class="balance-amount" id="total-krw">₩0</div>
             <div class="balance-sub" id="total-twd">≈ NT$ 0</div>
@@ -747,7 +739,9 @@
         }
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzqxrEtyGvqY1pagncoPvIHKhT2xf6RanERbimucepBkHvrzfYwY573iLu_DCMVw8bK/exec';
-        const currentRate = 0.024; 
+        
+        // 永久固定匯率 0.021
+        const currentRate = 0.021; 
         
         let expenses = []; 
         let selectedInputDate = '3/5'; 
